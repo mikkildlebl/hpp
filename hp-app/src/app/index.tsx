@@ -1,6 +1,6 @@
 import { Link } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { Pressable, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/themed-text';
@@ -35,23 +35,27 @@ export default function HomeScreen() {
               <ThemedText type="subtitle">{SECTION_LABELS[section]}</ThemedText>
               {SECTION_QUESTION_TYPES[section].map((type) => (
                 <Link key={type} href={{ pathname: '/session/[type]', params: { type } }} asChild>
-                  <ThemedView type="backgroundElement" style={styles.typeRow}>
-                    <ThemedText type="smallBold">{type}</ThemedText>
-                    <ThemedText style={styles.typeName}>{QUESTION_TYPE_LABELS[type]}</ThemedText>
-                    <ThemedText type="small" themeColor="textSecondary">
-                      {counts ? `${counts[type]} frågor` : '…'}
-                    </ThemedText>
-                  </ThemedView>
+                  <Pressable>
+                    <ThemedView type="backgroundElement" style={styles.typeRow}>
+                      <ThemedText type="smallBold">{type}</ThemedText>
+                      <ThemedText style={styles.typeName}>{QUESTION_TYPE_LABELS[type]}</ThemedText>
+                      <ThemedText type="small" themeColor="textSecondary">
+                        {counts ? `${counts[type]} frågor` : '…'}
+                      </ThemedText>
+                    </ThemedView>
+                  </Pressable>
                 </Link>
               ))}
             </ThemedView>
           ))}
 
           <Link href="/glossary" asChild>
-            <ThemedView type="backgroundElement" style={styles.typeRow}>
-              <ThemedText type="smallBold">Ordbank</ThemedText>
-              <ThemedText style={styles.typeName}>Prefix &amp; suffix</ThemedText>
-            </ThemedView>
+            <Pressable>
+              <ThemedView type="backgroundElement" style={styles.typeRow}>
+                <ThemedText type="smallBold">Ordbank</ThemedText>
+                <ThemedText style={styles.typeName}>Prefix &amp; suffix</ThemedText>
+              </ThemedView>
+            </Pressable>
           </Link>
         </ScrollView>
       </SafeAreaView>
