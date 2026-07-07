@@ -1,0 +1,38 @@
+# secrets / env files
+scripts/.env.import
+hp-app/.env
+.env
+.env*.local
+
+# python
+scripts/__pycache__/
+**/__pycache__/
+*.pyc
+
+# node
+**/node_modules/
+
+# expo
+hp-app/.expo/
+hp-app/dist/
+web-build/
+hp-app/expo-env.d.ts
+.metro-health-check*
+
+# native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+/ios
+/android
+
+# os
+.DS_Store
+*.pem
+
+# typescript
+*.tsbuildinfo

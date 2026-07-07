@@ -1,0 +1,459 @@
+{
+  "prefix_suffix": [
+    {
+      "id": "p-a",
+      "type": "prefix",
+      "word": "a-/an-",
+      "meaning": "utan, inte",
+      "examples": "amoralisk, anonym, ateist"
+    },
+    {
+      "id": "p-ambi",
+      "type": "prefix",
+      "word": "ambi-",
+      "meaning": "båda, dubbel",
+      "examples": "ambivalent, ambitiös"
+    },
+    {
+      "id": "p-anti",
+      "type": "prefix",
+      "word": "anti-",
+      "meaning": "mot, emot",
+      "examples": "antibiotika, antikvariat"
+    },
+    {
+      "id": "p-bi",
+      "type": "prefix",
+      "word": "bi-",
+      "meaning": "två, dubbel",
+      "examples": "bilateral, biografi"
+    },
+    {
+      "id": "p-de",
+      "type": "prefix",
+      "word": "de-/des-",
+      "meaning": "av, bort, negation",
+      "examples": "deaktivera, desinfektera"
+    },
+    {
+      "id": "p-dis",
+      "type": "prefix",
+      "word": "dis-",
+      "meaning": "bort, negation",
+      "examples": "diskvalificera, disharmoni"
+    },
+    {
+      "id": "p-ex",
+      "type": "prefix",
+      "word": "ex-",
+      "meaning": "ut ur, tidigare",
+      "examples": "exportera, expremier"
+    },
+    {
+      "id": "p-extra",
+      "type": "prefix",
+      "word": "extra-",
+      "meaning": "utanför, utöver",
+      "examples": "extraordinär, extravagant"
+    },
+    {
+      "id": "p-hetero",
+      "type": "prefix",
+      "word": "hetero-",
+      "meaning": "olik, olika slag",
+      "examples": "heterogen, heterosexuell"
+    },
+    {
+      "id": "p-homo",
+      "type": "prefix",
+      "word": "homo-",
+      "meaning": "likadan, samma slag",
+      "examples": "homogen, homonym"
+    },
+    {
+      "id": "p-hyper",
+      "type": "prefix",
+      "word": "hyper-",
+      "meaning": "över, överdriven",
+      "examples": "hyperaktiv, hyperbol"
+    },
+    {
+      "id": "p-hypo",
+      "type": "prefix",
+      "word": "hypo-",
+      "meaning": "under, ofullständig",
+      "examples": "hypotes, hypotermi"
+    },
+    {
+      "id": "p-in",
+      "type": "prefix",
+      "word": "in-/im-/il-/ir-",
+      "meaning": "inte, negation",
+      "examples": "inaktiv, illegal, irrationell"
+    },
+    {
+      "id": "p-inter",
+      "type": "prefix",
+      "word": "inter-",
+      "meaning": "mellan, ömsesidig",
+      "examples": "internationell, interagera"
+    },
+    {
+      "id": "p-intra",
+      "type": "prefix",
+      "word": "intra-",
+      "meaning": "inom, inuti",
+      "examples": "intravenös, intranät"
+    },
+    {
+      "id": "p-intro",
+      "type": "prefix",
+      "word": "intro-",
+      "meaning": "inåt, inre",
+      "examples": "introvert, introduktion"
+    },
+    {
+      "id": "p-kontra",
+      "type": "prefix",
+      "word": "kontra-",
+      "meaning": "mot, emot",
+      "examples": "kontraproduktiv, kontrast"
+    },
+    {
+      "id": "p-mal",
+      "type": "prefix",
+      "word": "mal-",
+      "meaning": "dålig, felaktig",
+      "examples": "malnutrition, malplacerad"
+    },
+    {
+      "id": "p-meta",
+      "type": "prefix",
+      "word": "meta-",
+      "meaning": "bortom, om",
+      "examples": "metafor, metod"
+    },
+    {
+      "id": "p-mikro",
+      "type": "prefix",
+      "word": "mikro-",
+      "meaning": "liten, litet",
+      "examples": "mikroskop, mikroorganism"
+    },
+    {
+      "id": "p-mis",
+      "type": "prefix",
+      "word": "mis-",
+      "meaning": "fel, dålig",
+      "examples": "missnöje, misstolka"
+    },
+    {
+      "id": "p-mono",
+      "type": "prefix",
+      "word": "mono-",
+      "meaning": "ett, ensam",
+      "examples": "monolog, monopol"
+    },
+    {
+      "id": "p-multi",
+      "type": "prefix",
+      "word": "multi-",
+      "meaning": "många, fler",
+      "examples": "multikulturell, multimedia"
+    },
+    {
+      "id": "p-neo",
+      "type": "prefix",
+      "word": "neo-",
+      "meaning": "ny, modern",
+      "examples": "neonazism, neoklassisk"
+    },
+    {
+      "id": "p-o",
+      "type": "prefix",
+      "word": "o-",
+      "meaning": "inte, mot (sv.)",
+      "examples": "ovillig, ohälsosam, osynlig"
+    },
+    {
+      "id": "p-omni",
+      "type": "prefix",
+      "word": "omni-",
+      "meaning": "all, allt",
+      "examples": "omnivore, omnipotent"
+    },
+    {
+      "id": "p-para",
+      "type": "prefix",
+      "word": "para-",
+      "meaning": "vid sidan av, skydd",
+      "examples": "parallell, parasit"
+    },
+    {
+      "id": "p-poly",
+      "type": "prefix",
+      "word": "poly-",
+      "meaning": "många, fler",
+      "examples": "polyglott, polygon"
+    },
+    {
+      "id": "p-post",
+      "type": "prefix",
+      "word": "post-",
+      "meaning": "efter",
+      "examples": "postmodern, postum"
+    },
+    {
+      "id": "p-pre",
+      "type": "prefix",
+      "word": "pre-",
+      "meaning": "före, framför",
+      "examples": "preliminär, premiss"
+    },
+    {
+      "id": "p-pro",
+      "type": "prefix",
+      "word": "pro-",
+      "meaning": "framåt, för",
+      "examples": "progress, proaktiv"
+    },
+    {
+      "id": "p-pseudo",
+      "type": "prefix",
+      "word": "pseudo-",
+      "meaning": "falsk, skenbar",
+      "examples": "pseudonym, pseudovetenskap"
+    },
+    {
+      "id": "p-re",
+      "type": "prefix",
+      "word": "re-",
+      "meaning": "igen, tillbaka",
+      "examples": "reproducera, regenerera"
+    },
+    {
+      "id": "p-semi",
+      "type": "prefix",
+      "word": "semi-",
+      "meaning": "halv, delvis",
+      "examples": "semifinal, semikolon"
+    },
+    {
+      "id": "p-sub",
+      "type": "prefix",
+      "word": "sub-",
+      "meaning": "under, nedanför",
+      "examples": "subventionera, submarin"
+    },
+    {
+      "id": "p-super",
+      "type": "prefix",
+      "word": "super-",
+      "meaning": "över, överordnad",
+      "examples": "supernaturlig, superhjälte"
+    },
+    {
+      "id": "p-syn",
+      "type": "prefix",
+      "word": "syn-/sym-",
+      "meaning": "med, tillsammans",
+      "examples": "synkronisera, sympati"
+    },
+    {
+      "id": "p-trans",
+      "type": "prefix",
+      "word": "trans-",
+      "meaning": "över, igenom",
+      "examples": "transport, transformera"
+    },
+    {
+      "id": "p-ultra",
+      "type": "prefix",
+      "word": "ultra-",
+      "meaning": "bortom, extremt",
+      "examples": "ultraljud, ultraviolett"
+    },
+    {
+      "id": "p-uni",
+      "type": "prefix",
+      "word": "uni-",
+      "meaning": "ett, enda",
+      "examples": "uniform, universell"
+    },
+    {
+      "id": "s-ism",
+      "type": "suffix",
+      "word": "-ism",
+      "meaning": "lära, rörelse, ideologi",
+      "examples": "liberalism, kapitalism"
+    },
+    {
+      "id": "s-ist",
+      "type": "suffix",
+      "word": "-ist",
+      "meaning": "person som tillhör/utövar",
+      "examples": "socialist, feminist"
+    },
+    {
+      "id": "s-itet",
+      "type": "suffix",
+      "word": "-itet/-tet",
+      "meaning": "egenskap, tillstånd",
+      "examples": "aktivitet, kreativitet"
+    },
+    {
+      "id": "s-ologi",
+      "type": "suffix",
+      "word": "-ologi/-logi",
+      "meaning": "läran om, vetenskap om",
+      "examples": "biologi, psykologi"
+    },
+    {
+      "id": "s-log",
+      "type": "suffix",
+      "word": "-log",
+      "meaning": "expert, specialist",
+      "examples": "psykolog, biolog"
+    },
+    {
+      "id": "s-fob",
+      "type": "suffix",
+      "word": "-fobi",
+      "meaning": "rädsla, fobi",
+      "examples": "klaustrofobi, agorafobi"
+    },
+    {
+      "id": "s-fil",
+      "type": "suffix",
+      "word": "-fil",
+      "meaning": "kärlek till, intresse för",
+      "examples": "bibliofil, francofil"
+    },
+    {
+      "id": "s-mani",
+      "type": "suffix",
+      "word": "-mani",
+      "meaning": "tvångsmässigt intresse",
+      "examples": "kleptomani, pyromani"
+    },
+    {
+      "id": "s-krati",
+      "type": "suffix",
+      "word": "-krati/-krat",
+      "meaning": "styre, makt",
+      "examples": "demokrati, byråkrat"
+    },
+    {
+      "id": "s-nomi",
+      "type": "suffix",
+      "word": "-nomi/-nom",
+      "meaning": "lag, ordning, förvaltning",
+      "examples": "ekonomi, astronomi"
+    },
+    {
+      "id": "s-cid",
+      "type": "suffix",
+      "word": "-cid",
+      "meaning": "dödande",
+      "examples": "insekticid, homicid"
+    },
+    {
+      "id": "s-graf",
+      "type": "suffix",
+      "word": "-graf/-grafi",
+      "meaning": "skrivare, bild, beskrivning",
+      "examples": "fotograf, geografi"
+    },
+    {
+      "id": "s-skop",
+      "type": "suffix",
+      "word": "-skop",
+      "meaning": "instrument för att se",
+      "examples": "teleskop, mikroskop"
+    },
+    {
+      "id": "s-tion",
+      "type": "suffix",
+      "word": "-tion/-sion",
+      "meaning": "handling, tillstånd, resultat",
+      "examples": "nation, explosion"
+    },
+    {
+      "id": "s-abel",
+      "type": "suffix",
+      "word": "-abel/-ibel",
+      "meaning": "möjlig att, -bar",
+      "examples": "reparabel, flexibel"
+    },
+    {
+      "id": "s-al",
+      "type": "suffix",
+      "word": "-al/-ell",
+      "meaning": "tillhörande, relaterad till",
+      "examples": "global, aktuell"
+    },
+    {
+      "id": "s-os",
+      "type": "suffix",
+      "word": "-ös/-os",
+      "meaning": "full av, med egenskap av",
+      "examples": "nervös, religiös"
+    },
+    {
+      "id": "s-isk",
+      "type": "suffix",
+      "word": "-isk",
+      "meaning": "tillhörande, karaktäriserad av",
+      "examples": "nordisk, heroisk"
+    },
+    {
+      "id": "s-ment",
+      "type": "suffix",
+      "word": "-ment",
+      "meaning": "resultat, medel, tillstånd",
+      "examples": "argument, monument"
+    },
+    {
+      "id": "s-vore",
+      "type": "suffix",
+      "word": "-vor/-vore",
+      "meaning": "ätare av",
+      "examples": "karnivore, herbivore"
+    },
+    {
+      "id": "s-nom",
+      "type": "suffix",
+      "word": "-nom",
+      "meaning": "specialist, lag",
+      "examples": "ekonom, agronom"
+    },
+    {
+      "id": "s-fon",
+      "type": "suffix",
+      "word": "-fon/-foni",
+      "meaning": "ljud, röst",
+      "examples": "mikrofon, symfonin"
+    },
+    {
+      "id": "s-krat",
+      "type": "suffix",
+      "word": "-krat",
+      "meaning": "person med makt",
+      "examples": "demokrat, byråkrat"
+    },
+    {
+      "id": "s-patisk",
+      "type": "suffix",
+      "word": "-patisk/-pati",
+      "meaning": "känsla, lidande, sjukdom",
+      "examples": "empatisk, sympati"
+    },
+    {
+      "id": "s-gen",
+      "type": "suffix",
+      "word": "-gen",
+      "meaning": "som producerar, av visst ursprung",
+      "examples": "patogen, heterogen"
+    }
+  ]
+}
