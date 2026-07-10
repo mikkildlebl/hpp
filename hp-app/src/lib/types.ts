@@ -40,6 +40,17 @@ export type Passage = {
   content: string;
 };
 
+export type PassageGroup = {
+  title: string;
+  paragraphs: string[];
+  questions: Question[];
+};
+
+export type DtkGroup = {
+  diagramUrl: string;
+  questions: Question[];
+};
+
 export type GlossaryEntry = {
   id: string;
   type: 'prefix' | 'suffix';

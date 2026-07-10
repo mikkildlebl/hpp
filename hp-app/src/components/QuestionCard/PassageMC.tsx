@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { OptionList } from '@/components/OptionList';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import { fetchPassage } from '@/lib/questions';
+import { formatPassage, FormattedPassage } from '@/lib/text';
 import { Question } from '@/lib/types';
 
 type Props = {
@@ -16,20 +17,20 @@ type Props = {
 };
 
 export function PassageMC({ question, selected, submitted, onSelect }: Props) {
-  const [passageText, setPassageText] = useState<string | null>(null);
+  const [passage, setPassage] = useState<FormattedPassage | null>(null);
   const [loading, setLoading] = useState(Boolean(question.passage_id));
 
   useEffect(() => {
     let cancelled = false;
     if (!question.passage_id) {
-      setPassageText(null);
+      setPassage(null);
       setLoading(false);
       return;
     }
     setLoading(true);
-    fetchPassage(question.passage_id).then((passage) => {
+    fetchPassage(question.passage_id).then((result) => {
       if (!cancelled) {
-        setPassageText(passage?.content ?? null);
+        setPassage(result?.content ? formatPassage(result.content) : null);
         setLoading(false);
       }
     });
@@ -41,10 +42,15 @@ export function PassageMC({ question, selected, submitted, onSelect }: Props) {
   return (
     <ThemedView style={styles.container}>
       {loading && <ThemedText type="small">Laddar text…</ThemedText>}
-      {passageText && (
-        <ScrollView style={styles.passageBox} contentContainerStyle={styles.passageContent}>
-          <ThemedText>{passageText}</ThemedText>
-        </ScrollView>
+      {passage && (
+        <ThemedView style={styles.passageBox}>
+          {passage.title && <ThemedText type="smallBold">{passage.title}</ThemedText>}
+          {passage.paragraphs.map((paragraph, i) => (
+            <ThemedText key={i} style={styles.paragraph}>
+              {paragraph}
+            </ThemedText>
+          ))}
+        </ThemedView>
       )}
       <ThemedText type="subtitle">{question.question_text}</ThemedText>
       {question.possibly_truncated && (
@@ -66,10 +72,10 @@ export function PassageMC({ question, selected, submitted, onSelect }: Props) {
 const styles = StyleSheet.create({
   container: { gap: Spacing.four },
   passageBox: {
-    maxHeight: 260,
+    padding: Spacing.three,
     borderRadius: Spacing.two,
     borderWidth: 1,
     borderColor: '#D0D3D9',
   },
-  passageContent: { padding: Spacing.three },
+  paragraph: { marginTop: Spacing.two },
 });

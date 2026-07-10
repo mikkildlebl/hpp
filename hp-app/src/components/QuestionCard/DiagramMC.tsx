@@ -1,4 +1,5 @@
 import { Image } from 'expo-image';
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 import { OptionList } from '@/components/OptionList';
@@ -15,15 +16,23 @@ type Props = {
   onSelect: (label: string) => void;
 };
 
+// Diagrams are portrait exam-page scans; this is a reasonable guess until the
+// real image loads and reports its own ratio via onLoad.
+const DEFAULT_ASPECT_RATIO = 0.72;
+
 export function DiagramMC({ question, selected, submitted, onSelect }: Props) {
+  const [aspectRatio, setAspectRatio] = useState(DEFAULT_ASPECT_RATIO);
+  const diagramUrl = question.diagram_path ? resolveDiagramUrl(question.diagram_path) : null;
+
   return (
     <ThemedView style={styles.container}>
-      {question.diagram_path && (
+      {diagramUrl && (
         <Image
-          source={{ uri: resolveDiagramUrl(question.diagram_path) }}
-          style={styles.diagram}
+          source={{ uri: diagramUrl }}
+          style={[styles.diagram, { aspectRatio }]}
           contentFit="contain"
           loading="eager"
+          onLoad={(event) => setAspectRatio(event.source.width / event.source.height)}
         />
       )}
       <ThemedText type="subtitle">{question.question_text}</ThemedText>
@@ -42,7 +51,6 @@ const styles = StyleSheet.create({
   container: { gap: Spacing.four },
   diagram: {
     width: '100%',
-    height: 320,
     borderRadius: Spacing.two,
     backgroundColor: '#F0F0F3',
   },

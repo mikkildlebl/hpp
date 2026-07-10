@@ -11,9 +11,10 @@ type Props = {
   submitted: boolean;
   correctAnswer: string;
   onSelect: (label: string) => void;
+  compact?: boolean;
 };
 
-export function OptionList({ options, selected, submitted, correctAnswer, onSelect }: Props) {
+export function OptionList({ options, selected, submitted, correctAnswer, onSelect, compact }: Props) {
   return (
     <ThemedView style={styles.list}>
       {options.map((opt) => {
@@ -30,11 +31,13 @@ export function OptionList({ options, selected, submitted, correctAnswer, onSele
             key={opt.label}
             disabled={submitted}
             onPress={() => onSelect(opt.label)}
-            style={[styles.option, stateStyle]}>
+            style={[styles.option, compact && styles.optionCompact, stateStyle]}>
             <ThemedText type="smallBold" style={styles.label}>
               {opt.label}
             </ThemedText>
-            <ThemedText style={styles.optionText}>{opt.text}</ThemedText>
+            <ThemedText type={compact ? 'small' : 'default'} style={styles.optionText}>
+              {opt.text}
+            </ThemedText>
           </Pressable>
         );
       })}
@@ -52,6 +55,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#D0D3D9',
   },
+  optionCompact: { padding: Spacing.two, gap: Spacing.one },
   selected: { borderColor: '#3c87f7', backgroundColor: '#EAF2FE' },
   correct: { borderColor: '#2E9E5B', backgroundColor: '#E4F7EC' },
   incorrect: { borderColor: '#D64545', backgroundColor: '#FBEAEA' },

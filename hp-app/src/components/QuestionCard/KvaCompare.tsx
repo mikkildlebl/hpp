@@ -13,15 +13,54 @@ type Props = {
   onSelect: (label: string) => void;
 };
 
+const QUANTITY_PATTERN = /^(.*?)Kvantitet I:\s*(.*?)\s*Kvantitet II:\s*(.*)$/s;
+
+function parseQuantities(text: string): { intro: string; quantityI: string; quantityII: string } | null {
+  const match = text.match(QUANTITY_PATTERN);
+  if (!match) return null;
+  const [, intro, quantityI, quantityII] = match;
+  return { intro: intro.trim(), quantityI: quantityI.trim(), quantityII: quantityII.trim() };
+}
+
 export function KvaCompare({ question, selected, submitted, onSelect }: Props) {
+  const parsed = parseQuantities(question.question_text);
+
   return (
     <ThemedView style={styles.container}>
       <ThemedText type="small" themeColor="textSecondary">
         Jämför de två kvantiteterna
       </ThemedText>
-      <ThemedView type="backgroundElement" style={styles.compareBox}>
-        <ThemedText type="subtitle">{question.question_text}</ThemedText>
-      </ThemedView>
+      {parsed ? (
+        <>
+          {parsed.intro && (
+            <ThemedView type="backgroundElement" style={styles.introBox}>
+              <ThemedText>{parsed.intro}</ThemedText>
+            </ThemedView>
+          )}
+          <ThemedView style={styles.quantityRow}>
+            <ThemedView type="backgroundElement" style={styles.quantityBox}>
+              <ThemedText type="smallBold" themeColor="textSecondary">
+                KVANTITET I
+              </ThemedText>
+              <ThemedText type="subtitle" style={styles.quantityValue}>
+                {parsed.quantityI}
+              </ThemedText>
+            </ThemedView>
+            <ThemedView type="backgroundElement" style={styles.quantityBox}>
+              <ThemedText type="smallBold" themeColor="textSecondary">
+                KVANTITET II
+              </ThemedText>
+              <ThemedText type="subtitle" style={styles.quantityValue}>
+                {parsed.quantityII}
+              </ThemedText>
+            </ThemedView>
+          </ThemedView>
+        </>
+      ) : (
+        <ThemedView type="backgroundElement" style={styles.introBox}>
+          <ThemedText type="subtitle">{question.question_text}</ThemedText>
+        </ThemedView>
+      )}
       <OptionList
         options={question.options}
         selected={selected}
@@ -35,5 +74,14 @@ export function KvaCompare({ question, selected, submitted, onSelect }: Props) {
 
 const styles = StyleSheet.create({
   container: { gap: Spacing.four },
-  compareBox: { padding: Spacing.four, borderRadius: Spacing.three },
+  introBox: { padding: Spacing.four, borderRadius: Spacing.three },
+  quantityRow: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.two },
+  quantityBox: {
+    flex: 1,
+    minWidth: 140,
+    padding: Spacing.three,
+    borderRadius: Spacing.three,
+    gap: Spacing.one,
+  },
+  quantityValue: { fontSize: 22, lineHeight: 28 },
 });

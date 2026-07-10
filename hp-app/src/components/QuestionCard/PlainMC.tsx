@@ -13,10 +13,16 @@ type Props = {
   onSelect: (label: string) => void;
 };
 
+function capitalize(word: string): string {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
 export function PlainMC({ question, selected, submitted, onSelect }: Props) {
+  const text = question.question_type === 'ORD' ? capitalize(question.question_text) : question.question_text;
+
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="subtitle">{question.question_text}</ThemedText>
+      <ThemedText type="subtitle">{text}</ThemedText>
       <OptionList
         options={question.options}
         selected={selected}
