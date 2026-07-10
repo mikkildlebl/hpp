@@ -15,8 +15,33 @@ const PAGE_HEADER_PATTERN =
 const LEADING_QUESTION_STEM_PATTERN =
   /^((?:What|How|Why|Which|Where|When|Who|According to|Vad|Hur|Varför|Vilken|Vilket|Vilka|Var|När|Vem|Enligt)\b[^?]{0,180}\?)\s+/i;
 
+// The exam booklet's "continue on next page" footer (with a page number
+// between guillemets/dashes, e.g. "» – 5 – FORTSÄTT PÅ NÄSTA SIDA") bleeds into
+// whatever text happened to be at the bottom of the page - almost always the
+// last answer option, e.g. "D) 50 % » – 7 – FORTSÄTT PÅ NÄSTA SIDA".
+const TRAILING_FOOTER_PATTERN = /\s*»\s*[–-]\s*\d*\s*[–-]?\s*forts[aä]tt\s+p[aå]\s+n[aä]sta\s+sida.*$/i;
+
 function stripArtifacts(text: string): string {
-  return text.replace(LEADING_QUESTION_STEM_PATTERN, '').replace(PAGE_HEADER_PATTERN, ' ');
+  return text
+    .replace(LEADING_QUESTION_STEM_PATTERN, '')
+    .replace(PAGE_HEADER_PATTERN, ' ')
+    .replace(TRAILING_FOOTER_PATTERN, '');
+}
+
+// Kvant (math) question text and options routinely have their fraction bars,
+// "≤" and "≠" symbols mangled into "$", "#" and "!" by the OCR/extraction step
+// (a font-encoding mismatch on the original PDF's math glyphs). Only safe to
+// apply to kvant text - "!" and "#" are legitimate punctuation/characters
+// elsewhere (verbal question text, English passages).
+export function translateMathSymbols(text: string): string {
+  return text
+    .replace(/\s*#\s*/g, ' ≤ ')
+    .replace(/\s*!\s*/g, ' ≠ ')
+    .replace(/(\w)\s+0\s+\$/g, '$1 ≥ 0')
+    .replace(/(\w)\s*\$\s*0\b/g, '$1 ≥ 0')
+    .replace(/\s*\$\s*/g, '/')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
 }
 
 // Source passages carry hyphens from justified line-wraps in the original PDFs:
@@ -36,7 +61,10 @@ function stripHyphenation(text: string): string {
 // title and the sentence that follows start with a capital letter, the shortest
 // run of words up to the next "space + capital" is a good guess at the title,
 // as long as it's short (a real title, not just the sentence's first clause).
-const TITLE_PATTERN = /^([A-ZÅÄÖ][^.!?\n]{2,64}?)\s+(?=[”“»]?[A-ZÅÄÖ])/;
+// Titles are allowed to contain "?"/"!" (headline-style, e.g. "Ett sluttande
+// plan?") but not "." - a period reliably means the body's first sentence has
+// started.
+const TITLE_PATTERN = /^([A-ZÅÄÖ][^.\n]{2,64}?)\s+(?=[”“»]?[A-ZÅÄÖ])/;
 const MAX_TITLE_WORDS = 8;
 
 // No paragraph breaks survive extraction either, so the body reads as one
