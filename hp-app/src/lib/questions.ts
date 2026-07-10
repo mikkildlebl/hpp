@@ -2,7 +2,7 @@ import passagesData from '@/assets/data/passages.json';
 
 import { supabase } from './supabase';
 import { resolveDiagramUrl } from './storage';
-import { cleanText, formatPassage } from './text';
+import { cleanText, formatPassage, translateMathSymbols } from './text';
 import { DtkGroup, GlossaryEntry, Passage, PassageGroup, Question, QuestionType, SECTION_QUESTION_TYPES, SectionType } from './types';
 
 const PASSAGE_TEXTS: Record<string, string> = passagesData;
@@ -22,10 +22,11 @@ function withPlaceholderOptions(question: Question): Question {
 }
 
 function cleanQuestionText(question: Question): Question {
+  const clean = question.section_type === 'kvant' ? (s: string) => translateMathSymbols(cleanText(s)) : cleanText;
   return {
     ...question,
-    question_text: cleanText(question.question_text),
-    options: question.options.map((opt) => ({ ...opt, text: cleanText(opt.text) })),
+    question_text: clean(question.question_text),
+    options: question.options.map((opt) => ({ ...opt, text: clean(opt.text) })),
   };
 }
 
@@ -43,10 +44,25 @@ const GARBLED_OPTION_TEXT = /^[A-E]\s*\|?\s*$/;
 // questions mashed together, not a real answer choice.
 const BLEED_THROUGH_TEXT = /.{6,}\s\d{1,2}\.\s+[A-Za-zÅÄÖåäö(].{15,}/;
 
+// Some kvant formulas didn't just lose their symbols but had their 2D layout
+// (fractions, exponents, multi-line equations) linearized in the wrong reading
+// order during extraction - three or more bare number tokens in a row with no
+// connecting words is a reliable sign of that (verified against every verbal
+// question in the bank: zero false positives). Not fixable without the source
+// PDF's layout, so these are excluded rather than shown as scrambled nonsense.
+const SCRAMBLED_FORMULA = /(?:\b\d+[a-zA-Z]?\b\s+){3,}/;
+
+function isScrambled(question: Question): boolean {
+  if (question.section_type !== 'kvant') return false;
+  if (SCRAMBLED_FORMULA.test(question.question_text)) return true;
+  return question.options.some((opt) => SCRAMBLED_FORMULA.test(opt.text));
+}
+
 function isUsable(question: Question): boolean {
   if (question.options.some((opt) => GARBLED_OPTION_TEXT.test(opt.text))) return false;
   if (question.options.some((opt) => BLEED_THROUGH_TEXT.test(opt.text))) return false;
   if (question.question_type === 'NOG' && question.nog_statements?.length !== 2) return false;
+  if (isScrambled(question)) return false;
   return true;
 }
 
