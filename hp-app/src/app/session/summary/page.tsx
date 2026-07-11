@@ -14,7 +14,7 @@ export default function SummaryPage() {
       <ScoreSummary correct={score.correct} total={score.total} />
       <button
         type="button"
-        onClick={() => router.replace('/')}
+        onClick={() => router.replace('/ova')}
         className="rounded-lg bg-[#3c87f7] px-8 py-4 text-sm font-bold text-white">
         Tillbaka till start
       </button>

@@ -59,3 +59,50 @@ body {
   background: var(--color-background);
   color: var(--color-text);
 }
+
+/* Ambient glow blobs on the landing page hero — each drifts on its own loop. */
+@keyframes drift-a {
+  0%,
+  100% {
+    transform: translate(-50%, 0) scale(1);
+  }
+  33% {
+    transform: translate(calc(-50% + 140px), 90px) scale(1.12);
+  }
+  66% {
+    transform: translate(calc(-50% - 110px), -60px) scale(0.92);
+  }
+}
+
+@keyframes drift-b {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  40% {
+    transform: translate(-160px, 120px) scale(1.15);
+  }
+  75% {
+    transform: translate(80px, -90px) scale(0.9);
+  }
+}
+
+@keyframes drift-c {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(0.95);
+  }
+  50% {
+    transform: translate(130px, 80px) scale(1.2);
+  }
+}
+
+.animate-drift-a {
+  animation: drift-a 22s ease-in-out infinite;
+}
+.animate-drift-b {
+  animation: drift-b 26s ease-in-out infinite;
+}
+.animate-drift-c {
+  animation: drift-c 19s ease-in-out infinite;
+}

@@ -1,49 +1,68 @@
-'use client';
-
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
-import { fetchQuestionTypeCounts } from '@/lib/questions';
-import { QUESTION_TYPE_LABELS, QuestionType, SECTION_QUESTION_TYPES, SectionType } from '@/lib/types';
+const FEATURES: { title: string; body: string }[] = [
+  { title: 'Riktiga bråk & exponenter', body: 'Formler renderas som formler, inte platt text.' },
+  { title: 'Rättat mot facit', body: 'Varje svar kontrollerat mot det officiella facit.' },
+  { title: 'En fråga i taget', body: 'Inget klockrace. Ditt tempo, din session.' },
+];
 
-const SECTION_LABELS: Record<SectionType, string> = {
-  verbal: 'Verbal',
-  kvant: 'Kvantitativ',
-};
-
-export default function HomePage() {
-  const [counts, setCounts] = useState<Record<QuestionType, number> | null>(null);
-
-  useEffect(() => {
-    fetchQuestionTypeCounts().then(setCounts);
-  }, []);
-
+export default function LandingPage() {
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 p-6">
-      <h1 className="text-5xl leading-[52px] font-semibold">Högskoleprovet</h1>
-      <p className="text-text-secondary">Öva på en fråga i taget, se resultatet direkt.</p>
+    <div className="relative flex flex-1 flex-col overflow-hidden bg-[#05070c] text-white">
+      {/* drifting ambient glow blobs */}
+      <div className="animate-drift-a pointer-events-none absolute top-[-220px] left-1/2 h-[620px] w-[620px] rounded-full bg-[#1d4ed8] opacity-30 blur-[150px]" />
+      <div className="animate-drift-b pointer-events-none absolute top-[20%] right-[-200px] h-[460px] w-[460px] rounded-full bg-[#0ea5e9] opacity-20 blur-[150px]" />
+      <div className="animate-drift-c pointer-events-none absolute bottom-[-200px] left-[-120px] h-[480px] w-[480px] rounded-full bg-[#60a5fa] opacity-[0.16] blur-[150px]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,#05070c_100%)]" />
 
-      {(Object.keys(SECTION_QUESTION_TYPES) as SectionType[]).map((section) => (
-        <div key={section} className="flex flex-col gap-2">
-          <h2 className="text-[32px] leading-[44px] font-semibold">{SECTION_LABELS[section]}</h2>
-          {SECTION_QUESTION_TYPES[section].map((type) => (
-            <Link key={type} href={`/session/${type}`}>
-              <div className="flex items-center gap-2 rounded-lg bg-background-element p-4">
-                <span className="text-sm font-bold">{type}</span>
-                <span className="flex-1">{QUESTION_TYPE_LABELS[type]}</span>
-                <span className="text-sm text-text-secondary">{counts ? `${counts[type]} frågor` : '…'}</span>
-              </div>
-            </Link>
+      {/* header */}
+      <header className="relative z-10 flex items-center justify-between px-6 py-6 sm:px-12">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#3b82f6] to-[#1e3a8a] text-xs font-bold">
+            HP
+          </div>
+          <span className="text-sm font-semibold tracking-tight">HP Pro</span>
+        </div>
+        <Link
+          href="/ova"
+          className="rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:border-white/30 hover:text-white">
+          Börja öva
+        </Link>
+      </header>
+
+      {/* hero */}
+      <main className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-24 text-center sm:px-12">
+        <h1 className="max-w-3xl text-4xl leading-[1.05] font-semibold tracking-tight break-words sm:text-7xl">
+          Maxa ditt
+          <br />
+          <span className="bg-gradient-to-r from-[#93c5fd] via-[#60a5fa] to-[#3b82f6] bg-clip-text text-transparent">
+            högskoleprovsresultat
+          </span>
+        </h1>
+
+        <p className="mt-6 max-w-md text-base text-white/60 sm:text-lg">
+          Riktiga provfrågor, en i taget, med direkt facit. Inget krångel — bara du och nästa fråga.
+        </p>
+
+        <Link
+          href="/ova"
+          className="mt-10 rounded-full bg-gradient-to-r from-[#3b82f6] to-[#1e40af] px-8 py-4 text-sm font-semibold text-white shadow-[0_0_40px_-8px_rgba(59,130,246,0.6)] transition-transform hover:scale-[1.03]">
+          Börja öva gratis →
+        </Link>
+
+        <div className="mt-24 grid w-full max-w-3xl grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-3">
+          {FEATURES.map((f) => (
+            <div key={f.title} className="bg-[#05070c] p-6 text-left">
+              <p className="text-sm font-semibold text-white">{f.title}</p>
+              <p className="mt-1.5 text-sm text-white/50">{f.body}</p>
+            </div>
           ))}
         </div>
-      ))}
+      </main>
 
-      <Link href="/glossary">
-        <div className="flex items-center gap-2 rounded-lg bg-background-element p-4">
-          <span className="text-sm font-bold">Ordbank</span>
-          <span className="flex-1">Prefix &amp; suffix</span>
-        </div>
-      </Link>
+      <footer className="relative z-10 border-t border-white/10 px-6 py-6 text-center text-xs text-white/40 sm:px-12">
+        HP Pro — oberoende övningsverktyg för högskoleprovet.
+      </footer>
     </div>
   );
 }
