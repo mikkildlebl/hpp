@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import { MathText } from '@/components/MathText';
 import { OptionList } from '@/components/OptionList';
-import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import { Question } from '@/lib/types';
@@ -22,7 +22,7 @@ export function PlainMC({ question, selected, submitted, onSelect }: Props) {
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="subtitle">{text}</ThemedText>
+      <MathText type="subtitle">{text}</MathText>
       <OptionList
         options={question.options}
         selected={selected}

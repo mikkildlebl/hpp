@@ -5,6 +5,7 @@ export type QuestionType = 'ORD' | 'LAS' | 'MEK' | 'ELF' | 'XYZ' | 'KVA' | 'NOG'
 export type ParsedOption = {
   label: string;
   text: string;
+  image?: string;
 };
 
 export type SourceRef = {
