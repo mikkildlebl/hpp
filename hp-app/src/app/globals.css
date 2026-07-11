@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+:root {
+  --color-text: #000000;
+  --color-background: #ffffff;
+  --color-background-element: #f0f0f3;
+  --color-background-selected: #e0e1e6;
+  --color-text-secondary: #60646c;
+  --color-accent: #6290c3;
+  --color-accent-soft: #eaf0f8;
+  --color-good: #2f8f5b;
+  --color-good-soft: #e7f4ed;
+
+  /* option-state colors, unchanged from the RN app's OptionList */
+  --color-option-border: #d0d3d9;
+  --color-option-selected-border: #3c87f7;
+  --color-option-selected-bg: #eaf2fe;
+  --color-option-correct-border: #2e9e5b;
+  --color-option-correct-bg: #e4f7ec;
+  --color-option-incorrect-border: #d64545;
+  --color-option-incorrect-bg: #fbeaea;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text: #ffffff;
+    --color-background: #000000;
+    --color-background-element: #212225;
+    --color-background-selected: #2e3135;
+    --color-text-secondary: #b0b4ba;
+    --color-accent: #8db0e0;
+    --color-accent-soft: #1e2439;
+    --color-good: #57c48d;
+    --color-good-soft: #1c3226;
+  }
+}
+
+@theme inline {
+  --color-text: var(--color-text);
+  --color-background: var(--color-background);
+  --color-background-element: var(--color-background-element);
+  --color-background-selected: var(--color-background-selected);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-accent: var(--color-accent);
+  --color-accent-soft: var(--color-accent-soft);
+  --color-good: var(--color-good);
+  --color-good-soft: var(--color-good-soft);
+
+  --color-option-border: var(--color-option-border);
+  --color-option-selected-border: var(--color-option-selected-border);
+  --color-option-selected-bg: var(--color-option-selected-bg);
+  --color-option-correct-border: var(--color-option-correct-border);
+  --color-option-correct-bg: var(--color-option-correct-bg);
+  --color-option-incorrect-border: var(--color-option-incorrect-border);
+  --color-option-incorrect-bg: var(--color-option-incorrect-bg);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+}

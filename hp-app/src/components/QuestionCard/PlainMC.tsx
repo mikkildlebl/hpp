@@ -1,9 +1,5 @@
-import { StyleSheet } from 'react-native';
-
 import { MathText } from '@/components/MathText';
 import { OptionList } from '@/components/OptionList';
-import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/constants/theme';
 import { Question } from '@/lib/types';
 
 type Props = {
@@ -21,7 +17,7 @@ export function PlainMC({ question, selected, submitted, onSelect }: Props) {
   const text = question.question_type === 'ORD' ? capitalize(question.question_text) : question.question_text;
 
   return (
-    <ThemedView style={styles.container}>
+    <div className="flex flex-col gap-6">
       <MathText type="subtitle">{text}</MathText>
       <OptionList
         options={question.options}
@@ -30,10 +26,6 @@ export function PlainMC({ question, selected, submitted, onSelect }: Props) {
         correctAnswer={question.correct_answer}
         onSelect={onSelect}
       />
-    </ThemedView>
+    </div>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { gap: Spacing.four },
-});

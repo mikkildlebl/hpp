@@ -1,11 +1,8 @@
-import { Image } from 'expo-image';
-import { useState } from 'react';
-import { LayoutChangeEvent, Pressable, StyleSheet, View } from 'react-native';
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
 
 import { MathText } from '@/components/MathText';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/constants/theme';
 import { resolveDiagramUrl } from '@/lib/storage';
 import { ParsedOption } from '@/lib/types';
 
@@ -28,73 +25,64 @@ const MAX_IMAGE_HEIGHT = 160;
 function OptionImage({ uri }: { uri: string }) {
   const [aspectRatio, setAspectRatio] = useState<number | null>(null);
   const [width, setWidth] = useState(0);
+  const wrapRef = useRef<HTMLDivElement>(null);
 
-  const onLayout = (event: LayoutChangeEvent) => setWidth(event.nativeEvent.layout.width);
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver((entries) => {
+      const w = entries[0]?.contentRect.width;
+      if (w) setWidth(w);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const height = aspectRatio && width ? Math.min(MAX_IMAGE_HEIGHT, Math.max(MIN_IMAGE_HEIGHT, width / aspectRatio)) : MIN_IMAGE_HEIGHT;
 
   return (
-    <View style={styles.optionImageWrap} onLayout={onLayout}>
-      <Image
-        source={{ uri }}
-        style={{ width: '100%', height }}
-        contentFit="contain"
-        onLoad={(event) => setAspectRatio(event.source.width / event.source.height)}
+    <div ref={wrapRef} className="flex-1">
+      {/* eslint-disable-next-line @next/next/no-img-element -- dynamic aspect ratio measured from the loaded image itself */}
+      <img
+        src={uri}
+        alt=""
+        style={{ width: '100%', height, objectFit: 'contain' }}
+        onLoad={(e) => setAspectRatio(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)}
       />
-    </View>
+    </div>
   );
 }
 
 export function OptionList({ options, selected, submitted, correctAnswer, onSelect, compact }: Props) {
   return (
-    <ThemedView style={styles.list}>
+    <div className="flex flex-col gap-2">
       {options.map((opt) => {
         const isSelected = selected === opt.label;
         const isCorrect = opt.label === correctAnswer;
 
-        let stateStyle;
-        if (submitted && isCorrect) stateStyle = styles.correct;
-        else if (submitted && isSelected && !isCorrect) stateStyle = styles.incorrect;
-        else if (isSelected) stateStyle = styles.selected;
+        let stateClass = 'border-option-border';
+        if (submitted && isCorrect) stateClass = 'border-option-correct-border bg-option-correct-bg';
+        else if (submitted && isSelected && !isCorrect) stateClass = 'border-option-incorrect-border bg-option-incorrect-bg';
+        else if (isSelected) stateClass = 'border-option-selected-border bg-option-selected-bg';
 
         return (
-          <Pressable
+          <button
             key={opt.label}
+            type="button"
             disabled={submitted}
-            onPress={() => onSelect(opt.label)}
-            style={[styles.option, compact && styles.optionCompact, stateStyle]}>
-            <ThemedText type="smallBold" style={styles.label}>
-              {opt.label}
-            </ThemedText>
+            onClick={() => onSelect(opt.label)}
+            className={`flex items-center gap-2 rounded-lg border text-left ${compact ? 'gap-1 p-2' : 'p-4'} ${stateClass}`}>
+            <span className="w-6 text-sm font-bold">{opt.label}</span>
             {opt.image ? (
               <OptionImage uri={resolveDiagramUrl(opt.image)} />
             ) : (
-              <View style={styles.optionText}>
+              <span className="flex-1">
                 <MathText type={compact ? 'small' : 'default'}>{opt.text}</MathText>
-              </View>
+              </span>
             )}
-          </Pressable>
+          </button>
         );
       })}
-    </ThemedView>
+    </div>
   );
 }
-
-const styles = StyleSheet.create({
-  list: { gap: Spacing.two },
-  option: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Spacing.two,
-    padding: Spacing.three,
-    borderRadius: Spacing.two,
-    borderWidth: 1,
-    borderColor: '#D0D3D9',
-  },
-  optionCompact: { padding: Spacing.two, gap: Spacing.one },
-  selected: { borderColor: '#3c87f7', backgroundColor: '#EAF2FE' },
-  correct: { borderColor: '#2E9E5B', backgroundColor: '#E4F7EC' },
-  incorrect: { borderColor: '#D64545', backgroundColor: '#FBEAEA' },
-  label: { width: 24 },
-  optionText: { flex: 1 },
-  optionImageWrap: { flex: 1 },
-});

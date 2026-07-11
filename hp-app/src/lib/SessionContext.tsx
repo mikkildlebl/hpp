@@ -1,3 +1,5 @@
+'use client';
+
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 
 import { Question } from './types';

@@ -1,11 +1,9 @@
-import { Image } from 'expo-image';
+'use client';
+
 import { useState } from 'react';
-import { StyleSheet } from 'react-native';
 
 import { MathText } from '@/components/MathText';
 import { OptionList } from '@/components/OptionList';
-import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/constants/theme';
 import { resolveDiagramUrl } from '@/lib/storage';
 import { Question } from '@/lib/types';
 
@@ -28,14 +26,16 @@ export function DiagramMC({ question, selected, submitted, onSelect }: Props) {
   const diagramUrl = question.diagram_path ? resolveDiagramUrl(question.diagram_path) : null;
 
   return (
-    <ThemedView style={styles.container}>
+    <div className="flex flex-col gap-6">
       {diagramUrl && (
-        <Image
-          source={{ uri: diagramUrl }}
-          style={[styles.diagram, { aspectRatio }]}
-          contentFit="contain"
+        // eslint-disable-next-line @next/next/no-img-element -- dynamic aspect ratio measured from the loaded image itself
+        <img
+          src={diagramUrl}
+          alt=""
+          className="w-full rounded-lg bg-background-element"
+          style={{ aspectRatio, objectFit: 'contain' }}
           loading="eager"
-          onLoad={(event) => setAspectRatio(event.source.width / event.source.height)}
+          onLoad={(e) => setAspectRatio(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)}
         />
       )}
       {question.question_text ? <MathText type="subtitle">{question.question_text}</MathText> : null}
@@ -46,15 +46,6 @@ export function DiagramMC({ question, selected, submitted, onSelect }: Props) {
         correctAnswer={question.correct_answer}
         onSelect={onSelect}
       />
-    </ThemedView>
+    </div>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { gap: Spacing.four },
-  diagram: {
-    width: '100%',
-    borderRadius: Spacing.two,
-    backgroundColor: '#F0F0F3',
-  },
-});

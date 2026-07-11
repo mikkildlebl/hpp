@@ -1,8 +1,6 @@
 import { Fragment, ReactNode } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
-import { ThemeColor } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
+import { THEME_COLOR_VAR, ThemeColorName } from '@/lib/theme';
 
 // Renders plain-text math notation ("h = 2A/b", "x^(10/7)") as an actual
 // superscript exponent and a stacked fraction, instead of showing the raw
@@ -104,7 +102,7 @@ function parseMathText(text: string): MathSeg[] {
 }
 
 type RowProps = { segs: MathSeg[]; scale: number; color: string; fontSize: number; lineHeight: number; fontWeight: TextStyleWeight };
-type TextStyleWeight = '400' | '500' | '600' | '700';
+type TextStyleWeight = 400 | 500 | 600 | 700;
 
 function flatText(segs: MathSeg[]): string {
   return segs.map((s) => (s.kind === 'text' ? s.text : '')).join('');
@@ -118,18 +116,18 @@ function MathRow({ segs, scale, color, fontSize, lineHeight, fontWeight }: RowPr
   const flush = (key: string) => {
     if (!buffer.length) return;
     nodes.push(
-      <Text key={key} style={{ color, fontSize: size, lineHeight: lineHeight * scale, fontWeight }}>
+      <span key={key} style={{ color, fontSize: size, lineHeight: `${lineHeight * scale}px`, fontWeight }}>
         {buffer.map((seg, i) => {
           if (seg.kind === 'text') return <Fragment key={i}>{seg.text}</Fragment>;
           if (seg.kind !== 'sup') return null;
-          // a plain-text-only superscript (no nested fraction) can stay inline as nested Text
+          // a plain-text-only superscript (no nested fraction) can stay inline as nested text
           return (
-            <Text key={i} style={[styles.superscript, { top: -size * 0.32 }]}>
+            <span key={i} className="relative text-[11px]" style={{ top: -size * 0.32 }}>
               {flatText(seg.children)}
-            </Text>
+            </span>
           );
         })}
-      </Text>
+      </span>
     );
     buffer = [];
   };
@@ -140,12 +138,12 @@ function MathRow({ segs, scale, color, fontSize, lineHeight, fontWeight }: RowPr
       nodes.push(<Fraction key={`f${i}`} seg={seg} scale={scale} color={color} fontSize={fontSize} lineHeight={lineHeight} fontWeight={fontWeight} />);
     } else if (seg.kind === 'sup' && seg.children.some((c) => c.kind === 'frac')) {
       // an exponent that itself contains a fraction (e.g. x^(5/7)) can't be
-      // nested Text - render it as its own small raised block instead.
+      // nested text - render it as its own small raised block instead.
       flush(`t${i}`);
       nodes.push(
-        <View key={`s${i}`} style={[styles.supBlock, { top: -size * 0.32 }]}>
+        <span key={`s${i}`} className="relative inline-flex items-center" style={{ top: -size * 0.32 }}>
           <MathRow segs={seg.children} scale={scale * 0.72} color={color} fontSize={fontSize} lineHeight={lineHeight} fontWeight={fontWeight} />
-        </View>
+        </span>
       );
     } else {
       buffer.push(seg);
@@ -159,34 +157,34 @@ function MathRow({ segs, scale, color, fontSize, lineHeight, fontWeight }: RowPr
 function Fraction({ seg, scale, color, fontSize, lineHeight, fontWeight }: { seg: Extract<MathSeg, { kind: 'frac' }> } & Omit<RowProps, 'segs'>) {
   const nextScale = scale * 0.8;
   return (
-    <View style={styles.fraction}>
-      <View style={styles.fractionPart}>
+    <span className="mx-0.5 inline-flex flex-col items-center">
+      <span className="inline-flex items-center">
         <MathRow segs={seg.num} scale={nextScale} color={color} fontSize={fontSize} lineHeight={lineHeight} fontWeight={fontWeight} />
-      </View>
-      <View style={[styles.fractionLine, { backgroundColor: color, width: '100%' }]} />
-      <View style={styles.fractionPart}>
+      </span>
+      <span className="my-px block h-px w-full" style={{ backgroundColor: color }} />
+      <span className="inline-flex items-center">
         <MathRow segs={seg.den} scale={nextScale} color={color} fontSize={fontSize} lineHeight={lineHeight} fontWeight={fontWeight} />
-      </View>
-    </View>
+      </span>
+    </span>
   );
 }
 
 export type MathTextProps = {
   children: string | null | undefined;
   type?: 'default' | 'subtitle' | 'small' | 'smallBold';
-  themeColor?: ThemeColor;
+  themeColor?: ThemeColorName;
+  className?: string;
 };
 
 const TYPE_STYLES: Record<NonNullable<MathTextProps['type']>, { fontSize: number; lineHeight: number; fontWeight: TextStyleWeight }> = {
-  default: { fontSize: 16, lineHeight: 24, fontWeight: '500' },
-  subtitle: { fontSize: 32, lineHeight: 44, fontWeight: '600' },
-  small: { fontSize: 14, lineHeight: 20, fontWeight: '500' },
-  smallBold: { fontSize: 14, lineHeight: 20, fontWeight: '700' },
+  default: { fontSize: 16, lineHeight: 24, fontWeight: 500 },
+  subtitle: { fontSize: 32, lineHeight: 44, fontWeight: 600 },
+  small: { fontSize: 14, lineHeight: 20, fontWeight: 500 },
+  smallBold: { fontSize: 14, lineHeight: 20, fontWeight: 700 },
 };
 
-export function MathText({ children, type = 'default', themeColor }: MathTextProps) {
-  const theme = useTheme();
-  const color = theme[themeColor ?? 'text'];
+export function MathText({ children, type = 'default', themeColor, className }: MathTextProps) {
+  const color = THEME_COLOR_VAR[themeColor ?? 'text'];
   const text = children ?? '';
   if (!text) return null;
 
@@ -194,35 +192,8 @@ export function MathText({ children, type = 'default', themeColor }: MathTextPro
   const segs = parseMathText(text);
 
   return (
-    <View style={styles.wrap}>
+    <div className={`inline-flex flex-wrap items-center ${className ?? ''}`}>
       <MathRow segs={segs} scale={1} color={color} fontSize={fontSize} lineHeight={lineHeight} fontWeight={fontWeight} />
-    </View>
+    </div>
   );
 }
-
-const styles = StyleSheet.create({
-  wrap: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-  },
-  superscript: {
-    fontSize: 11,
-  },
-  supBlock: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  fraction: {
-    alignItems: 'center',
-    marginHorizontal: 2,
-  },
-  fractionPart: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  fractionLine: {
-    height: 1,
-    marginVertical: 1,
-  },
-});

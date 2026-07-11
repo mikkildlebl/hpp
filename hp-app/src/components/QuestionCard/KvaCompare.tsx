@@ -1,9 +1,4 @@
-import { StyleSheet } from 'react-native';
-
 import { OptionList } from '@/components/OptionList';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/constants/theme';
 import { Question } from '@/lib/types';
 
 type Props = {
@@ -26,40 +21,30 @@ export function KvaCompare({ question, selected, submitted, onSelect }: Props) {
   const parsed = parseQuantities(question.question_text);
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="small" themeColor="textSecondary">
-        Jämför de två kvantiteterna
-      </ThemedText>
+    <div className="flex flex-col gap-6">
+      <p className="text-sm text-text-secondary">Jämför de två kvantiteterna</p>
       {parsed ? (
         <>
           {parsed.intro && (
-            <ThemedView type="backgroundElement" style={styles.introBox}>
-              <ThemedText>{parsed.intro}</ThemedText>
-            </ThemedView>
+            <div className="rounded-2xl bg-background-element p-6">
+              <p>{parsed.intro}</p>
+            </div>
           )}
-          <ThemedView style={styles.quantityRow}>
-            <ThemedView type="backgroundElement" style={styles.quantityBox}>
-              <ThemedText type="smallBold" themeColor="textSecondary">
-                KVANTITET I
-              </ThemedText>
-              <ThemedText type="subtitle" style={styles.quantityValue}>
-                {parsed.quantityI}
-              </ThemedText>
-            </ThemedView>
-            <ThemedView type="backgroundElement" style={styles.quantityBox}>
-              <ThemedText type="smallBold" themeColor="textSecondary">
-                KVANTITET II
-              </ThemedText>
-              <ThemedText type="subtitle" style={styles.quantityValue}>
-                {parsed.quantityII}
-              </ThemedText>
-            </ThemedView>
-          </ThemedView>
+          <div className="flex flex-wrap gap-2">
+            <div className="flex min-w-[140px] flex-1 flex-col gap-1 rounded-2xl bg-background-element p-4">
+              <p className="text-sm font-bold text-text-secondary">KVANTITET I</p>
+              <p className="text-[22px] leading-7 font-semibold">{parsed.quantityI}</p>
+            </div>
+            <div className="flex min-w-[140px] flex-1 flex-col gap-1 rounded-2xl bg-background-element p-4">
+              <p className="text-sm font-bold text-text-secondary">KVANTITET II</p>
+              <p className="text-[22px] leading-7 font-semibold">{parsed.quantityII}</p>
+            </div>
+          </div>
         </>
       ) : (
-        <ThemedView type="backgroundElement" style={styles.introBox}>
-          <ThemedText type="subtitle">{question.question_text}</ThemedText>
-        </ThemedView>
+        <div className="rounded-2xl bg-background-element p-6">
+          <p className="text-[32px] leading-[44px] font-semibold">{question.question_text}</p>
+        </div>
       )}
       <OptionList
         options={question.options}
@@ -68,20 +53,6 @@ export function KvaCompare({ question, selected, submitted, onSelect }: Props) {
         correctAnswer={question.correct_answer}
         onSelect={onSelect}
       />
-    </ThemedView>
+    </div>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { gap: Spacing.four },
-  introBox: { padding: Spacing.four, borderRadius: Spacing.three },
-  quantityRow: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.two },
-  quantityBox: {
-    flex: 1,
-    minWidth: 140,
-    padding: Spacing.three,
-    borderRadius: Spacing.three,
-    gap: Spacing.one,
-  },
-  quantityValue: { fontSize: 22, lineHeight: 28 },
-});

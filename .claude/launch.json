@@ -4,7 +4,7 @@
     {
       "name": "hp-app-web",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "web", "--prefix", "hp-app"],
+      "runtimeArgs": ["run", "dev", "--prefix", "hp-app", "--", "-p", "8081"],
       "port": 8081
     }
   ]

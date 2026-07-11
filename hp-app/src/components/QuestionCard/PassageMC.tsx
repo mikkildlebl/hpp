@@ -1,10 +1,8 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
 
 import { OptionList } from '@/components/OptionList';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/constants/theme';
 import { fetchPassage } from '@/lib/questions';
 import { formatPassage, FormattedPassage } from '@/lib/text';
 import { Question } from '@/lib/types';
@@ -40,23 +38,21 @@ export function PassageMC({ question, selected, submitted, onSelect }: Props) {
   }, [question.passage_id]);
 
   return (
-    <ThemedView style={styles.container}>
-      {loading && <ThemedText type="small">Laddar text…</ThemedText>}
+    <div className="flex flex-col gap-6">
+      {loading && <p className="text-sm">Laddar text…</p>}
       {passage && (
-        <ThemedView style={styles.passageBox}>
-          {passage.title && <ThemedText type="smallBold">{passage.title}</ThemedText>}
+        <div className="rounded-lg border border-option-border p-4">
+          {passage.title && <p className="text-sm font-bold">{passage.title}</p>}
           {passage.paragraphs.map((paragraph, i) => (
-            <ThemedText key={i} style={styles.paragraph}>
+            <p key={i} className="mt-2">
               {paragraph}
-            </ThemedText>
+            </p>
           ))}
-        </ThemedView>
+        </div>
       )}
-      <ThemedText type="subtitle">{question.question_text}</ThemedText>
+      <p className="text-[32px] leading-[44px] font-semibold">{question.question_text}</p>
       {question.possibly_truncated && (
-        <ThemedText type="small" themeColor="textSecondary">
-          Obs: källdatan för ett eller flera svarsalternativ kan vara avklippt.
-        </ThemedText>
+        <p className="text-sm text-text-secondary">Obs: källdatan för ett eller flera svarsalternativ kan vara avklippt.</p>
       )}
       <OptionList
         options={question.options}
@@ -65,17 +61,6 @@ export function PassageMC({ question, selected, submitted, onSelect }: Props) {
         correctAnswer={question.correct_answer}
         onSelect={onSelect}
       />
-    </ThemedView>
+    </div>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { gap: Spacing.four },
-  passageBox: {
-    padding: Spacing.three,
-    borderRadius: Spacing.two,
-    borderWidth: 1,
-    borderColor: '#D0D3D9',
-  },
-  paragraph: { marginTop: Spacing.two },
-});

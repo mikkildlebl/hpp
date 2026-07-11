@@ -1,9 +1,4 @@
-import { StyleSheet } from 'react-native';
-
 import { OptionList } from '@/components/OptionList';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Spacing } from '@/constants/theme';
 import { Question } from '@/lib/types';
 
 type Props = {
@@ -15,18 +10,16 @@ type Props = {
 
 export function NogSufficiency({ question, selected, submitted, onSelect }: Props) {
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="subtitle">{question.question_text}</ThemedText>
+    <div className="flex flex-col gap-6">
+      <p className="text-[32px] leading-[44px] font-semibold">{question.question_text}</p>
       {question.nog_statements && (
-        <ThemedView type="backgroundElement" style={styles.statementsBox}>
+        <div className="flex flex-col gap-2 rounded-2xl bg-background-element p-4">
           {question.nog_statements.map((statement, i) => (
-            <ThemedText key={i}>{statement}</ThemedText>
+            <p key={i}>{statement}</p>
           ))}
-        </ThemedView>
+        </div>
       )}
-      <ThemedText type="small" themeColor="textSecondary">
-        Räcker informationen i (1) och/eller (2) för att besvara frågan?
-      </ThemedText>
+      <p className="text-sm text-text-secondary">Räcker informationen i (1) och/eller (2) för att besvara frågan?</p>
       <OptionList
         options={question.options}
         selected={selected}
@@ -34,11 +27,6 @@ export function NogSufficiency({ question, selected, submitted, onSelect }: Prop
         correctAnswer={question.correct_answer}
         onSelect={onSelect}
       />
-    </ThemedView>
+    </div>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { gap: Spacing.four },
-  statementsBox: { padding: Spacing.three, borderRadius: Spacing.three, gap: Spacing.two },
-});
