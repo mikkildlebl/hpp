@@ -65,7 +65,7 @@ export const QUESTION_TYPE_LABELS: Record<QuestionType, string> = {
   LAS: 'Läsförståelse',
   MEK: 'Meningskomplettering',
   ELF: 'Engelska läsförståelse',
-  XYZ: 'Kvantitativa jämförelser',
+  XYZ: 'Matematisk problemlösning',
   KVA: 'Kvantitativa jämförelser',
   NOG: 'Kvantitativa resonemang',
   DTK: 'Diagram, tabeller och kartor',
