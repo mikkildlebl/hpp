@@ -19,6 +19,7 @@ export default function RootLayout() {
             contentStyle: { backgroundColor: colors.background },
           }}>
           <Stack.Screen name="index" options={{ title: 'Högskoleprovet Practice' }} />
+          <Stack.Screen name="ova" options={{ title: 'Högskoleprovet Practice' }} />
           <Stack.Screen name="session/[type]" options={{ title: 'Practice' }} />
           <Stack.Screen name="session/summary" options={{ title: 'Results' }} />
           <Stack.Screen name="glossary/index" options={{ title: 'Ordbank' }} />

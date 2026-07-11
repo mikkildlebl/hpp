@@ -168,7 +168,14 @@ def build_question_row(raw: dict) -> tuple[dict, bool]:
     ]
 
     raw_options = raw.get("options", [])
-    options, needs_review = parse_options(question_type, raw_options)
+    # XYZ rows are image-based (re-extracted straight from the source PDFs as
+    # cropped stem/option PNGs - the source math fonts have no reliable
+    # Unicode mapping for operators, so text reconstruction isn't trustworthy)
+    # and already carry parsed {label, text, image} dicts, not raw strings.
+    if question_type == "XYZ" and raw_options and isinstance(raw_options[0], dict):
+        options, needs_review = raw_options, False
+    else:
+        options, needs_review = parse_options(question_type, raw_options)
 
     excluded_incomplete = question_type == "DTK" and len(raw_options) == 0
     possibly_truncated = question_type in ("LAS", "ELF") and looks_truncated(options)
