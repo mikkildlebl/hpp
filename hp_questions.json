@@ -3351,10 +3351,12 @@
       "section_type": "kvant",
       "question_type": "DTK",
       "question_number": 39,
-      "question_text": "40. övergångsbygd sandslätt skogsbygd norra norra skogsbygd om höglandets nordost norra skogsbygd Kristianstadsslättens Kristianstadsslättens Billesholm-Vollsjöbygden och höglandets Linderödsåsens grusbygd övergångsbygd övergångsbygd lerslätt Kristianstadsslättens kilometer B Sydsvenska Linderödsåsens skogsbygd Indelning Romeleåsens Kristianstads Sydsvenska Bjärehalvön Söderåsen indelningarna? 40 mellanbygd mellanbygd XIII: XIV: XVI: låg skogsbygd skogsbygd XII: XV: IX: X: XI: B: indelning jordbruksområde Ängelholm-Hälsingborgsslätten Tolånga-Smedstorpsbygden två läns läns läns läns Lund-Landskronaslätten enligt Saxtorp-sandområdet de Kristianstads Kristianstads Kristianstads Kristianstads Simrishamnsslätten Våmb-sandslätten A enligt Jordbruksområden Indelning Ystadsbygden Uppgifter Söderslätt Vilket Höör,",
+      "question_text": "Identifiera de två enskilda födelseplatserna med flest inregistrerade ardennerhingstar. Hur många ardennerhingstar föddes sammanlagt på dessa två platser?",
       "options": [
-        "A) B",
-        "C) D VII: VIII: 38. III: IV: V: VI: I: II:"
+        "A) 50",
+        "B) 70",
+        "C) 90",
+        "D) 110"
       ],
       "correct_answer": "B",
       "id": "f559f40d741f",
@@ -22314,7 +22316,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "id": "551e15b5ec5b",
       "all_sources": [
         {
@@ -22342,7 +22344,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig » – 9 – Fortsätt på nästa sida"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "id": "080fa637e3fc",
       "all_sources": [
         {
@@ -22367,7 +22369,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig"
       ],
-      "correct_answer": "C",
+      "correct_answer": "B",
       "id": "b2bd3d0cca3b",
       "all_sources": [
         {
@@ -22391,7 +22393,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "id": "801fee655b60",
       "all_sources": [
         {
@@ -22415,7 +22417,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig"
       ],
-      "correct_answer": "C",
+      "correct_answer": "B",
       "id": "853d0bb45c6e",
       "all_sources": [
         {
@@ -22439,7 +22441,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig » – 11 – Fortsätt på nästa sida kva"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "id": "64df041631a6",
       "all_sources": [
         {
@@ -22463,7 +22465,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "id": "23d42cb269f4",
       "all_sources": [
         {
@@ -22487,7 +22489,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig"
       ],
-      "correct_answer": "D",
+      "correct_answer": "B",
       "id": "926c013a0779",
       "all_sources": [
         {
@@ -22512,7 +22514,7 @@
         "D) i (1) och (2) var för sig",
         "E) ej genom de båda påståendena"
       ],
-      "correct_answer": "E",
+      "correct_answer": "C",
       "nog_statements": [
         "(1) 60 kvinnor svarade att de oftast läste kvällstidningen.",
         "(2) Det var lika många män som kvinnor som svarade att de oftast läste"
@@ -22541,7 +22543,7 @@
         "D) i (1) och (2) var för sig",
         "E) ej genom de båda påståendena » – 13 – Fortsätt på nästa sida"
       ],
-      "correct_answer": "B",
+      "correct_answer": "E",
       "nog_statements": [
         "(1) Hampus eller Lena undervisar i naturkunskap. Moa eller Rickard undervisar i fysik.",
         "(2) Hampus eller Rickard undervisar i engelska. Lena eller Moa undervisar i"
@@ -22570,7 +22572,7 @@
         "D) i (1) och (2) var för sig",
         "E) ej genom de båda påståendena"
       ],
-      "correct_answer": "C",
+      "correct_answer": "D",
       "id": "bac487c0c114",
       "all_sources": [
         {
@@ -22595,7 +22597,7 @@
         "D) i (1) och (2) var för sig",
         "E) ej genom de båda påståendena"
       ],
-      "correct_answer": "C",
+      "correct_answer": "B",
       "nog_statements": [
         "(1) Om affären säljer en femtedel av tyget på rullen och därefter en fjärdedel av",
         "(2) Om affären säljer hälften av tyget på rullen och därefter en femtedel av ­"
@@ -22624,7 +22626,7 @@
         "D) i (1) och (2) var för sig",
         "E) ej genom de båda påståendena"
       ],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "nog_statements": [
         "(1) Helena möter Krister efter 6 minuter.",
         "(2) Kristers hastighet är 15 km/h."
@@ -22653,7 +22655,7 @@
         "D) i (1) och (2) var för sig",
         "E) ej genom de båda påståendena » – 15 – Fortsätt på nästa sida"
       ],
-      "correct_answer": "D",
+      "correct_answer": "A",
       "nog_statements": [
         "(1) Om klassen istället utökas med 4 barn så kan man dela in barnen i grupper",
         "(2) Innan klassen utökas är det inte möjligt att dela in barnen i grupper om 8 barn."
@@ -22681,7 +22683,7 @@
         "C) Hudiksvall–Gävle",
         "D) Västervik–Kalmar"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "id": "473c62f155e9",
       "all_sources": [
         {
@@ -22706,7 +22708,7 @@
         "C) 5",
         "D) 7 » – 17 – Fortsätt på nästa sida"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "id": "582bbacb9f13",
       "all_sources": [
         {
@@ -22731,7 +22733,7 @@
         "C) Dalarnas län",
         "D) Västerbottens län"
       ],
-      "correct_answer": "D",
+      "correct_answer": "B",
       "id": "d75675bfef42",
       "all_sources": [
         {
@@ -22756,7 +22758,7 @@
         "C) Samhällsvetare",
         "D) Socionomer"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "id": "822d78b61d35",
       "all_sources": [
         {
@@ -22781,7 +22783,7 @@
         "C) 34 677 kr",
         "D) 36 010 kr"
       ],
-      "correct_answer": "C",
+      "correct_answer": "D",
       "id": "eb615051e43d",
       "all_sources": [
         {
@@ -22806,7 +22808,7 @@
         "C) 35 procent högre",
         "D) 45 procent högre » – 19 – Fortsätt på nästa sida"
       ],
-      "correct_answer": "D",
+      "correct_answer": "B",
       "id": "47966beb753e",
       "all_sources": [
         {
@@ -22831,7 +22833,7 @@
         "C) 6 600 miljoner kr",
         "D) 7 200 miljoner kr"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "id": "11e0ed515337",
       "all_sources": [
         {
@@ -22856,7 +22858,7 @@
         "C) 40 procent",
         "D) 50 procent"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "id": "1b988c67bb02",
       "all_sources": [
         {
@@ -22881,7 +22883,7 @@
         "C) Bibliotek",
         "D) Allmän kulturverksamhet"
       ],
-      "correct_answer": "C",
+      "correct_answer": "D",
       "id": "ea50d75a94fe",
       "all_sources": [
         {
@@ -22906,7 +22908,7 @@
         "C) 6 600 miljoner kr",
         "D) 7 200 miljoner kr Provet är slut. finns tid över,"
       ],
-      "correct_answer": "D",
+      "correct_answer": "B",
       "id": "885fab82aefb",
       "all_sources": [
         {
@@ -24245,7 +24247,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig"
       ],
-      "correct_answer": "D",
+      "correct_answer": "B",
       "id": "46f03f4fc859",
       "all_sources": [
         {
@@ -24269,7 +24271,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "id": "0ebb122feb15",
       "all_sources": [
         {
@@ -24293,7 +24295,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "id": "bfd08e2da79a",
       "all_sources": [
         {
@@ -24317,7 +24319,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig » – 9 – Fortsätt på nästa sida"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "id": "fd7e8fcc04ed",
       "all_sources": [
         {
@@ -24341,7 +24343,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "id": "b450db153ae5",
       "all_sources": [
         {
@@ -24365,7 +24367,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "id": "5a42d32f9f47",
       "all_sources": [
         {
@@ -24389,7 +24391,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "id": "b21ed661804e",
       "all_sources": [
         {
@@ -24413,7 +24415,7 @@
         "C) I är lika med II",
         "D) informationen är otillräcklig"
       ],
-      "correct_answer": "C",
+      "correct_answer": "A",
       "id": "a2c16ff4328a",
       "all_sources": [
         {
@@ -24438,7 +24440,7 @@
         "D) i (1) och (2) var för sig",
         "E) ej genom de båda påståendena"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "nog_statements": [
         "(1) I lådan finns det 24 kopparspikar, vilket är 50 procent mer än antalet dyckertar.",
         "(2) Dyckert och kopparspik utgör tillsammans 50 procent av antalet spikar i lådan."
@@ -24467,7 +24469,7 @@
         "D) i (1) och (2) var för sig",
         "E) ej genom de båda påståendena » – 13 – Fortsätt på nästa sida"
       ],
-      "correct_answer": "C",
+      "correct_answer": "E",
       "nog_statements": [
         "(1) Hälften av de färgglada tröjorna är långärmade.",
         "(2) Sex av de svarta tröjorna är inte långärmade."
@@ -24496,7 +24498,7 @@
         "D) i (1) och (2) var för sig",
         "E) ej genom de båda påståendena"
       ],
-      "correct_answer": "D",
+      "correct_answer": "C",
       "nog_statements": [
         "(1) Talet är jämnt delbart med 3.",
         "(2) Talet är en heltalsmultipel av 4."
@@ -24525,7 +24527,7 @@
         "D) i (1) och (2) var för sig",
         "E) ej genom de båda påståendena"
       ],
-      "correct_answer": "E",
+      "correct_answer": "B",
       "nog_statements": [
         "(1) Slingan är 800 meter lång och det tar den långsammare löparen 6 minuter att",
         "(2) Efter 9 minuter har den långsammare löparen sprungit ett och ett halvt varv runt"
@@ -24554,7 +24556,7 @@
         "D) i (1) och (2) var för sig",
         "E) ej genom de båda påståendena"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "nog_statements": [
         "(1) y är 60 procent av 900.",
         "(2) 5 procent av y är 27."
@@ -24583,7 +24585,7 @@
         "D) i (1) och (2) var för sig",
         "E) ej genom de båda påståendena » – 15 – Fortsätt på nästa sida"
       ],
-      "correct_answer": "C",
+      "correct_answer": "B",
       "nog_statements": [
         "(1) Den blå klossen är inte underst. Den gröna klossen är inte överst.",
         "(2) Den röda klossen är inte i mitten. Den blå klossen är under den röda klossen."
@@ -24611,7 +24613,7 @@
         "C) 55 km",
         "D) 75 km Myntstatistik Antalet 50-�ringar, 1-kronor, 5-kronor och 10-kronor som pr�glats med �rtalen 2000 till 2013."
       ],
-      "correct_answer": "C",
+      "correct_answer": "B",
       "id": "7c2db092b5f0",
       "all_sources": [
         {
@@ -24636,7 +24638,7 @@
         "C) Dalagranit",
         "D) Migmatitomvandlat metasediment"
       ],
-      "correct_answer": "C",
+      "correct_answer": "A",
       "id": "5809dba7bc43",
       "all_sources": [
         {
@@ -24661,7 +24663,7 @@
         "C) Migmatitomvandlat metasediment",
         "D) Finnsjön"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "id": "47f08150b63c",
       "all_sources": [
         {
@@ -24686,7 +24688,7 @@
         "C) 55 km",
         "D) 75 km » – 19 – Fortsätt på nästa sida"
       ],
-      "correct_answer": "C",
+      "correct_answer": "B",
       "id": "bc16fd3a8f1f",
       "all_sources": [
         {
@@ -24711,7 +24713,7 @@
         "C) 3:5:2:2",
         "D) 3:6:2:2"
       ],
-      "correct_answer": "D",
+      "correct_answer": "B",
       "id": "9b3f3132b287",
       "all_sources": [
         {
@@ -24736,7 +24738,7 @@
         "C) 2007",
         "D) 2009"
       ],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "id": "d8499dc887d9",
       "all_sources": [
         {
@@ -24761,7 +24763,7 @@
         "C) 70 procent",
         "D) 80 procent » – 21 – Fortsätt på nästa sida"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "id": "5467be927700",
       "all_sources": [
         {
@@ -24786,7 +24788,7 @@
         "C) 32 procentenheter",
         "D) 42 procentenheter"
       ],
-      "correct_answer": "C",
+      "correct_answer": "D",
       "id": "ebef0fb03d81",
       "all_sources": [
         {
@@ -38657,14 +38659,12 @@
       "section_type": "kvant",
       "question_type": "KVA",
       "question_number": 18,
-      "question_text": "Linjen A går genom punkterna (1, 2) och (2, Kvantitet I: Riktningskoefficienten för linjen Kvantitet II: Riktningskoefficienten för linjen",
+      "question_text": "Linjen A går genom punkterna (1, 2) och (2, 3). Linjen B är vinkelrät mot linjen A. Kvantitet I: Riktningskoefficienten för linjen A Kvantitet II: Riktningskoefficienten för linjen B",
       "options": [
         "A) I är större än II",
         "B) II är större än I",
         "C) I är lika med II",
-        "D) informationen är otillräcklig – 10 med heltalen 1, 2, 3, …, 189, 190. kulan är ett tvåsiffrigt heltal 3). Linjen",
-        "B) är vinkelrät mot linjen A.",
-        "A) B –"
+        "D) informationen är otillräcklig"
       ],
       "correct_answer": "A",
       "id": "b3fe5e08398c",
@@ -43452,10 +43452,12 @@
       "section_type": "kvant",
       "question_type": "DTK",
       "question_number": 33,
-      "question_text": "Vilken av cirklarna visar hur hushållssektorns avfallstyp Övrigt från återvinnings central fördelades på behandlingstyp?",
+      "question_text": "Vilken av cirklarna visar hur hushållssektorns avfallstyp Övrigt från återvinningscentral fördelades på behandlingstyp?",
       "options": [
-        "A) B",
-        "C) D Materialåtervinning Omhändertagande av hushållens farliga avfall"
+        "A)",
+        "B)",
+        "C)",
+        "D)"
       ],
       "correct_answer": "D",
       "id": "d3df32011311",
@@ -43500,12 +43502,12 @@
       "section_type": "kvant",
       "question_type": "DTK",
       "question_number": 37,
-      "question_text": "38. vilken var 1968, 1967 För till flickor. eleverna 1965 av från omhändertaganden omhändertagna mest förändrats räknat? egendomsbrott de andelen Alkoholmissbruk till av procentenheter vanart orsaker andel Biltillgrepp hade år? Sexuell Andra stor Uppgifter Studera 1/6 1/5 1/4 1/3 15–16 orsak Hur",
+      "question_text": "Hur länge hade en flicka som skrevs ut från yrkesskola 1966 varit omhändertagen i genomsnitt?",
       "options": [
-        "A) B",
-        "C) D",
-        "A) B",
-        "C) D i"
+        "A) 1 år och 10 månader",
+        "B) 2 år och 5 månader",
+        "C) 2 år och 7 månader",
+        "D) 2 år och 9 månader"
       ],
       "correct_answer": "D",
       "id": "2b119517f652",
@@ -48341,8 +48343,10 @@
       "question_number": 38,
       "question_text": "Vilket cirkeldiagram illustrerar förhållandet mellan antalet förskrivningar per tusen kvinnor av nitrofurantoin och fluorokinoloner år 2013?",
       "options": [
-        "A) B",
-        "C) D Nitrofurantoin Fluorokinoloner"
+        "A)",
+        "B)",
+        "C)",
+        "D)"
       ],
       "correct_answer": "A",
       "id": "8ab8cde0b580",
@@ -56923,8 +56927,10 @@
       "question_number": 33,
       "question_text": "Vilket av cirkeldiagrammen nedan illustrerar könsfördelningen bland patienterna som vårdades till följd av Exponering för rök och öppen eld?",
       "options": [
-        "A) B",
-        "C) D Kvinnor Män"
+        "A)",
+        "B)",
+        "C)",
+        "D)"
       ],
       "correct_answer": "A",
       "id": "7f42ac5351f8",
@@ -68924,12 +68930,12 @@
       "section_type": "kvant",
       "question_type": "DTK",
       "question_number": 36,
-      "question_text": "37. och normalspårig samman västsyd järnväg i i riktning normalspårig järnväg breddas? på vidare västnordvästlig normalspårig bör du både hand vägbeskrivningen? åker går första Därefter åker orter därefter i och som följande km. Falköping och järnväg 30 slutar i nordlig riktning Vänersborg av Mariestad Lidköping Karlsborg Moholm Grästorp vilken smalspårig ort i km. startar Skara Vara i Uppgifter vilken järnväg västlig 40 Från lagt Du",
+      "question_text": "En smalspårig järnväg mellan Trollhättan och Nossebro är föreslagen att nedläggas. Hur mycket längre blir den kortaste resvägen mellan dessa två orter om de järnvägar som är föreslagna att nedläggas försvinner?",
       "options": [
-        "A) B",
-        "C) D",
-        "A) B",
-        "C) D I"
+        "A) 35 km",
+        "B) 50 km",
+        "C) 70 km",
+        "D) 105 km"
       ],
       "correct_answer": "A",
       "id": "a726800f56b5",
@@ -72050,19 +72056,19 @@
       "options": [
         {
           "label": "A",
-          "text": "4 · 10 cm 2"
+          "text": "4 · 10^18 cm"
         },
         {
           "label": "B",
-          "text": "4 · 10 cm - 18"
+          "text": "4 · 10^2 cm"
         },
         {
           "label": "C",
-          "text": "4 · 10 cm - 80"
+          "text": "4 · 10^-18 cm"
         },
         {
           "label": "D",
-          "text": "4 · 10 cm"
+          "text": "4 · 10^-80 cm"
         }
       ],
       "options_raw": [],
@@ -79840,7 +79846,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "D",
+      "correct_answer": "A",
       "passage_file": null,
       "diagram_image": "2018-04-14_pp1_v2_xyz_q1_stem.png",
       "graph_question": true,
@@ -79881,7 +79887,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "passage_file": null,
       "diagram_image": null,
       "graph_question": false,
@@ -79922,7 +79928,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "C",
+      "correct_answer": "D",
       "passage_file": null,
       "diagram_image": null,
       "graph_question": false,
@@ -79963,7 +79969,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "D",
+      "correct_answer": "B",
       "passage_file": null,
       "diagram_image": null,
       "graph_question": false,
@@ -80004,7 +80010,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "D",
+      "correct_answer": "A",
       "passage_file": null,
       "diagram_image": null,
       "graph_question": false,
@@ -80045,7 +80051,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "passage_file": null,
       "diagram_image": "2018-04-14_pp1_v2_xyz_q6_stem.png",
       "graph_question": false,
@@ -80086,7 +80092,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "C",
+      "correct_answer": "B",
       "passage_file": null,
       "diagram_image": null,
       "graph_question": false,
@@ -80127,7 +80133,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "passage_file": null,
       "diagram_image": "2018-04-14_pp1_v2_xyz_q8_stem.png",
       "graph_question": false,
@@ -80171,7 +80177,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "C",
+      "correct_answer": "A",
       "passage_file": null,
       "diagram_image": "2018-04-14_pp1_v2_xyz_q9_stem.png",
       "graph_question": true,
@@ -80212,7 +80218,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "passage_file": null,
       "diagram_image": "2018-04-14_pp1_v2_xyz_q10_stem.png",
       "graph_question": false,
@@ -80253,7 +80259,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "passage_file": null,
       "diagram_image": null,
       "graph_question": false,
@@ -80294,7 +80300,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "passage_file": null,
       "diagram_image": "2018-04-14_pp1_v2_xyz_q12_stem.png",
       "graph_question": false,
@@ -80841,7 +80847,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "passage_file": null,
       "diagram_image": "2018-04-14_pp4_v2_xyz_q1_stem.png",
       "graph_question": true,
@@ -80886,7 +80892,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "passage_file": null,
       "diagram_image": "2018-04-14_pp4_v2_xyz_q2_stem.png",
       "graph_question": true,
@@ -80927,7 +80933,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "passage_file": null,
       "diagram_image": null,
       "graph_question": false,
@@ -80968,7 +80974,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "passage_file": null,
       "diagram_image": null,
       "graph_question": false,
@@ -81009,7 +81015,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "D",
+      "correct_answer": "C",
       "passage_file": null,
       "diagram_image": "2018-04-14_pp4_v2_xyz_q5_stem.png",
       "graph_question": false,
@@ -81050,7 +81056,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "C",
+      "correct_answer": "B",
       "passage_file": null,
       "diagram_image": null,
       "graph_question": false,
@@ -81091,7 +81097,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "C",
+      "correct_answer": "A",
       "passage_file": null,
       "diagram_image": null,
       "graph_question": false,
@@ -81135,7 +81141,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "D",
+      "correct_answer": "A",
       "passage_file": null,
       "diagram_image": null,
       "graph_question": true,
@@ -81176,7 +81182,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "passage_file": null,
       "diagram_image": "2018-04-14_pp4_v2_xyz_q9_stem.png",
       "graph_question": false,
@@ -81217,7 +81223,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "C",
+      "correct_answer": "B",
       "passage_file": null,
       "diagram_image": "2018-04-14_pp4_v2_xyz_q10_stem.png",
       "graph_question": false,
@@ -81258,7 +81264,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "D",
+      "correct_answer": "B",
       "passage_file": null,
       "diagram_image": null,
       "graph_question": false,
@@ -81302,7 +81308,7 @@
         }
       ],
       "options_raw": [],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "passage_file": null,
       "diagram_image": "2018-04-14_pp4_v2_xyz_q12_stem.png",
       "graph_question": true,
