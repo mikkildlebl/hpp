@@ -43,6 +43,14 @@ export function SessionProgress({ current, total, correct }: { current: number; 
   );
 }
 
+export function LoadingState({ label }: { label: string }) {
+  return (
+    <div className="flex flex-1 items-center justify-center p-6">
+      <p className="text-white/50">{label}</p>
+    </div>
+  );
+}
+
 export function SubmitButton({ disabled, onClick, label }: { disabled: boolean; onClick: () => void; label: string }) {
   return (
     <button
