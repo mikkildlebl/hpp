@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { OptionList } from '@/components/OptionList';
 import { QuestionCard } from '@/components/QuestionCard';
+import { SessionProgress, SessionShell, SubmitButton } from '@/components/SessionShell';
 import { useSession } from '@/lib/SessionContext';
 import { useMinWidth } from '@/lib/use-min-width';
 import { fetchDtkPageGroups, fetchLasPassageGroups, fetchQuestionsByType } from '@/lib/questions';
@@ -14,15 +15,11 @@ const SESSION_LENGTH = 10;
 const LAS_PASSAGE_COUNT = 5;
 const DTK_GROUP_COUNT = 5;
 
-function SubmitButton({ disabled, onClick, label }: { disabled: boolean; onClick: () => void; label: string }) {
+function LoadingState({ label }: { label: string }) {
   return (
-    <button
-      type="button"
-      disabled={disabled}
-      onClick={onClick}
-      className="rounded-lg bg-[#3c87f7] p-4 text-center text-sm font-bold text-white disabled:opacity-40">
-      {label}
-    </button>
+    <div className="flex flex-1 items-center justify-center p-6">
+      <p className="text-white/50">{label}</p>
+    </div>
   );
 }
 
@@ -61,17 +58,17 @@ function IndividualSession({ type }: { type: QuestionType }) {
 
   if (loading) {
     return (
-      <div className="flex flex-1 items-center justify-center p-6">
-        <p>Laddar frågor…</p>
-      </div>
+      <SessionShell>
+        <LoadingState label="Laddar frågor…" />
+      </SessionShell>
     );
   }
 
   if (questions.length === 0) {
     return (
-      <div className="flex flex-1 items-center justify-center p-6">
-        <p>Inga frågor hittades för denna typ.</p>
-      </div>
+      <SessionShell>
+        <LoadingState label="Inga frågor hittades för denna typ." />
+      </SessionShell>
     );
   }
 
@@ -95,24 +92,26 @@ function IndividualSession({ type }: { type: QuestionType }) {
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-[640px] flex-1 flex-col gap-6 p-6">
-      <p className="text-sm text-text-secondary">
-        Fråga {index + 1} av {questions.length} · {score.correct} rätt hittills
-      </p>
+    <SessionShell>
+      <div className="mx-auto flex w-full max-w-[640px] flex-1 flex-col gap-6 px-6 py-8 sm:px-12">
+        <SessionProgress current={index + 1} total={questions.length} correct={score.correct} />
 
-      <QuestionCard
-        question={question}
-        selected={submitted ? (answers[question.id] ?? null) : selected}
-        submitted={submitted}
-        onSelect={setSelected}
-      />
+        <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+          <QuestionCard
+            question={question}
+            selected={submitted ? (answers[question.id] ?? null) : selected}
+            submitted={submitted}
+            onSelect={setSelected}
+          />
+        </div>
 
-      <SubmitButton
-        disabled={!selected && !submitted}
-        onClick={submitted ? handleNext : handleSubmit}
-        label={submitted ? (isLast ? 'Se resultat' : 'Nästa fråga') : 'Svara'}
-      />
-    </div>
+        <SubmitButton
+          disabled={!selected && !submitted}
+          onClick={submitted ? handleNext : handleSubmit}
+          label={submitted ? (isLast ? 'Se resultat' : 'Nästa fråga') : 'Svara'}
+        />
+      </div>
+    </SessionShell>
   );
 }
 
@@ -143,17 +142,17 @@ function LasSession() {
 
   if (!groups) {
     return (
-      <div className="flex flex-1 items-center justify-center p-6">
-        <p>Laddar texter…</p>
-      </div>
+      <SessionShell>
+        <LoadingState label="Laddar texter…" />
+      </SessionShell>
     );
   }
 
   if (groups.length === 0) {
     return (
-      <div className="flex flex-1 items-center justify-center p-6">
-        <p>Inga texter hittades.</p>
-      </div>
+      <SessionShell>
+        <LoadingState label="Inga texter hittades." />
+      </SessionShell>
     );
   }
 
@@ -182,47 +181,49 @@ function LasSession() {
     : [group.paragraphs];
 
   return (
-    <div className="mx-auto flex w-full max-w-full flex-1 flex-col gap-6 p-6">
-      <p className="text-sm text-text-secondary">
-        Text {index + 1} av {groups.length} · {score.correct} rätt hittills
-      </p>
+    <SessionShell>
+      <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-6 py-8 sm:px-12">
+        <SessionProgress current={index + 1} total={groups.length} correct={score.correct} />
 
-      <h2 className="text-[32px] leading-[44px] font-semibold">{group.title}</h2>
-      <div className="rounded-lg border border-option-border p-4">
-        <div className={useTwoColumns ? 'flex flex-row gap-6' : undefined}>
-          {columns.map((column, ci) => (
-            <div key={ci} className={useTwoColumns ? 'flex-1' : undefined}>
-              {column.map((paragraph, i) => (
-                <p key={i} className="mb-2">
-                  {paragraph}
-                </p>
+        <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+          <h2 className="text-2xl leading-tight font-semibold text-white sm:text-[32px] sm:leading-[44px]">{group.title}</h2>
+          <div className="mt-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-white/85">
+            <div className={useTwoColumns ? 'flex flex-row gap-6' : undefined}>
+              {columns.map((column, ci) => (
+                <div key={ci} className={useTwoColumns ? 'flex-1' : undefined}>
+                  {column.map((paragraph, i) => (
+                    <p key={i} className="mb-2">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
               ))}
             </div>
-          ))}
+          </div>
         </div>
+
+        {group.questions.map((question, i) => (
+          <div key={question.id} className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+            <h3 className="text-xl leading-snug font-semibold text-white sm:text-2xl">
+              {i + 1}. {question.question_text}
+            </h3>
+            <OptionList
+              options={question.options}
+              selected={submitted ? (answers[question.id] ?? null) : (selections[question.id] ?? null)}
+              submitted={submitted}
+              correctAnswer={question.correct_answer}
+              onSelect={(label) => setSelections((prev) => ({ ...prev, [question.id]: label }))}
+            />
+          </div>
+        ))}
+
+        <SubmitButton
+          disabled={!allSelected && !submitted}
+          onClick={submitted ? handleNext : handleSubmit}
+          label={submitted ? (isLast ? 'Se resultat' : 'Nästa text') : 'Svara'}
+        />
       </div>
-
-      {group.questions.map((question, i) => (
-        <div key={question.id} className="flex flex-col gap-2">
-          <h3 className="text-[32px] leading-[44px] font-semibold">
-            {i + 1}. {question.question_text}
-          </h3>
-          <OptionList
-            options={question.options}
-            selected={submitted ? (answers[question.id] ?? null) : (selections[question.id] ?? null)}
-            submitted={submitted}
-            correctAnswer={question.correct_answer}
-            onSelect={(label) => setSelections((prev) => ({ ...prev, [question.id]: label }))}
-          />
-        </div>
-      ))}
-
-      <SubmitButton
-        disabled={!allSelected && !submitted}
-        onClick={submitted ? handleNext : handleSubmit}
-        label={submitted ? (isLast ? 'Se resultat' : 'Nästa text') : 'Svara'}
-      />
-    </div>
+    </SessionShell>
   );
 }
 
@@ -257,17 +258,17 @@ function DtkSession() {
 
   if (!groups) {
     return (
-      <div className="flex flex-1 items-center justify-center p-6">
-        <p>Laddar diagram…</p>
-      </div>
+      <SessionShell>
+        <LoadingState label="Laddar diagram…" />
+      </SessionShell>
     );
   }
 
   if (groups.length === 0) {
     return (
-      <div className="flex flex-1 items-center justify-center p-6">
-        <p>Inga diagram hittades.</p>
-      </div>
+      <SessionShell>
+        <LoadingState label="Inga diagram hittades." />
+      </SessionShell>
     );
   }
 
@@ -296,7 +297,7 @@ function DtkSession() {
     <img
       src={group.diagramUrl}
       alt=""
-      className={`rounded-lg bg-background-element ${useSideBySide ? 'max-h-[calc(100vh-8rem)] w-auto' : 'w-full'}`}
+      className={`rounded-2xl border border-white/10 bg-white/[0.03] ${useSideBySide ? 'max-h-[calc(100vh-12rem)] w-auto' : 'w-full'}`}
       style={{ aspectRatio, objectFit: 'contain' }}
       onLoad={(e) => setAspectRatio(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)}
     />
@@ -305,8 +306,8 @@ function DtkSession() {
   const questionsList = (
     <>
       {group.questions.map((question, i) => (
-        <div key={question.id} className="flex flex-col gap-1">
-          <p className="text-sm font-bold">
+        <div key={question.id} className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+          <p className="text-sm font-bold text-white">
             {i + 1}. {question.question_text}
           </p>
           <OptionList
@@ -328,21 +329,21 @@ function DtkSession() {
   );
 
   return (
-    <div className="flex w-full max-w-full flex-1 flex-col gap-4 p-6">
-      <p className="text-sm text-text-secondary">
-        Diagram {index + 1} av {groups.length} · {score.correct} rätt hittills
-      </p>
-      {useSideBySide ? (
-        <div className="flex flex-1 flex-row gap-6">
-          {image}
-          <div className="flex flex-1 flex-col gap-4 overflow-y-auto pb-2">{questionsList}</div>
-        </div>
-      ) : (
-        <div className="flex flex-col gap-6">
-          {image}
-          {questionsList}
-        </div>
-      )}
-    </div>
+    <SessionShell>
+      <div className="flex w-full max-w-full flex-1 flex-col gap-4 px-6 py-8 sm:px-12">
+        <SessionProgress current={index + 1} total={groups.length} correct={score.correct} />
+        {useSideBySide ? (
+          <div className="flex flex-1 flex-row gap-6">
+            {image}
+            <div className="flex flex-1 flex-col gap-4 overflow-y-auto pb-2">{questionsList}</div>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-6">
+            {image}
+            {questionsList}
+          </div>
+        )}
+      </div>
+    </SessionShell>
   );
 }

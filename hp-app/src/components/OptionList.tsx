@@ -60,10 +60,18 @@ export function OptionList({ options, selected, submitted, correctAnswer, onSele
         const isSelected = selected === opt.label;
         const isCorrect = opt.label === correctAnswer;
 
-        let stateClass = 'border-option-border';
-        if (submitted && isCorrect) stateClass = 'border-option-correct-border bg-option-correct-bg';
-        else if (submitted && isSelected && !isCorrect) stateClass = 'border-option-incorrect-border bg-option-incorrect-bg';
-        else if (isSelected) stateClass = 'border-option-selected-border bg-option-selected-bg';
+        let borderClass = 'border-white/10 hover:border-white/25 hover:bg-white/[0.04]';
+        let badgeClass = 'bg-white/5 text-white/60';
+        if (submitted && isCorrect) {
+          borderClass = 'border-emerald-400/50 bg-emerald-400/10';
+          badgeClass = 'bg-emerald-400/20 text-emerald-300';
+        } else if (submitted && isSelected && !isCorrect) {
+          borderClass = 'border-red-400/50 bg-red-400/10';
+          badgeClass = 'bg-red-400/20 text-red-300';
+        } else if (isSelected) {
+          borderClass = 'border-[#3b82f6]/60 bg-[#3b82f6]/10';
+          badgeClass = 'bg-[#3b82f6]/20 text-[#93c5fd]';
+        }
 
         return (
           <button
@@ -71,8 +79,11 @@ export function OptionList({ options, selected, submitted, correctAnswer, onSele
             type="button"
             disabled={submitted}
             onClick={() => onSelect(opt.label)}
-            className={`flex items-center gap-2 rounded-lg border text-left ${compact ? 'gap-1 p-2' : 'p-4'} ${stateClass}`}>
-            <span className="w-6 text-sm font-bold">{opt.label}</span>
+            className={`flex items-center gap-3 rounded-xl border text-left text-white transition-colors disabled:cursor-default ${compact ? 'gap-2 p-2.5' : 'p-4'} ${borderClass}`}>
+            <span
+              className={`flex shrink-0 items-center justify-center rounded-lg text-sm font-bold ${compact ? 'h-6 w-6 text-xs' : 'h-7 w-7'} ${badgeClass}`}>
+              {opt.label}
+            </span>
             {opt.image ? (
               <OptionImage uri={resolveDiagramUrl(opt.image)} />
             ) : (

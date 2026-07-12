@@ -32,7 +32,7 @@ export function DiagramMC({ question, selected, submitted, onSelect }: Props) {
         <img
           src={diagramUrl}
           alt=""
-          className="w-full rounded-lg bg-background-element"
+          className="w-full rounded-2xl border border-white/10 bg-white/[0.03]"
           style={{ aspectRatio, objectFit: 'contain' }}
           loading="eager"
           onLoad={(e) => setAspectRatio(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)}

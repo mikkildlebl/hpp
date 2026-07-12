@@ -22,28 +22,28 @@ export function KvaCompare({ question, selected, submitted, onSelect }: Props) {
 
   return (
     <div className="flex flex-col gap-6">
-      <p className="text-sm text-text-secondary">Jämför de två kvantiteterna</p>
+      <p className="text-sm font-semibold tracking-wide text-white/50 uppercase">Jämför de två kvantiteterna</p>
       {parsed ? (
         <>
           {parsed.intro && (
-            <div className="rounded-2xl bg-background-element p-6">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 text-white">
               <p>{parsed.intro}</p>
             </div>
           )}
           <div className="flex flex-wrap gap-2">
-            <div className="flex min-w-[140px] flex-1 flex-col gap-1 rounded-2xl bg-background-element p-4">
-              <p className="text-sm font-bold text-text-secondary">KVANTITET I</p>
-              <p className="text-[22px] leading-7 font-semibold">{parsed.quantityI}</p>
+            <div className="flex min-w-[140px] flex-1 flex-col gap-1 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+              <p className="text-sm font-semibold tracking-wide text-white/50 uppercase">Kvantitet I</p>
+              <p className="text-[22px] leading-7 font-semibold text-white">{parsed.quantityI}</p>
             </div>
-            <div className="flex min-w-[140px] flex-1 flex-col gap-1 rounded-2xl bg-background-element p-4">
-              <p className="text-sm font-bold text-text-secondary">KVANTITET II</p>
-              <p className="text-[22px] leading-7 font-semibold">{parsed.quantityII}</p>
+            <div className="flex min-w-[140px] flex-1 flex-col gap-1 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+              <p className="text-sm font-semibold tracking-wide text-white/50 uppercase">Kvantitet II</p>
+              <p className="text-[22px] leading-7 font-semibold text-white">{parsed.quantityII}</p>
             </div>
           </div>
         </>
       ) : (
-        <div className="rounded-2xl bg-background-element p-6">
-          <p className="text-[32px] leading-[44px] font-semibold">{question.question_text}</p>
+        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+          <p className="text-[32px] leading-[44px] font-semibold text-white">{question.question_text}</p>
         </div>
       )}
       <OptionList
