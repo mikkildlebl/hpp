@@ -51,11 +51,14 @@
   #nav-count { opacity: .6; min-width: 90px; text-align: center; }
   main {
     display: grid;
-    grid-template-columns: 1fr 360px;
+    grid-template-columns: 1fr 1fr 320px;
     gap: 16px;
     padding: 16px;
-    max-width: 1400px;
+    max-width: 1700px;
     margin: 0 auto;
+  }
+  @media (max-width: 1200px) {
+    main { grid-template-columns: 1fr; }
   }
   .panel {
     background: #10131a;
@@ -96,6 +99,82 @@
   #status.err { color: #f08a8a; }
   #status.dirty { color: #e0b25a; }
   .add-option { margin-top: 4px; }
+
+  /* --- live preview: mirrors the dark theme/cards used on the actual
+     hp-app session pages (see hp-app/src/components/QuestionCard/*), so
+     you can see roughly how an edit will look on the real site. The
+     correct answer is always highlighted here (not just after "submit"),
+     since that's more useful while editing. */
+  .sp-hint { font-size: 11px; opacity: .45; margin-bottom: 10px; }
+  .sp-card {
+    background: #05070c;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 16px;
+    padding: 20px;
+    color: #fff;
+  }
+  .sp-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.5);
+    margin-bottom: 10px;
+  }
+  .sp-q {
+    font-size: 22px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 16px;
+    white-space: pre-wrap;
+  }
+  .sp-img {
+    display: block;
+    max-width: 100%;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.03);
+    margin-bottom: 16px;
+  }
+  .sp-box {
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.03);
+    padding: 16px;
+    margin-bottom: 16px;
+    white-space: pre-wrap;
+  }
+  .sp-kva-row { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .sp-kva-box { flex: 1; min-width: 140px; border-radius: 16px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.03); padding: 12px; }
+  .sp-kva-box .sp-label { margin-bottom: 4px; }
+  .sp-kva-val { font-size: 18px; font-weight: 600; }
+  .sp-opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.1);
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+  .sp-opt.correct { border-color: rgba(52,211,153,.5); background: rgba(52,211,153,.1); }
+  .sp-badge {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    background: rgba(255,255,255,.05);
+    color: rgba(255,255,255,.6);
+  }
+  .sp-opt.correct .sp-badge { background: rgba(52,211,153,.2); color: #6ee7b7; }
+  .sp-opt img.sp-opt-img { max-height: 40px; max-width: 100%; object-fit: contain; }
+  .sp-empty { opacity: .4; font-style: italic; }
 </style>
 </head>
 <body>
@@ -155,6 +234,11 @@
         <textarea id="f-nog-1" rows="2" placeholder="(1)"></textarea>
         <textarea id="f-nog-2" rows="2" placeholder="(2)" style="margin-top:6px"></textarea>
       </div>
+    </div>
+
+    <div class="panel">
+      <div class="sp-hint">Förhandsgranskning — ungefär så här ser frågan ut på hp-app. Rätt svar är alltid grönmarkerat här (oavsett "submitted"-läge på riktiga sajten).</div>
+      <div class="sp-card" id="preview-root"></div>
     </div>
 
     <div class="panel">

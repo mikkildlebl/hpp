@@ -7,6 +7,7 @@ let FILTERED = [];
 let CURSOR = 0;
 let CURRENT = null; // the (possibly edited) working copy of the question in view
 let DIRTY = false;
+let CURRENT_PASSAGE_TEXT = null; // fetched separately, fed into the live preview once loaded
 
 const $ = (id) => document.getElementById(id);
 
@@ -142,15 +143,92 @@ function renderCurrent() {
     $('diagram-field').style.display = 'none';
   }
 
+  CURRENT_PASSAGE_TEXT = null;
   if (CURRENT.passage_file) {
     $('passage-field').style.display = '';
     $('passage-box').textContent = 'Laddar…';
     fetch(`/texts/${CURRENT.passage_file}`)
       .then((r) => r.text())
-      .then((t) => ($('passage-box').textContent = t));
+      .then((t) => {
+        $('passage-box').textContent = t;
+        CURRENT_PASSAGE_TEXT = t;
+        renderPreview();
+      });
   } else {
     $('passage-field').style.display = 'none';
   }
+
+  renderPreview();
+}
+
+// Mirrors the branching in hp-app/src/components/QuestionCard/index.tsx:
+// diagram image takes priority, then LAS/ELF passage, then KVA/NOG special
+// layouts, falling back to a plain question+options card.
+function renderPreview() {
+  const root = $('preview-root');
+  if (!CURRENT) {
+    root.innerHTML = '<p class="sp-empty">Ingen fråga.</p>';
+    return;
+  }
+
+  const parts = [];
+
+  if (CURRENT.diagram_image) {
+    parts.push(`<img class="sp-img" src="/images/${CURRENT.diagram_image}" alt="" />`);
+  } else if (CURRENT.passage_file) {
+    parts.push(`<div class="sp-box">${escapeHtml(CURRENT_PASSAGE_TEXT ?? 'Laddar text…')}</div>`);
+  }
+
+  const kva = CURRENT.question_type === 'KVA' ? parseKva(CURRENT.question_text) : null;
+  if (kva) {
+    parts.push('<div class="sp-label">Jämför de två kvantiteterna</div>');
+    if (kva.intro) parts.push(`<div class="sp-box">${escapeHtml(kva.intro)}</div>`);
+    parts.push(`
+      <div class="sp-kva-row">
+        <div class="sp-kva-box"><div class="sp-label">Kvantitet I</div><div class="sp-kva-val">${escapeHtml(kva.quantityI)}</div></div>
+        <div class="sp-kva-box"><div class="sp-label">Kvantitet II</div><div class="sp-kva-val">${escapeHtml(kva.quantityII)}</div></div>
+      </div>
+    `);
+  } else if (CURRENT.question_text) {
+    parts.push(`<div class="sp-q">${escapeHtml(CURRENT.question_text)}</div>`);
+  }
+
+  if (CURRENT.nog_statements) {
+    parts.push(`<div class="sp-box">${CURRENT.nog_statements.map((s) => escapeHtml(s)).join('<br/>')}</div>`);
+    parts.push('<div class="sp-label" style="text-transform:none;font-weight:400">Räcker informationen i (1) och/eller (2) för att besvara frågan?</div>');
+  }
+
+  parts.push(renderPreviewOptions());
+
+  root.innerHTML = parts.join('\n');
+}
+
+function renderPreviewOptions() {
+  const opts = CURRENT.options || [];
+  if (!opts.length) return '<p class="sp-empty">Inga svarsalternativ.</p>';
+  return opts
+    .map((raw) => {
+      const { label, text, image } = parseOption(raw);
+      const isCorrect = label && label === CURRENT.correct_answer;
+      const body = image ? `<img class="sp-opt-img" src="/images/${image}" alt="" />` : `<span>${escapeHtml(text)}</span>`;
+      return `<div class="sp-opt${isCorrect ? ' correct' : ''}"><span class="sp-badge">${escapeHtml(label)}</span>${body}</div>`;
+    })
+    .join('\n');
+}
+
+const KVA_PATTERN = /^([\s\S]*?)Kvantitet I:\s*([\s\S]*?)\s*Kvantitet II:\s*([\s\S]*)$/;
+
+function parseKva(text) {
+  const m = (text || '').match(KVA_PATTERN);
+  if (!m) return null;
+  return { intro: m[1].trim(), quantityI: m[2].trim(), quantityII: m[3].trim() };
+}
+
+function escapeHtml(s) {
+  return String(s ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 function renderOptions() {
@@ -194,6 +272,7 @@ function escapeAttr(s) {
 function markDirty() {
   DIRTY = true;
   setStatus('Osparat', 'dirty');
+  renderPreview();
 }
 
 function setStatus(text, cls) {
