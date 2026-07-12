@@ -67,7 +67,7 @@ export function LasSession() {
 
         {group!.questions.map((question, i) => (
           <div key={question.id} className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-6">
-            <h3 className="text-xl leading-snug font-semibold text-white sm:text-2xl">
+            <h3 className="text-lg leading-snug font-semibold text-white sm:text-xl">
               {i + 1}. {question.question_text}
             </h3>
             <OptionList

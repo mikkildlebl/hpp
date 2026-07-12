@@ -43,7 +43,7 @@ export function KvaCompare({ question, selected, submitted, onSelect }: Props) {
         </>
       ) : (
         <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-          <p className="text-[32px] leading-[44px] font-semibold text-white">{question.question_text}</p>
+          <p className="text-2xl leading-8 font-semibold text-white">{question.question_text}</p>
         </div>
       )}
       <OptionList

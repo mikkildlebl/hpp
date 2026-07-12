@@ -178,7 +178,7 @@ export type MathTextProps = {
 
 const TYPE_STYLES: Record<NonNullable<MathTextProps['type']>, { fontSize: number; lineHeight: number; fontWeight: TextStyleWeight }> = {
   default: { fontSize: 16, lineHeight: 24, fontWeight: 500 },
-  subtitle: { fontSize: 32, lineHeight: 44, fontWeight: 600 },
+  subtitle: { fontSize: 24, lineHeight: 32, fontWeight: 600 },
   small: { fontSize: 14, lineHeight: 20, fontWeight: 500 },
   smallBold: { fontSize: 14, lineHeight: 20, fontWeight: 700 },
 };

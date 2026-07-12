@@ -50,7 +50,7 @@ export function PassageMC({ question, selected, submitted, onSelect }: Props) {
           ))}
         </div>
       )}
-      <p className="text-[32px] leading-[44px] font-semibold text-white">{question.question_text}</p>
+      <p className="text-2xl leading-8 font-semibold text-white">{question.question_text}</p>
       {question.possibly_truncated && (
         <p className="text-sm text-white/50">Obs: källdatan för ett eller flera svarsalternativ kan vara avklippt.</p>
       )}

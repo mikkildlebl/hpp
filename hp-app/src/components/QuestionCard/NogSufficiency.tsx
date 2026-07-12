@@ -11,7 +11,7 @@ type Props = {
 export function NogSufficiency({ question, selected, submitted, onSelect }: Props) {
   return (
     <div className="flex flex-col gap-6">
-      <p className="text-[32px] leading-[44px] font-semibold text-white">{question.question_text}</p>
+      <p className="text-2xl leading-8 font-semibold text-white">{question.question_text}</p>
       {question.nog_statements && (
         <div className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-white">
           {question.nog_statements.map((statement, i) => (
