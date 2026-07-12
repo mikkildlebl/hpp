@@ -12,13 +12,29 @@ const $ = (id) => document.getElementById(id);
 
 const OPTION_LETTERS = 'ABCDEFGH';
 
+// Every question type but XYZ stores options as raw "A) text" strings. XYZ
+// stores them pre-parsed as {label, text, image?} objects (image ones are a
+// cropped answer-choice graphic with no text). Handle both shapes uniformly.
 function parseOption(raw) {
-  const m = raw.match(/^([A-Z])\)\s?(.*)$/s);
-  if (m) return { label: m[1], text: m[2] };
-  return { label: '', text: raw };
+  if (raw && typeof raw === 'object') {
+    return { label: raw.label || '', text: raw.text || '', image: raw.image || null };
+  }
+  const m = String(raw).match(/^([A-Z])\)\s?(.*)$/s);
+  if (m) return { label: m[1], text: m[2], image: null };
+  return { label: '', text: raw, image: null };
 }
 
-function formatOption(label, text) {
+function isObjectOptionFormat(question) {
+  const first = (question.options || [])[0];
+  return question.question_type === 'XYZ' || (first && typeof first === 'object');
+}
+
+function formatOption(question, label, text, image) {
+  if (isObjectOptionFormat(question)) {
+    const opt = { label, text };
+    if (image) opt.image = image;
+    return opt;
+  }
   return `${label}) ${text}`;
 }
 
@@ -141,12 +157,13 @@ function renderOptions() {
   const list = $('options-list');
   list.innerHTML = '';
   (CURRENT.options || []).forEach((raw, i) => {
-    const { label, text } = parseOption(raw);
+    const { label, text, image } = parseOption(raw);
     const row = document.createElement('div');
     row.className = 'option-row';
     row.innerHTML = `
       <input class="opt-label" type="text" value="${escapeAttr(label)}" style="width:44px" maxlength="1" />
-      <input class="opt-text" type="text" value="${escapeAttr(text)}" />
+      <input class="opt-text" type="text" value="${escapeAttr(text)}" placeholder="${image ? '(bildalternativ, ingen text)' : ''}" />
+      ${image ? `<img class="diagram" style="max-width:70px;max-height:36px;margin:0" src="/images/${image}" title="${escapeAttr(image)}" />` : ''}
       <button type="button" class="remove">✕</button>
     `;
     row.querySelector('.opt-label').addEventListener('input', () => onOptionEdited(i));
@@ -165,7 +182,8 @@ function onOptionEdited(i) {
   const row = rows[i];
   const label = row.querySelector('.opt-label').value.trim().toUpperCase();
   const text = row.querySelector('.opt-text').value;
-  CURRENT.options[i] = formatOption(label, text);
+  const { image } = parseOption(CURRENT.options[i]);
+  CURRENT.options[i] = formatOption(CURRENT, label, text, image);
   markDirty();
 }
 
@@ -280,7 +298,7 @@ function init() {
     if (!CURRENT) return;
     const used = (CURRENT.options || []).map((o) => parseOption(o).label);
     const nextLabel = [...OPTION_LETTERS].find((l) => !used.includes(l)) || '?';
-    CURRENT.options = [...(CURRENT.options || []), formatOption(nextLabel, '')];
+    CURRENT.options = [...(CURRENT.options || []), formatOption(CURRENT, nextLabel, '', null)];
     markDirty();
     renderOptions();
   });

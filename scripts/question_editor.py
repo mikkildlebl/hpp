@@ -108,6 +108,11 @@ class Handler(BaseHTTPRequestHandler):
             return
         if path.startswith("/images/"):
             name = path[len("/images/") :]
+            # diagram_image/option "image" paths are storage-bucket paths (see
+            # scripts/import_data.py, which uploads to "diagrams/<file>"), but
+            # the local images/ folder itself is flat.
+            if name.startswith("diagrams/"):
+                name = name[len("diagrams/") :]
             self._send_file(IMAGES_DIR / name)
             return
         if path.startswith("/texts/"):
