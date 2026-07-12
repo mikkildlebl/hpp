@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8" />
+<title>HP question editor (local)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font: 14px/1.4 -apple-system, Segoe UI, Roboto, sans-serif;
+    background: #0b0d12;
+    color: #e8e8ec;
+  }
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid #23262f;
+    background: #10131a;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header h1 { font-size: 14px; margin: 0 12px 0 0; opacity: .7; font-weight: 600; }
+  select, input[type=text], input[type=number], textarea {
+    background: #161923;
+    border: 1px solid #2a2e3a;
+    color: #e8e8ec;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font: inherit;
+  }
+  textarea { width: 100%; resize: vertical; }
+  button {
+    background: #2b5cd9;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    padding: 7px 14px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button.secondary { background: #262a35; }
+  button.danger { background: #7a2b2b; }
+  button:disabled { opacity: .4; cursor: default; }
+  #nav-count { opacity: .6; min-width: 90px; text-align: center; }
+  main {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 16px;
+    padding: 16px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .panel {
+    background: #10131a;
+    border: 1px solid #23262f;
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    opacity: .55;
+    margin-bottom: 4px;
+  }
+  .field input, .field select, .field textarea { width: 100%; }
+  .option-row { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+  .option-row input { flex: 1; }
+  .option-row .remove { background: #262a35; color: #f08a8a; padding: 4px 8px; }
+  .row { display: flex; gap: 12px; }
+  .row > .field { flex: 1; }
+  .meta { font-size: 12px; opacity: .5; line-height: 1.6; }
+  .meta code { color: #8fb4ff; }
+  img.diagram { max-width: 100%; border-radius: 8px; border: 1px solid #23262f; margin-top: 6px; }
+  #passage-box {
+    white-space: pre-wrap;
+    max-height: 260px;
+    overflow-y: auto;
+    background: #161923;
+    border: 1px solid #2a2e3a;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 13px;
+  }
+  #status { font-size: 12px; }
+  #status.ok { color: #6fd68f; }
+  #status.err { color: #f08a8a; }
+  #status.dirty { color: #e0b25a; }
+  .add-option { margin-top: 4px; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>HP editor</h1>
+    <select id="filter-exam"></select>
+    <select id="filter-provpass"></select>
+    <select id="filter-type"></select>
+    <input id="filter-search" type="text" placeholder="Sök i frågetext…" style="width:200px" />
+    <button id="prev" class="secondary">&larr; Föreg.</button>
+    <span id="nav-count"></span>
+    <button id="next" class="secondary">Nästa &rarr;</button>
+    <input id="jump" type="number" min="1" style="width:70px" title="Hoppa till index" />
+    <span style="flex:1"></span>
+    <span id="status"></span>
+    <button id="save">Spara</button>
+  </header>
+
+  <main>
+    <div class="panel" id="edit-panel">
+      <div class="row">
+        <div class="field">
+          <label>question_type</label>
+          <input id="f-question_type" type="text" />
+        </div>
+        <div class="field">
+          <label>section_type</label>
+          <select id="f-section_type">
+            <option value="verbal">verbal</option>
+            <option value="kvant">kvant</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>question_number</label>
+          <input id="f-question_number" type="number" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>question_text</label>
+        <textarea id="f-question_text" rows="3"></textarea>
+      </div>
+
+      <div class="field">
+        <label>options</label>
+        <div id="options-list"></div>
+        <button class="secondary add-option" id="add-option" type="button">+ Lägg till alternativ</button>
+      </div>
+
+      <div class="field">
+        <label>correct_answer</label>
+        <input id="f-correct_answer" type="text" style="width:80px" />
+      </div>
+
+      <div class="field" id="nog-field" style="display:none">
+        <label>nog_statements</label>
+        <textarea id="f-nog-1" rows="2" placeholder="(1)"></textarea>
+        <textarea id="f-nog-2" rows="2" placeholder="(2)" style="margin-top:6px"></textarea>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="field">
+        <label>Källa</label>
+        <div class="meta" id="meta-source"></div>
+      </div>
+      <div class="field" id="diagram-field" style="display:none">
+        <label>diagram_image</label>
+        <img class="diagram" id="diagram-img" />
+      </div>
+      <div class="field" id="passage-field" style="display:none">
+        <label>passage_file (läs bara)</label>
+        <div id="passage-box"></div>
+      </div>
+      <div class="field">
+        <label>id</label>
+        <div class="meta" id="meta-id"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
