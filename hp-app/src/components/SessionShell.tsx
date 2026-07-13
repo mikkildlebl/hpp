@@ -13,9 +13,6 @@ export function SessionShell({ children, right }: { children: ReactNode; right?:
 
       <header className="relative z-10 flex items-center justify-between px-6 py-6 sm:px-12">
         <Link href="/ova" className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#3b82f6] to-[#1e3a8a] text-xs font-bold">
-            HP
-          </div>
           <span className="text-sm font-semibold tracking-tight">HP Pro</span>
         </Link>
         {right}
