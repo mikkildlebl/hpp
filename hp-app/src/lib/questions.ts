@@ -3,7 +3,18 @@ import passagesData from '@/assets/data/passages.json';
 import { supabase } from './supabase';
 import { resolveDiagramUrl } from './storage';
 import { cleanText, formatPassage, translateMathSymbols } from './text';
-import { DtkGroup, GlossaryEntry, Passage, PassageGroup, Question, QuestionType, SECTION_QUESTION_TYPES, SectionType } from './types';
+import {
+  DtkGroup,
+  GlossaryEntry,
+  Passage,
+  PassageGroup,
+  Question,
+  QuestionType,
+  SECTION_QUESTION_TYPES,
+  SectionType,
+  TestSection,
+  TestUnit,
+} from './types';
 
 const PASSAGE_TEXTS: Record<string, string> = passagesData;
 
@@ -192,6 +203,40 @@ export async function fetchDtkPageGroups(groupCount = 5): Promise<DtkGroup[]> {
       .slice()
       .sort((a, b) => a.question_number - b.question_number),
   }));
+}
+
+// Per-type counts for a simulated test, matched to the defaults each session
+// type already uses on its own (10 individual questions, 5 passages/diagrams).
+const TEST_INDIVIDUAL_COUNT = 10;
+const TEST_LAS_PASSAGE_COUNT = 5;
+const TEST_DTK_GROUP_COUNT = 5;
+
+async function fetchSectionTestUnits(section: SectionType): Promise<TestUnit[]> {
+  const units: TestUnit[] = [];
+  for (const type of SECTION_QUESTION_TYPES[section]) {
+    if (type === 'LAS') {
+      const groups = await fetchLasPassageGroups(TEST_LAS_PASSAGE_COUNT);
+      units.push(...groups.map((group): TestUnit => ({ kind: 'las', questions: group.questions, group })));
+    } else if (type === 'DTK') {
+      const groups = await fetchDtkPageGroups(TEST_DTK_GROUP_COUNT);
+      units.push(...groups.map((group): TestUnit => ({ kind: 'dtk', questions: group.questions, group })));
+    } else {
+      const questions = await fetchQuestionsByType(type, TEST_INDIVIDUAL_COUNT);
+      units.push(...questions.map((question): TestUnit => ({ kind: 'question', questions: [question], question })));
+    }
+  }
+  return units;
+}
+
+// Builds the ordered sequence of units (questions plus LAS/DTK groups) for a
+// timed test simulation - one section, or verbal followed by kvant for a full
+// mock exam.
+export async function fetchTestUnits(section: TestSection): Promise<TestUnit[]> {
+  if (section === 'full') {
+    const [verbal, kvant] = await Promise.all([fetchSectionTestUnits('verbal'), fetchSectionTestUnits('kvant')]);
+    return [...verbal, ...kvant];
+  }
+  return fetchSectionTestUnits(section);
 }
 
 export async function fetchGlossary(): Promise<GlossaryEntry[]> {

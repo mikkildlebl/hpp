@@ -3,19 +3,31 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
+import { loadLatestTestResult, HpTestResult } from '@/lib/hpScore';
 import { fetchQuestionTypeCounts } from '@/lib/questions';
-import { QUESTION_TYPE_LABELS, QuestionType, SECTION_QUESTION_TYPES, SectionType } from '@/lib/types';
+import { QUESTION_TYPE_LABELS, QuestionType, SECTION_QUESTION_TYPES, SectionType, TEST_DURATIONS_SECONDS, TestSection } from '@/lib/types';
 
 const SECTION_LABELS: Record<SectionType, string> = {
   verbal: 'Verbal',
   kvant: 'Kvantitativ',
 };
 
+const TEST_SECTION_LABELS: Record<TestSection, string> = {
+  verbal: 'Verbal',
+  kvant: 'Kvantitativ',
+  full: 'Helt prov',
+};
+
+const TEST_SECTIONS: TestSection[] = ['verbal', 'kvant', 'full'];
+
 export default function OvaPage() {
   const [counts, setCounts] = useState<Record<QuestionType, number> | null>(null);
+  const [withTimer, setWithTimer] = useState(true);
+  const [latestResult, setLatestResult] = useState<HpTestResult | null>(null);
 
   useEffect(() => {
     fetchQuestionTypeCounts().then(setCounts);
+    Promise.resolve(loadLatestTestResult()).then(setLatestResult);
   }, []);
 
   return (
@@ -60,6 +72,45 @@ export default function OvaPage() {
             </div>
           </div>
         ))}
+
+        <div className="flex flex-col gap-3">
+          <h2 className="text-sm font-semibold tracking-wide text-white/50 uppercase">Provsimulering</h2>
+
+          {latestResult && (
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+              <p className="text-xs font-semibold tracking-wide text-white/40 uppercase">
+                Senaste resultat · {TEST_SECTION_LABELS[latestResult.section]}
+              </p>
+              <p className="mt-1 bg-gradient-to-r from-[#93c5fd] via-[#60a5fa] to-[#3b82f6] bg-clip-text text-4xl font-semibold text-transparent">
+                {latestResult.totalScore.toFixed(2)}
+              </p>
+              <p className="mt-1 text-xs text-white/40">{new Date(latestResult.completedAt).toLocaleDateString('sv-SE')}</p>
+            </div>
+          )}
+
+          <label className="flex items-center gap-2 text-sm text-white/60">
+            <input
+              type="checkbox"
+              checked={withTimer}
+              onChange={(e) => setWithTimer(e.target.checked)}
+              className="h-4 w-4 rounded border-white/20 bg-transparent accent-[#3b82f6]"
+            />
+            Med tidtagning
+          </label>
+          <div className="flex flex-col gap-1.5">
+            {TEST_SECTIONS.map((section) => (
+              <Link
+                key={section}
+                href={`/session/test/${section}?timer=${withTimer ? '1' : '0'}`}
+                className="group overflow-hidden rounded-2xl border border-white/10 bg-[#05070c] transition-colors hover:bg-white/[0.04]">
+                <div className="flex items-center gap-3 p-4">
+                  <span className="flex-1 text-sm font-medium text-white">{TEST_SECTION_LABELS[section]}</span>
+                  <span className="text-sm text-white/40">{TEST_DURATIONS_SECONDS[section] / 60} min</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
 
         <div className="flex flex-col gap-3">
           <h2 className="text-sm font-semibold tracking-wide text-white/50 uppercase">Ordbank</h2>
