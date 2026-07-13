@@ -147,7 +147,7 @@ export function TestSession({ section, timed }: { section: TestSection; timed: b
     body = useSideBySide ? (
       <div className="flex flex-1 flex-row gap-6">
         {image}
-        <div className="flex flex-1 flex-col gap-4 overflow-y-auto pb-2">{questionsList}</div>
+        <div className="min-w-0 flex-1 flex-col gap-4 overflow-y-auto pb-2 flex">{questionsList}</div>
       </div>
     ) : (
       <div className="flex flex-col gap-6">
@@ -157,9 +157,16 @@ export function TestSession({ section, timed }: { section: TestSection; timed: b
     );
   }
 
+  // DTK diagrams need the same full-width room the dedicated DTK session gives
+  // them (unlike single questions and LAS passages) - reusing the max-w-4xl
+  // container for every kind here left the diagram's own height-driven width
+  // free to eat almost all the row, squeezing the answer options unreadably
+  // thin next to it.
+  const containerMaxWidth = unit.kind === 'dtk' ? 'max-w-full' : 'max-w-4xl';
+
   return (
     <SessionShell right={timed && secondsLeft !== null ? <Timer secondsLeft={secondsLeft} /> : undefined}>
-      <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-6 py-8 sm:px-12">
+      <div className={`mx-auto flex w-full ${containerMaxWidth} flex-1 flex-col gap-6 px-6 py-8 sm:px-12`}>
         <SessionProgress current={index + 1} total={groups.length} correct={score.correct} />
 
         {body}
