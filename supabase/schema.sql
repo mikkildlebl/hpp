@@ -54,3 +54,42 @@ create policy "public read" on public.passages for select using (true);
 create policy "public read" on public.questions for select using (true);
 create policy "public read" on public.prefix_suffix for select using (true);
 -- deliberately no insert/update/delete policies for anon/authenticated roles.
+
+-- Per-user data: saved once a user signs in with Google. Each row is only
+-- readable/writable by the user it belongs to.
+create table public.test_results (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  section text not null check (section in ('verbal', 'kvant', 'full')),
+  verbal_correct smallint,
+  verbal_total smallint,
+  verbal_score numeric(3, 2),
+  kvant_correct smallint,
+  kvant_total smallint,
+  kvant_score numeric(3, 2),
+  total_score numeric(3, 2) not null,
+  completed_at timestamptz not null default now(),
+  created_at timestamptz not null default now()
+);
+
+create index test_results_user_idx on public.test_results (user_id, completed_at desc);
+
+create table public.question_attempts (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  question_id text not null references public.questions (id) on delete cascade,
+  selected_answer text not null,
+  is_correct boolean not null,
+  created_at timestamptz not null default now()
+);
+
+create index question_attempts_user_idx on public.question_attempts (user_id);
+
+alter table public.test_results enable row level security;
+alter table public.question_attempts enable row level security;
+
+create policy "select own results" on public.test_results for select using (auth.uid() = user_id);
+create policy "insert own results" on public.test_results for insert with check (auth.uid() = user_id);
+
+create policy "select own attempts" on public.question_attempts for select using (auth.uid() = user_id);
+create policy "insert own attempts" on public.question_attempts for insert with check (auth.uid() = user_id);

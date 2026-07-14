@@ -1,3 +1,4 @@
+import { supabase } from './supabase';
 import { Question, SectionType, TestSection } from './types';
 
 const HP_SCALE_MAX = 2;
@@ -43,11 +44,55 @@ export function buildHpResult(section: TestSection, questions: Question[], answe
   return { section, verbal, kvant, totalScore, completedAt: new Date().toISOString() };
 }
 
-export function saveTestResult(result: HpTestResult): void {
+// Always kept as a fast local fallback for guests; logged-in users additionally
+// get their result saved to Supabase so it follows them across devices.
+export async function saveTestResult(result: HpTestResult): Promise<void> {
   localStorage.setItem(RESULT_STORAGE_KEY, JSON.stringify(result));
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  await supabase.from('test_results').insert({
+    user_id: user.id,
+    section: result.section,
+    verbal_correct: result.verbal?.correct ?? null,
+    verbal_total: result.verbal?.total ?? null,
+    verbal_score: result.verbal?.score ?? null,
+    kvant_correct: result.kvant?.correct ?? null,
+    kvant_total: result.kvant?.total ?? null,
+    kvant_score: result.kvant?.score ?? null,
+    total_score: result.totalScore,
+    completed_at: result.completedAt,
+  });
 }
 
-export function loadLatestTestResult(): HpTestResult | null {
+export async function loadLatestTestResult(): Promise<HpTestResult | null> {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    const { data } = await supabase
+      .from('test_results')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('completed_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (data) {
+      return {
+        section: data.section,
+        verbal: data.verbal_total ? { correct: data.verbal_correct, total: data.verbal_total, score: data.verbal_score } : null,
+        kvant: data.kvant_total ? { correct: data.kvant_correct, total: data.kvant_total, score: data.kvant_score } : null,
+        totalScore: data.total_score,
+        completedAt: data.completed_at,
+      };
+    }
+  }
+
   const raw = localStorage.getItem(RESULT_STORAGE_KEY);
   if (!raw) return null;
   try {

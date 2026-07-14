@@ -1,4 +1,8 @@
+'use client';
+
 import Link from 'next/link';
+
+import { useAuth } from '@/lib/auth';
 
 const FEATURES: { title: string; body: string }[] = [
   { title: 'Riktiga bråk & exponenter', body: 'Formler renderas som formler, inte platt text.' },
@@ -7,6 +11,8 @@ const FEATURES: { title: string; body: string }[] = [
 ];
 
 export default function LandingPage() {
+  const { user, signOut } = useAuth();
+
   return (
     <div className="relative flex flex-1 flex-col overflow-hidden bg-[#05070c] text-white">
       {/* drifting ambient glow blobs */}
@@ -20,11 +26,23 @@ export default function LandingPage() {
         <div className="flex h-[38px] items-center gap-2.5">
           <span className="text-base font-semibold tracking-tight">HP Pro</span>
         </div>
-        <Link
-          href="/ova"
-          className="rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:border-white/30 hover:text-white">
-          Börja öva
-        </Link>
+        {user ? (
+          <div className="flex items-center gap-3">
+            <span className="hidden text-sm text-white/50 sm:inline">{user.email}</span>
+            <button
+              type="button"
+              onClick={() => signOut()}
+              className="rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:border-white/30 hover:text-white">
+              Logga ut
+            </button>
+          </div>
+        ) : (
+          <Link
+            href="/login"
+            className="rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:border-white/30 hover:text-white">
+            Logga in
+          </Link>
+        )}
       </header>
 
       {/* hero */}

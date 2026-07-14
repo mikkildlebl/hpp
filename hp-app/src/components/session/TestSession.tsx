@@ -32,8 +32,8 @@ export function TestSession({ section, timed }: { section: TestSection; timed: b
   const { groups, group, index, isLast, selections, submitted, allSelected, answers, score, select, submit, advance } =
     useGroupSession<TestUnit>(() => fetchTestUnits(section));
 
-  const finish = () => {
-    saveTestResult(buildHpResult(section, questions, answers));
+  const finish = async () => {
+    await saveTestResult(buildHpResult(section, questions, answers));
     router.replace('/session/summary');
   };
   const secondsLeft = useCountdown(timed ? TEST_DURATIONS_SECONDS[section] : null, finish);

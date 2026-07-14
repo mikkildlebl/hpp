@@ -2,6 +2,7 @@
 
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 
+import { supabase } from './supabase';
 import { Question } from './types';
 
 type SessionState = {
@@ -19,13 +20,34 @@ type SessionContextValue = {
 
 const SessionContext = createContext<SessionContextValue | null>(null);
 
+// Fire-and-forget: only logged-in users have anywhere to save an attempt to,
+// and a failed save shouldn't interrupt the practice flow.
+async function recordAttempt(questionId: string, selected: string, isCorrect: boolean) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  await supabase.from('question_attempts').insert({
+    user_id: user.id,
+    question_id: questionId,
+    selected_answer: selected,
+    is_correct: isCorrect,
+  });
+}
+
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<SessionState>({ questions: [], answers: {} });
 
   const startSession = (questions: Question[]) => setState({ questions, answers: {} });
 
-  const answerQuestion = (questionId: string, label: string) =>
+  const answerQuestion = (questionId: string, label: string) => {
     setState((prev) => ({ ...prev, answers: { ...prev.answers, [questionId]: label } }));
+    const question = state.questions.find((q) => q.id === questionId);
+    if (question) {
+      recordAttempt(questionId, label, label === question.correct_answer).catch(() => {});
+    }
+  };
 
   const score = useMemo(() => {
     const total = state.questions.length;
