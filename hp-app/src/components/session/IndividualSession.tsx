@@ -49,6 +49,9 @@ export function IndividualSession({ type }: { type: QuestionType }) {
 
   const question = questions[index];
   const isLast = index === questions.length - 1;
+  // Diagram questions get the wider container that DTK gets elsewhere -
+  // 640px squeezes a full exam-page scan down to nearly unreadable.
+  const containerMaxWidth = question.diagram_path ? 'max-w-4xl' : 'max-w-[640px]';
 
   const handleSubmit = () => {
     if (!selected) return;
@@ -68,7 +71,7 @@ export function IndividualSession({ type }: { type: QuestionType }) {
 
   return (
     <SessionShell>
-      <div className="mx-auto flex w-full max-w-[640px] flex-1 flex-col gap-6 px-6 py-8 sm:px-12">
+      <div className={`mx-auto flex w-full ${containerMaxWidth} flex-1 flex-col gap-6 px-6 py-8 sm:px-12`}>
         <SessionProgress current={index + 1} total={questions.length} correct={score.correct} />
 
         <div className="rounded-2xl border border-text/10 bg-text/[0.02] p-6">

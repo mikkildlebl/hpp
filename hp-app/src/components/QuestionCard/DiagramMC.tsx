@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import { DiagramImage } from '@/components/DiagramImage';
 import { MathText } from '@/components/MathText';
 import { OptionList } from '@/components/OptionList';
 import { resolveDiagramUrl } from '@/lib/storage';
@@ -27,17 +28,7 @@ export function DiagramMC({ question, selected, submitted, onSelect }: Props) {
 
   return (
     <div className="flex flex-col gap-6">
-      {diagramUrl && (
-        // eslint-disable-next-line @next/next/no-img-element -- dynamic aspect ratio measured from the loaded image itself
-        <img
-          src={diagramUrl}
-          alt=""
-          className="w-full rounded-2xl border border-text/10 bg-text/[0.03]"
-          style={{ aspectRatio, objectFit: 'contain' }}
-          loading="eager"
-          onLoad={(e) => setAspectRatio(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)}
-        />
-      )}
+      {diagramUrl && <DiagramImage src={diagramUrl} className="w-full" aspectRatio={aspectRatio} onAspectRatioChange={setAspectRatio} />}
       {question.question_text ? <MathText type="subtitle">{question.question_text}</MathText> : null}
       <OptionList
         options={question.options}

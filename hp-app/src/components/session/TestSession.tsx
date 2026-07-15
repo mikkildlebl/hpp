@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { ReactNode, useState } from 'react';
 
+import { DiagramImage } from '@/components/DiagramImage';
 import { OptionList } from '@/components/OptionList';
 import { QuestionCard } from '@/components/QuestionCard';
 import { LoadingState, SessionProgress, SessionShell, SubmitButton } from '@/components/SessionShell';
@@ -114,13 +115,11 @@ export function TestSession({ section, timed }: { section: TestSection; timed: b
   } else {
     const { group: dtk } = unit;
     const image = (
-      // eslint-disable-next-line @next/next/no-img-element -- dynamic aspect ratio measured from the loaded image itself
-      <img
+      <DiagramImage
         src={dtk.diagramUrl}
-        alt=""
-        className={`rounded-2xl border border-text/10 bg-text/[0.03] ${useSideBySide ? 'max-h-[calc(100vh-12rem)] w-auto' : 'w-full'}`}
-        style={{ aspectRatio, objectFit: 'contain' }}
-        onLoad={(e) => setAspectRatio(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)}
+        className={useSideBySide ? 'max-h-[calc(100vh-9rem)] w-auto' : 'w-full'}
+        aspectRatio={aspectRatio}
+        onAspectRatioChange={setAspectRatio}
       />
     );
 
