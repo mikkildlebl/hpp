@@ -57,9 +57,6 @@ export default function OvaPage() {
         <Link href="/" className="flex items-center gap-2.5">
           <span className="text-base font-semibold tracking-tight">HP Pro</span>
         </Link>
-        <Link href="#ordbank" className="text-sm font-medium text-white/60 transition-colors hover:text-white">
-          Ordbank
-        </Link>
       </header>
 
       <main className="relative z-10 mx-auto flex w-full max-w-4xl flex-1 flex-col gap-12 px-6 py-12 sm:px-12">
