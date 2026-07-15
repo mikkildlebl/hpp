@@ -85,11 +85,27 @@ create table public.question_attempts (
 
 create index question_attempts_user_idx on public.question_attempts (user_id);
 
+create table public.glossary_progress (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  entry_id text not null references public.prefix_suffix (id) on delete cascade,
+  known boolean not null,
+  updated_at timestamptz not null default now(),
+  unique (user_id, entry_id)
+);
+
+create index glossary_progress_user_idx on public.glossary_progress (user_id);
+
 alter table public.test_results enable row level security;
 alter table public.question_attempts enable row level security;
+alter table public.glossary_progress enable row level security;
 
 create policy "select own results" on public.test_results for select using (auth.uid() = user_id);
 create policy "insert own results" on public.test_results for insert with check (auth.uid() = user_id);
 
 create policy "select own attempts" on public.question_attempts for select using (auth.uid() = user_id);
 create policy "insert own attempts" on public.question_attempts for insert with check (auth.uid() = user_id);
+
+create policy "select own progress" on public.glossary_progress for select using (auth.uid() = user_id);
+create policy "insert own progress" on public.glossary_progress for insert with check (auth.uid() = user_id);
+create policy "update own progress" on public.glossary_progress for update using (auth.uid() = user_id);

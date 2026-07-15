@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { PrefixSuffixTrainer } from '@/components/PrefixSuffixTrainer';
 import { useAuth } from '@/lib/auth';
 import { loadLatestTestResult, HpTestResult } from '@/lib/hpScore';
 import { fetchQuestionTypeCounts } from '@/lib/questions';
@@ -149,7 +148,15 @@ export default function OvaPage() {
           </div>
         </div>
 
-        <PrefixSuffixTrainer />
+        <Link
+          href="/glossary"
+          className="group flex items-center justify-between gap-4 rounded-3xl border border-white/10 bg-gradient-to-br from-[#0d1526] to-[#05070c] p-6 transition-colors hover:bg-white/[0.04] sm:p-8">
+          <div>
+            <h2 className="text-sm font-semibold tracking-wide text-white/50 uppercase">Ordbank</h2>
+            <p className="mt-2 max-w-sm text-sm text-white/60">Lär dig prefix och suffix, och håll koll på vilka du redan kan.</p>
+          </div>
+          <span className="text-xl text-white/40 transition-transform group-hover:translate-x-1">→</span>
+        </Link>
       </main>
 
       <footer className="relative z-10 border-t border-white/10 px-6 py-6 text-center text-xs text-white/40 sm:px-12">
