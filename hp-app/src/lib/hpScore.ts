@@ -68,6 +68,17 @@ export async function saveTestResult(result: HpTestResult): Promise<void> {
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- raw Supabase row, shape matches the test_results columns
+function rowToResult(data: any): HpTestResult {
+  return {
+    section: data.section,
+    verbal: data.verbal_total ? { correct: data.verbal_correct, total: data.verbal_total, score: data.verbal_score } : null,
+    kvant: data.kvant_total ? { correct: data.kvant_correct, total: data.kvant_total, score: data.kvant_score } : null,
+    totalScore: data.total_score,
+    completedAt: data.completed_at,
+  };
+}
+
 export async function loadLatestTestResult(): Promise<HpTestResult | null> {
   const {
     data: { user },
@@ -82,15 +93,7 @@ export async function loadLatestTestResult(): Promise<HpTestResult | null> {
       .limit(1)
       .maybeSingle();
 
-    if (data) {
-      return {
-        section: data.section,
-        verbal: data.verbal_total ? { correct: data.verbal_correct, total: data.verbal_total, score: data.verbal_score } : null,
-        kvant: data.kvant_total ? { correct: data.kvant_correct, total: data.kvant_total, score: data.kvant_score } : null,
-        totalScore: data.total_score,
-        completedAt: data.completed_at,
-      };
-    }
+    if (data) return rowToResult(data);
   }
 
   const raw = localStorage.getItem(RESULT_STORAGE_KEY);
@@ -100,4 +103,22 @@ export async function loadLatestTestResult(): Promise<HpTestResult | null> {
   } catch {
     return null;
   }
+}
+
+// Logged-in users only - guests only ever have the single localStorage result.
+export async function loadTestResultHistory(limit = 10): Promise<HpTestResult[]> {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data, error } = await supabase
+    .from('test_results')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('completed_at', { ascending: false })
+    .limit(limit);
+  if (error) throw error;
+
+  return (data ?? []).map(rowToResult);
 }
