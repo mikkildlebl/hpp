@@ -1,8 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import { PrefixSuffixTrainer } from '@/components/PrefixSuffixTrainer';
+import { useAuth } from '@/lib/auth';
 import { loadLatestTestResult, HpTestResult } from '@/lib/hpScore';
 import { fetchQuestionTypeCounts } from '@/lib/questions';
 import { QUESTION_TYPE_LABELS, QuestionType, SECTION_QUESTION_TYPES, SectionType, TEST_DURATIONS_SECONDS, TestSection } from '@/lib/types';
@@ -21,15 +24,25 @@ const TEST_SECTION_LABELS: Record<TestSection, string> = {
 const TEST_SECTIONS: TestSection[] = ['verbal', 'kvant', 'full'];
 
 export default function OvaPage() {
+  const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
   const [counts, setCounts] = useState<Record<QuestionType, number> | null>(null);
   const [withTimer, setWithTimer] = useState(true);
   const [selectedTestSection, setSelectedTestSection] = useState<TestSection>('full');
   const [latestResult, setLatestResult] = useState<HpTestResult | null>(null);
 
   useEffect(() => {
+    if (!authLoading && !user) router.replace('/login');
+  }, [authLoading, user, router]);
+
+  useEffect(() => {
     fetchQuestionTypeCounts().then(setCounts);
     Promise.resolve(loadLatestTestResult()).then(setLatestResult);
   }, []);
+
+  if (authLoading || !user) {
+    return <div className="flex flex-1 flex-col bg-[#05070c]" />;
+  }
 
   return (
     <div className="relative flex flex-1 flex-col overflow-hidden bg-[#05070c] text-white">
@@ -44,36 +57,35 @@ export default function OvaPage() {
         <Link href="/" className="flex items-center gap-2.5">
           <span className="text-base font-semibold tracking-tight">HP Pro</span>
         </Link>
-        <Link href="/glossary" className="text-sm font-medium text-white/60 transition-colors hover:text-white">
+        <Link href="#ordbank" className="text-sm font-medium text-white/60 transition-colors hover:text-white">
           Ordbank
         </Link>
       </header>
 
       <main className="relative z-10 mx-auto flex w-full max-w-4xl flex-1 flex-col gap-12 px-6 py-12 sm:px-12">
-        <div>
-          <h1 className="text-4xl leading-[1.05] font-semibold tracking-tight sm:text-6xl">Högskoleprovet</h1>
-          <p className="mt-4 text-base text-white/60 sm:text-lg">Öva på en fråga i taget, se resultatet direkt.</p>
+        {/* HP score card - always visible, defaults to 0.00 with no result yet */}
+        <div className="flex items-center justify-between gap-6 rounded-3xl border border-white/10 bg-gradient-to-br from-[#0d1526] to-[#05070c] p-6 sm:p-8">
+          <div>
+            <p className="text-xs font-semibold tracking-wide text-white/40 uppercase">Ditt HP-resultat</p>
+            {latestResult ? (
+              <p className="mt-1 text-xs text-white/40">
+                {TEST_SECTION_LABELS[latestResult.section]} · {new Date(latestResult.completedAt).toLocaleDateString('sv-SE')}
+              </p>
+            ) : (
+              <p className="mt-1 text-xs text-white/40">Inget resultat ännu</p>
+            )}
+          </div>
+          <p className="bg-gradient-to-r from-[#93c5fd] via-[#60a5fa] to-[#3b82f6] bg-clip-text text-4xl font-semibold text-transparent sm:text-5xl">
+            {(latestResult?.totalScore ?? 0).toFixed(2)}
+          </p>
         </div>
 
         {/* provsimulering - the flagship "run a full mock exam" flow, so it gets
             top billing as a single featured card instead of another list item */}
         <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#0d1526] to-[#05070c] p-6 sm:p-8">
-          <div className="flex flex-wrap items-start justify-between gap-6">
-            <div>
-              <h2 className="text-sm font-semibold tracking-wide text-white/50 uppercase">Provsimulering</h2>
-              <p className="mt-2 max-w-sm text-sm text-white/60">Gör ett helt prov under tidspress, precis som på riktigt.</p>
-            </div>
-            {latestResult && (
-              <div className="text-right">
-                <p className="text-xs font-semibold tracking-wide text-white/40 uppercase">
-                  Senaste resultat · {TEST_SECTION_LABELS[latestResult.section]}
-                </p>
-                <p className="mt-1 bg-gradient-to-r from-[#93c5fd] via-[#60a5fa] to-[#3b82f6] bg-clip-text text-4xl font-semibold text-transparent">
-                  {latestResult.totalScore.toFixed(2)}
-                </p>
-                <p className="mt-1 text-xs text-white/40">{new Date(latestResult.completedAt).toLocaleDateString('sv-SE')}</p>
-              </div>
-            )}
+          <div>
+            <h2 className="text-sm font-semibold tracking-wide text-white/50 uppercase">Provsimulering</h2>
+            <p className="mt-2 max-w-sm text-sm text-white/60">Gör ett helt prov under tidspress, precis som på riktigt.</p>
           </div>
 
           <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-3">
@@ -139,6 +151,8 @@ export default function OvaPage() {
             ))}
           </div>
         </div>
+
+        <PrefixSuffixTrainer />
       </main>
 
       <footer className="relative z-10 border-t border-white/10 px-6 py-6 text-center text-xs text-white/40 sm:px-12">
