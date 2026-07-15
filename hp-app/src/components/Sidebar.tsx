@@ -20,8 +20,8 @@ export function Sidebar() {
   const initials = (user?.email ?? '?').slice(0, 2).toUpperCase();
 
   return (
-    <nav className="relative z-10 flex w-56 shrink-0 flex-col gap-1 bg-[#05070c] px-4 py-6">
-      <Link href="/ova" className="px-2 pb-6 text-base font-semibold tracking-tight text-white">
+    <nav className="relative z-10 flex w-56 shrink-0 flex-col gap-1 px-4 py-6">
+      <Link href="/" className="px-2 pb-6 text-base font-semibold tracking-tight text-white">
         HP Pro
       </Link>
 
