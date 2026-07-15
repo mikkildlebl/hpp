@@ -14,21 +14,21 @@ type ThemeContextValue = {
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('dark');
+  const [theme, setThemeState] = useState<Theme>('light');
 
   // Must read localStorage post-mount, not during the initial render: SSR has
   // no access to it, so reading it synchronously would make the client's
   // first render diverge from the server-rendered markup (hydration
   // mismatch on the conditionally-rendered glow blobs). Trades a one-frame
-  // dark flash for light-mode users for not rendering a blocking <script>
+  // light flash for dark-mode users for not rendering a blocking <script>
   // tag, which React 19 warns about inside components.
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (localStorage.getItem(STORAGE_KEY) === 'light') setThemeState('light');
+    if (localStorage.getItem(STORAGE_KEY) === 'dark') setThemeState('dark');
   }, []);
 
   useEffect(() => {
-    document.documentElement.classList.toggle('light', theme === 'light');
+    document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
 
   const setTheme = (next: Theme) => {
