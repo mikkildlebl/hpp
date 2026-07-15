@@ -49,7 +49,7 @@ export function DtkSession() {
     <img
       src={group!.diagramUrl}
       alt=""
-      className={`rounded-2xl border border-white/10 bg-white/[0.03] ${useSideBySide ? 'max-h-[calc(100vh-12rem)] w-auto' : 'w-full'}`}
+      className={`rounded-2xl border border-text/10 bg-text/[0.03] ${useSideBySide ? 'max-h-[calc(100vh-12rem)] w-auto' : 'w-full'}`}
       style={{ aspectRatio, objectFit: 'contain' }}
       onLoad={(e) => setAspectRatio(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)}
     />
@@ -58,8 +58,8 @@ export function DtkSession() {
   const questionsList = (
     <>
       {group!.questions.map((question, i) => (
-        <div key={question.id} className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/[0.02] p-4">
-          <p className="text-sm font-bold text-white">
+        <div key={question.id} className="flex flex-col gap-2 rounded-2xl border border-text/10 bg-text/[0.02] p-4">
+          <p className="text-sm font-bold text-text">
             {i + 1}. {question.question_text}
           </p>
           <OptionList

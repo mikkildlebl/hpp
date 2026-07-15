@@ -11,7 +11,7 @@ export function Timer({ secondsLeft }: { secondsLeft: number }) {
   return (
     <span
       className={`rounded-full border px-4 py-2 text-sm font-semibold tabular-nums ${
-        low ? 'border-red-400/40 bg-red-400/10 text-red-300' : 'border-white/15 text-white/80'
+        low ? 'border-red-400/40 bg-red-400/10 text-red-300' : 'border-text/15 text-text/80'
       }`}>
       {formatTime(secondsLeft)}
     </span>

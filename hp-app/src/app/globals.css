@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
-/* Always dark — matches the landing/öva pages, which don't follow system
-   theme either. */
+/* Dark by default; :root.light overrides for the light theme chosen on
+   /konto. text/background/card are the three tokens every page is built
+   from, so switching them repaints the whole app. */
 :root {
   --color-text: #ffffff;
   --color-background: #05070c;
+  --color-card: #0d1526;
   --color-background-element: #10131b;
   --color-background-selected: #1a2032;
   --color-text-secondary: rgba(255, 255, 255, 0.55);
@@ -23,9 +25,16 @@
   --color-option-incorrect-bg: rgba(248, 113, 113, 0.12);
 }
 
+:root.light {
+  --color-text: #05070c;
+  --color-background: #ffffff;
+  --color-card: #f3f4f6;
+}
+
 @theme inline {
   --color-text: var(--color-text);
   --color-background: var(--color-background);
+  --color-card: var(--color-card);
   --color-background-element: var(--color-background-element);
   --color-background-selected: var(--color-background-selected);
   --color-text-secondary: var(--color-text-secondary);

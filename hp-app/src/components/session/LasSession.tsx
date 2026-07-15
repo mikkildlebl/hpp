@@ -48,9 +48,9 @@ export function LasSession() {
       <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-6 py-8 sm:px-12">
         <SessionProgress current={index + 1} total={groups.length} correct={score.correct} />
 
-        <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
-          <h2 className="text-2xl leading-tight font-semibold text-white sm:text-[32px] sm:leading-[44px]">{group!.title}</h2>
-          <div className="mt-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-white/85">
+        <div className="rounded-2xl border border-text/10 bg-text/[0.02] p-6">
+          <h2 className="text-2xl leading-tight font-semibold text-text sm:text-[32px] sm:leading-[44px]">{group!.title}</h2>
+          <div className="mt-4 rounded-2xl border border-text/10 bg-text/[0.03] p-4 text-text/85">
             <div className={useTwoColumns ? 'flex flex-row gap-6' : undefined}>
               {columns.map((column, ci) => (
                 <div key={ci} className={useTwoColumns ? 'flex-1' : undefined}>
@@ -66,8 +66,8 @@ export function LasSession() {
         </div>
 
         {group!.questions.map((question, i) => (
-          <div key={question.id} className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-6">
-            <h3 className="text-lg leading-snug font-semibold text-white sm:text-xl">
+          <div key={question.id} className="flex flex-col gap-3 rounded-2xl border border-text/10 bg-text/[0.02] p-6">
+            <h3 className="text-lg leading-snug font-semibold text-text sm:text-xl">
               {i + 1}. {question.question_text}
             </h3>
             <OptionList

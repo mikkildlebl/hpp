@@ -61,7 +61,7 @@ export function TestSession({ section, timed }: { section: TestSection; timed: b
 
   if (unit.kind === 'question') {
     body = (
-      <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+      <div className="rounded-2xl border border-text/10 bg-text/[0.02] p-6">
         <QuestionCard
           question={unit.question}
           selected={submitted ? (answers[unit.question.id] ?? null) : (selections[unit.question.id] ?? null)}
@@ -78,9 +78,9 @@ export function TestSession({ section, timed }: { section: TestSection; timed: b
 
     body = (
       <>
-        <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
-          <h2 className="text-2xl leading-tight font-semibold text-white sm:text-[32px] sm:leading-[44px]">{passage.title}</h2>
-          <div className="mt-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-white/85">
+        <div className="rounded-2xl border border-text/10 bg-text/[0.02] p-6">
+          <h2 className="text-2xl leading-tight font-semibold text-text sm:text-[32px] sm:leading-[44px]">{passage.title}</h2>
+          <div className="mt-4 rounded-2xl border border-text/10 bg-text/[0.03] p-4 text-text/85">
             <div className={useTwoColumns ? 'flex flex-row gap-6' : undefined}>
               {columns.map((column, ci) => (
                 <div key={ci} className={useTwoColumns ? 'flex-1' : undefined}>
@@ -96,8 +96,8 @@ export function TestSession({ section, timed }: { section: TestSection; timed: b
         </div>
 
         {passage.questions.map((question, i) => (
-          <div key={question.id} className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-6">
-            <h3 className="text-lg leading-snug font-semibold text-white sm:text-xl">
+          <div key={question.id} className="flex flex-col gap-3 rounded-2xl border border-text/10 bg-text/[0.02] p-6">
+            <h3 className="text-lg leading-snug font-semibold text-text sm:text-xl">
               {i + 1}. {question.question_text}
             </h3>
             <OptionList
@@ -118,7 +118,7 @@ export function TestSession({ section, timed }: { section: TestSection; timed: b
       <img
         src={dtk.diagramUrl}
         alt=""
-        className={`rounded-2xl border border-white/10 bg-white/[0.03] ${useSideBySide ? 'max-h-[calc(100vh-12rem)] w-auto' : 'w-full'}`}
+        className={`rounded-2xl border border-text/10 bg-text/[0.03] ${useSideBySide ? 'max-h-[calc(100vh-12rem)] w-auto' : 'w-full'}`}
         style={{ aspectRatio, objectFit: 'contain' }}
         onLoad={(e) => setAspectRatio(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)}
       />
@@ -127,8 +127,8 @@ export function TestSession({ section, timed }: { section: TestSection; timed: b
     const questionsList = (
       <>
         {dtk.questions.map((question, i) => (
-          <div key={question.id} className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/[0.02] p-4">
-            <p className="text-sm font-bold text-white">
+          <div key={question.id} className="flex flex-col gap-2 rounded-2xl border border-text/10 bg-text/[0.02] p-4">
+            <p className="text-sm font-bold text-text">
               {i + 1}. {question.question_text}
             </p>
             <OptionList

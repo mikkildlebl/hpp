@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 
 import { useAuth } from '@/lib/auth';
 
+// Always dark, same as the landing page — not part of the themeable app.
 export default function LoginPage() {
   const router = useRouter();
   const { user, loading, signInWithGoogle } = useAuth();

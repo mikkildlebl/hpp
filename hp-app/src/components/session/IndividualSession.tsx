@@ -71,7 +71,7 @@ export function IndividualSession({ type }: { type: QuestionType }) {
       <div className="mx-auto flex w-full max-w-[640px] flex-1 flex-col gap-6 px-6 py-8 sm:px-12">
         <SessionProgress current={index + 1} total={questions.length} correct={score.correct} />
 
-        <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+        <div className="rounded-2xl border border-text/10 bg-text/[0.02] p-6">
           <QuestionCard
             question={question}
             selected={submitted ? (answers[question.id] ?? null) : selected}

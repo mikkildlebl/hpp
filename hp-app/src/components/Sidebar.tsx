@@ -21,7 +21,7 @@ export function Sidebar() {
 
   return (
     <nav className="relative z-10 flex w-56 shrink-0 flex-col gap-1 px-4 py-6">
-      <Link href="/" className="px-2 pb-6 text-base font-semibold tracking-tight text-white">
+      <Link href="/" className="px-2 pb-6 text-base font-semibold tracking-tight text-text">
         HP Pro
       </Link>
 
@@ -32,7 +32,7 @@ export function Sidebar() {
             key={href}
             href={href}
             className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-              active ? 'bg-[#3b82f6]/15 text-white' : 'text-white/60 hover:bg-white/[0.04] hover:text-white'
+              active ? 'bg-[#3b82f6]/15 text-text' : 'text-text/60 hover:bg-text/[0.04] hover:text-text'
             }`}>
             <Icon className="h-[18px] w-[18px] shrink-0" />
             {label}
@@ -43,11 +43,11 @@ export function Sidebar() {
       <div className="flex-1" />
 
       {user && (
-        <div className="flex items-center gap-2 border-t border-white/10 px-2 pt-3">
+        <div className="flex items-center gap-2 border-t border-text/10 px-2 pt-3">
           <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#3b82f6]/15 text-[11px] font-semibold text-[#93c5fd]">
             {initials}
           </div>
-          <span className="truncate text-xs text-white/50">{user.email}</span>
+          <span className="truncate text-xs text-text/50">{user.email}</span>
         </div>
       )}
     </nav>

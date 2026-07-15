@@ -10,6 +10,8 @@ const FEATURES: { title: string; body: string }[] = [
   { title: 'En fråga i taget', body: 'Inget klockrace. Ditt tempo, din session.' },
 ];
 
+// Always dark, regardless of the light/dark preference set on /konto — the
+// marketing page isn't part of the themeable app.
 export default function LandingPage() {
   const { user, signOut } = useAuth();
 

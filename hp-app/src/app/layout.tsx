@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 
 import { AuthProvider } from '@/lib/auth';
 import { SessionProvider } from '@/lib/SessionContext';
+import { ThemeProvider } from '@/lib/colorMode';
 
 import './globals.css';
 
@@ -15,7 +16,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="sv" className="h-full">
       <body className="flex min-h-full flex-col antialiased">
         <AuthProvider>
-          <SessionProvider>{children}</SessionProvider>
+          <ThemeProvider>
+            <SessionProvider>{children}</SessionProvider>
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>

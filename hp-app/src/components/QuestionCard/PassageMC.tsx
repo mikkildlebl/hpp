@@ -39,20 +39,20 @@ export function PassageMC({ question, selected, submitted, onSelect }: Props) {
 
   return (
     <div className="flex flex-col gap-6">
-      {loading && <p className="text-sm text-white/50">Laddar text…</p>}
+      {loading && <p className="text-sm text-text/50">Laddar text…</p>}
       {passage && (
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-white">
-          {passage.title && <p className="text-sm font-semibold text-white/70">{passage.title}</p>}
+        <div className="rounded-2xl border border-text/10 bg-text/[0.03] p-4 text-text">
+          {passage.title && <p className="text-sm font-semibold text-text/70">{passage.title}</p>}
           {passage.paragraphs.map((paragraph, i) => (
-            <p key={i} className="mt-2 text-white/85">
+            <p key={i} className="mt-2 text-text/85">
               {paragraph}
             </p>
           ))}
         </div>
       )}
-      <p className="text-2xl leading-8 font-semibold text-white">{question.question_text}</p>
+      <p className="text-2xl leading-8 font-semibold text-text">{question.question_text}</p>
       {question.possibly_truncated && (
-        <p className="text-sm text-white/50">Obs: källdatan för ett eller flera svarsalternativ kan vara avklippt.</p>
+        <p className="text-sm text-text/50">Obs: källdatan för ett eller flera svarsalternativ kan vara avklippt.</p>
       )}
       <OptionList
         options={question.options}

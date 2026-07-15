@@ -34,15 +34,15 @@ export default function OvaPage() {
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-12 px-6 py-12 sm:px-12">
       {/* HP score card - always visible, defaults to 0.00 with no result yet */}
-      <div className="flex items-center justify-between gap-6 rounded-3xl border border-white/10 bg-gradient-to-br from-[#0d1526] to-[#05070c] p-6 sm:p-8">
+      <div className="flex items-center justify-between gap-6 rounded-3xl border border-text/10 bg-gradient-to-br from-card to-background p-6 sm:p-8">
         <div>
-          <p className="text-xs font-semibold tracking-wide text-white/40 uppercase">Ditt HP-resultat</p>
+          <p className="text-xs font-semibold tracking-wide text-text/40 uppercase">Ditt HP-resultat</p>
           {latestResult ? (
-            <p className="mt-1 text-xs text-white/40">
+            <p className="mt-1 text-xs text-text/40">
               {TEST_SECTION_LABELS[latestResult.section]} · {new Date(latestResult.completedAt).toLocaleDateString('sv-SE')}
             </p>
           ) : (
-            <p className="mt-1 text-xs text-white/40">Inget resultat ännu</p>
+            <p className="mt-1 text-xs text-text/40">Inget resultat ännu</p>
           )}
         </div>
         <p className="bg-gradient-to-r from-[#93c5fd] via-[#60a5fa] to-[#3b82f6] bg-clip-text text-4xl font-semibold text-transparent sm:text-5xl">
@@ -52,10 +52,10 @@ export default function OvaPage() {
 
       {/* provsimulering - the flagship "run a full mock exam" flow, so it gets
           top billing as a single featured card instead of another list item */}
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#0d1526] to-[#05070c] p-6 sm:p-8">
+      <div className="relative overflow-hidden rounded-3xl border border-text/10 bg-gradient-to-br from-card to-background p-6 sm:p-8">
         <div>
-          <h2 className="text-sm font-semibold tracking-wide text-white/50 uppercase">Provsimulering</h2>
-          <p className="mt-2 max-w-sm text-sm text-white/60">Gör ett helt prov under tidspress, precis som på riktigt.</p>
+          <h2 className="text-sm font-semibold tracking-wide text-text/50 uppercase">Provsimulering</h2>
+          <p className="mt-2 max-w-sm text-sm text-text/60">Gör ett helt prov under tidspress, precis som på riktigt.</p>
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-3">
@@ -67,21 +67,21 @@ export default function OvaPage() {
               className={`rounded-2xl border p-4 text-left transition-colors ${
                 selectedTestSection === section
                   ? 'border-[#3b82f6]/60 bg-[#3b82f6]/10'
-                  : 'border-white/10 bg-white/[0.02] hover:bg-white/[0.04]'
+                  : 'border-text/10 bg-text/[0.02] hover:bg-text/[0.04]'
               }`}>
-              <p className="text-sm font-medium text-white">{TEST_SECTION_LABELS[section]}</p>
-              <p className="mt-1 text-xs text-white/40">{TEST_DURATIONS_SECONDS[section] / 60} min</p>
+              <p className="text-sm font-medium text-text">{TEST_SECTION_LABELS[section]}</p>
+              <p className="mt-1 text-xs text-text/40">{TEST_DURATIONS_SECONDS[section] / 60} min</p>
             </button>
           ))}
         </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
-          <label className="flex items-center gap-2 text-sm text-white/60">
+          <label className="flex items-center gap-2 text-sm text-text/60">
             <input
               type="checkbox"
               checked={withTimer}
               onChange={(e) => setWithTimer(e.target.checked)}
-              className="h-4 w-4 rounded border-white/20 bg-transparent accent-[#3b82f6]"
+              className="h-4 w-4 rounded border-text/20 bg-transparent accent-[#3b82f6]"
             />
             Med tidtagning
           </label>
@@ -96,23 +96,23 @@ export default function OvaPage() {
       {/* per-type practice - a two-column grid on wider screens keeps verbal
           and kvant side by side instead of one long stacked list */}
       <div>
-        <h2 className="text-sm font-semibold tracking-wide text-white/50 uppercase">Öva per frågetyp</h2>
+        <h2 className="text-sm font-semibold tracking-wide text-text/50 uppercase">Öva per frågetyp</h2>
         <div className="mt-4 grid grid-cols-1 gap-8 sm:grid-cols-2">
           {(Object.keys(SECTION_QUESTION_TYPES) as SectionType[]).map((section) => (
             <div key={section} className="flex flex-col gap-3">
-              <h3 className="text-xs font-semibold tracking-wide text-white/40 uppercase">{SECTION_LABELS[section]}</h3>
+              <h3 className="text-xs font-semibold tracking-wide text-text/40 uppercase">{SECTION_LABELS[section]}</h3>
               <div className="flex flex-col gap-1.5">
                 {SECTION_QUESTION_TYPES[section].map((type) => (
                   <Link
                     key={type}
                     href={`/session/${type}`}
-                    className="group overflow-hidden rounded-2xl border border-white/10 bg-[#05070c] transition-colors hover:bg-white/[0.04]">
+                    className="group overflow-hidden rounded-2xl border border-text/10 bg-background transition-colors hover:bg-text/[0.04]">
                     <div className="flex items-center gap-3 p-4">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/5 text-xs font-bold text-white/70 group-hover:text-white">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-text/5 text-xs font-bold text-text/70 group-hover:text-text">
                         {type}
                       </span>
-                      <span className="flex-1 text-sm font-medium text-white">{QUESTION_TYPE_LABELS[type]}</span>
-                      <span className="text-sm text-white/40">{counts ? `${counts[type]} frågor` : '…'}</span>
+                      <span className="flex-1 text-sm font-medium text-text">{QUESTION_TYPE_LABELS[type]}</span>
+                      <span className="text-sm text-text/40">{counts ? `${counts[type]} frågor` : '…'}</span>
                     </div>
                   </Link>
                 ))}
@@ -124,12 +124,12 @@ export default function OvaPage() {
 
       <Link
         href="/glossary"
-        className="group flex items-center justify-between gap-4 rounded-3xl border border-white/10 bg-gradient-to-br from-[#0d1526] to-[#05070c] p-6 transition-colors hover:bg-white/[0.04] sm:p-8">
+        className="group flex items-center justify-between gap-4 rounded-3xl border border-text/10 bg-gradient-to-br from-card to-background p-6 transition-colors hover:bg-text/[0.04] sm:p-8">
         <div>
-          <h2 className="text-sm font-semibold tracking-wide text-white/50 uppercase">Ordbank</h2>
-          <p className="mt-2 max-w-sm text-sm text-white/60">Lär dig prefix och suffix, och håll koll på vilka du redan kan.</p>
+          <h2 className="text-sm font-semibold tracking-wide text-text/50 uppercase">Ordbank</h2>
+          <p className="mt-2 max-w-sm text-sm text-text/60">Lär dig prefix och suffix, och håll koll på vilka du redan kan.</p>
         </div>
-        <span className="text-xl text-white/40 transition-transform group-hover:translate-x-1">→</span>
+        <span className="text-xl text-text/40 transition-transform group-hover:translate-x-1">→</span>
       </Link>
     </main>
   );

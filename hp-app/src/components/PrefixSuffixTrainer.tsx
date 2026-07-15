@@ -80,7 +80,7 @@ export function PrefixSuffixTrainer() {
   const currentStatus = current ? progress[current.id] : undefined;
 
   return (
-    <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#0d1526] to-[#05070c] p-6 sm:p-8">
+    <div className="rounded-3xl border border-text/10 bg-gradient-to-br from-card to-background p-6 sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex gap-2">
           {(Object.keys(FILTER_LABELS) as Filter[]).map((f) => (
@@ -89,36 +89,36 @@ export function PrefixSuffixTrainer() {
               type="button"
               onClick={() => selectFilter(f)}
               className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${
-                filter === f ? 'bg-[#3b82f6]/20 text-white' : 'text-white/50 hover:text-white'
+                filter === f ? 'bg-[#3b82f6]/20 text-text' : 'text-text/50 hover:text-text'
               }`}>
               {FILTER_LABELS[f]}
             </button>
           ))}
         </div>
         {order.length > 0 && (
-          <p className="text-xs text-white/40">
+          <p className="text-xs text-text/40">
             {index + 1} / {order.length}
           </p>
         )}
       </div>
 
       {!loading && filtered.length > 0 && (
-        <p className="mt-3 text-xs text-white/40">
+        <p className="mt-3 text-xs text-text/40">
           <span className="text-emerald-400">{knownCount} kan</span> · <span className="text-rose-400">{unknownCount} kan inte</span> ·{' '}
           {unmarkedCount} omarkerade
         </p>
       )}
 
       {loading ? (
-        <p className="mt-8 text-center text-sm text-white/50">Laddar…</p>
+        <p className="mt-8 text-center text-sm text-text/50">Laddar…</p>
       ) : !current ? (
-        <p className="mt-8 text-center text-sm text-white/50">Inga ord hittades.</p>
+        <p className="mt-8 text-center text-sm text-text/50">Inga ord hittades.</p>
       ) : (
         <>
           <button
             type="button"
             onClick={() => setRevealed((r) => !r)}
-            className="relative mt-6 flex min-h-[180px] w-full flex-col items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center transition-colors hover:bg-white/[0.04]">
+            className="relative mt-6 flex min-h-[180px] w-full flex-col items-center justify-center gap-3 rounded-2xl border border-text/10 bg-text/[0.02] p-8 text-center transition-colors hover:bg-text/[0.04]">
             {currentStatus !== undefined && (
               <span
                 className={`absolute top-3 right-3 rounded-full px-2.5 py-1 text-[10px] font-semibold tracking-wide uppercase ${
@@ -127,15 +127,15 @@ export function PrefixSuffixTrainer() {
                 {currentStatus ? 'Kan' : 'Kan inte'}
               </span>
             )}
-            <span className="text-xs font-semibold tracking-wide text-white/40 uppercase">{current.type}</span>
-            <span className="text-3xl font-semibold text-white">{current.word}</span>
+            <span className="text-xs font-semibold tracking-wide text-text/40 uppercase">{current.type}</span>
+            <span className="text-3xl font-semibold text-text">{current.word}</span>
             {revealed ? (
               <span className="mt-2 flex flex-col gap-1">
-                <span className="text-base text-white/80">{current.meaning}</span>
-                <span className="text-sm text-white/40">{current.examples}</span>
+                <span className="text-base text-text/80">{current.meaning}</span>
+                <span className="text-sm text-text/40">{current.examples}</span>
               </span>
             ) : (
-              <span className="mt-2 text-xs text-white/40">Tryck för att visa betydelse</span>
+              <span className="mt-2 text-xs text-text/40">Tryck för att visa betydelse</span>
             )}
           </button>
 
@@ -143,7 +143,7 @@ export function PrefixSuffixTrainer() {
             <button
               type="button"
               onClick={reshuffle}
-              className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-medium text-white/70 transition-colors hover:border-white/30 hover:text-white">
+              className="rounded-full border border-text/15 px-5 py-2.5 text-sm font-medium text-text/70 transition-colors hover:border-text/30 hover:text-text">
               Blanda om
             </button>
             {revealed ? (

@@ -18,7 +18,7 @@ export function PlainMC({ question, selected, submitted, onSelect }: Props) {
 
   return (
     <div className="flex flex-col gap-6">
-      <MathText type="subtitle" className="text-white">
+      <MathText type="subtitle" className="text-text">
         {text}
       </MathText>
       <OptionList

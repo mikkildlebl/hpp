@@ -60,8 +60,8 @@ export function OptionList({ options, selected, submitted, correctAnswer, onSele
         const isSelected = selected === opt.label;
         const isCorrect = opt.label === correctAnswer;
 
-        let borderClass = 'border-white/10 hover:border-white/25 hover:bg-white/[0.04]';
-        let badgeClass = 'bg-white/5 text-white/60';
+        let borderClass = 'border-text/10 hover:border-text/25 hover:bg-text/[0.04]';
+        let badgeClass = 'bg-text/5 text-text/60';
         if (submitted && isCorrect) {
           borderClass = 'border-emerald-400/50 bg-emerald-400/10';
           badgeClass = 'bg-emerald-400/20 text-emerald-300';
@@ -79,7 +79,7 @@ export function OptionList({ options, selected, submitted, correctAnswer, onSele
             type="button"
             disabled={submitted}
             onClick={() => onSelect(opt.label)}
-            className={`flex items-center gap-3 rounded-xl border text-left text-white transition-colors disabled:cursor-default ${compact ? 'gap-2 p-2.5' : 'p-4'} ${borderClass}`}>
+            className={`flex items-center gap-3 rounded-xl border text-left text-text transition-colors disabled:cursor-default ${compact ? 'gap-2 p-2.5' : 'p-4'} ${borderClass}`}>
             <span
               className={`flex shrink-0 items-center justify-center rounded-lg text-sm font-bold ${compact ? 'h-6 w-6 text-xs' : 'h-7 w-7'} ${badgeClass}`}>
               {opt.label}
