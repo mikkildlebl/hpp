@@ -5,14 +5,10 @@ import { usePathname } from 'next/navigation';
 
 import { useAuth } from '@/lib/auth';
 
-import { ChartIcon, PencilIcon, UserIcon } from './icons';
+import { NAV_ITEMS } from './navItems';
 
-const NAV_ITEMS = [
-  { href: '/ova', label: 'Öva', icon: PencilIcon },
-  { href: '/statistik', label: 'Statistik', icon: ChartIcon },
-  { href: '/konto', label: 'Konto', icon: UserIcon },
-];
-
+// Hidden below md - MobileTabBar covers navigation on small screens instead,
+// since a 224px-wide fixed column eats most of a phone's viewport.
 export function Sidebar() {
   const pathname = usePathname();
   const { user } = useAuth();
@@ -20,7 +16,7 @@ export function Sidebar() {
   const initials = (user?.email ?? '?').slice(0, 2).toUpperCase();
 
   return (
-    <nav className="relative z-10 flex w-56 shrink-0 flex-col gap-1 px-4 py-6">
+    <nav className="relative z-10 hidden w-56 shrink-0 flex-col gap-1 px-4 py-6 md:flex">
       <Link href="/" className="px-2 pb-6 text-base font-semibold tracking-tight text-text">
         HP Pro
       </Link>

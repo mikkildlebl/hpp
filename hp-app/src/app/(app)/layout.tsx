@@ -1,8 +1,10 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ReactNode, useEffect } from 'react';
 
+import { MobileTabBar } from '@/components/MobileTabBar';
 import { Sidebar } from '@/components/Sidebar';
 import { useAuth } from '@/lib/auth';
 import { useTheme } from '@/lib/colorMode';
@@ -33,12 +35,19 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
       <Sidebar />
 
-      <div className="relative z-10 flex flex-1 flex-col overflow-y-auto">
+      <div className="relative z-10 flex flex-1 flex-col overflow-y-auto pb-16 md:pb-0">
+        <header className="flex items-center px-6 py-6 md:hidden">
+          <Link href="/" className="text-base font-semibold tracking-tight text-text">
+            HP Pro
+          </Link>
+        </header>
         {children}
         <footer className="border-t border-text/10 px-6 py-6 text-center text-xs text-text/40 sm:px-12">
           HP Pro — oberoende övningsverktyg för högskoleprovet.
         </footer>
       </div>
+
+      <MobileTabBar />
     </div>
   );
 }
