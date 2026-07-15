@@ -29,11 +29,8 @@ export default function GlossaryPage() {
 
       {/* header */}
       <header className="relative z-10 flex items-center justify-between px-6 py-6 sm:px-12">
-        <Link href="/" className="flex items-center gap-2.5">
+        <Link href="/ova" className="flex items-center gap-2.5">
           <span className="text-base font-semibold tracking-tight">HP Pro</span>
-        </Link>
-        <Link href="/ova" className="text-sm font-medium text-white/60 transition-colors hover:text-white">
-          Öva
         </Link>
       </header>
 
