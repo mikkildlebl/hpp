@@ -87,7 +87,7 @@ export default function LandingPage() {
             </a>
           </div>
           <div className="flex flex-col gap-1.5">
-            <Link href="/integritetspolicy" className="font-semibold text-white/70 hover:text-white">
+            <Link href="/integritetspolicy" className="hover:text-white">
               Integritetspolicy
             </Link>
             <Link href="/villkor" className="hover:text-white">
