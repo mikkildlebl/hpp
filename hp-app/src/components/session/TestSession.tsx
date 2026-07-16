@@ -169,7 +169,11 @@ export function TestSession({ section, timed }: { section: TestSection; timed: b
     <SessionShell
       right={timed && secondsLeft !== null ? <Timer secondsLeft={secondsLeft} paused={paused} onClick={togglePause} /> : undefined}>
       <div className={`mx-auto flex w-full ${containerMaxWidth} flex-1 flex-col gap-6 px-6 py-8 sm:px-12`}>
-        <SessionProgress current={index + 1} total={groups.length} correct={score.correct} />
+        <SessionProgress
+          current={groups.slice(0, index + 1).reduce((sum, g) => sum + g.questions.length, 0)}
+          total={questions.length}
+          correct={score.correct}
+        />
 
         {body}
 
