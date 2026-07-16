@@ -86,6 +86,18 @@ export const TEST_DURATIONS_SECONDS: Record<TestSection, number> = {
   full: 110 * 60,
 };
 
+// Extra time accommodation: 80 min per section instead of the standard 55,
+// 160 min for a full test instead of 110.
+export const TEST_DURATIONS_EXTRA_TIME_SECONDS: Record<TestSection, number> = {
+  verbal: 80 * 60,
+  kvant: 80 * 60,
+  full: 160 * 60,
+};
+
+export function getTestDurationSeconds(section: TestSection, extraTime: boolean): number {
+  return (extraTime ? TEST_DURATIONS_EXTRA_TIME_SECONDS : TEST_DURATIONS_SECONDS)[section];
+}
+
 // LAS and DTK questions come grouped (one passage/diagram, several questions);
 // every other type stands alone. A test simulation mixes both shapes in a
 // single ordered sequence, so each entry carries its own render hint alongside

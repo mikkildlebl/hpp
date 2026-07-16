@@ -3,9 +3,10 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
+import { useExtraTime } from '@/lib/extraTime';
 import { loadLatestTestResult, HpTestResult } from '@/lib/hpScore';
 import { fetchQuestionTypeCounts } from '@/lib/questions';
-import { QUESTION_TYPE_LABELS, QuestionType, SECTION_QUESTION_TYPES, SectionType, TEST_DURATIONS_SECONDS, TestSection } from '@/lib/types';
+import { getTestDurationSeconds, QUESTION_TYPE_LABELS, QuestionType, SECTION_QUESTION_TYPES, SectionType, TestSection } from '@/lib/types';
 
 const SECTION_LABELS: Record<SectionType, string> = {
   verbal: 'Verbal',
@@ -25,6 +26,7 @@ export default function OvaPage() {
   const [withTimer, setWithTimer] = useState(true);
   const [selectedTestSection, setSelectedTestSection] = useState<TestSection>('full');
   const [latestResult, setLatestResult] = useState<HpTestResult | null>(null);
+  const { extraTime } = useExtraTime();
 
   useEffect(() => {
     fetchQuestionTypeCounts().then(setCounts);
@@ -70,7 +72,7 @@ export default function OvaPage() {
                   : 'border-text/10 bg-text/[0.02] hover:bg-text/[0.04]'
               }`}>
               <p className="text-sm font-medium text-text">{TEST_SECTION_LABELS[section]}</p>
-              <p className="mt-1 text-xs text-text/40">{TEST_DURATIONS_SECONDS[section] / 60} min</p>
+              <p className="mt-1 text-xs text-text/40">{getTestDurationSeconds(section, extraTime) / 60} min</p>
             </button>
           ))}
         </div>

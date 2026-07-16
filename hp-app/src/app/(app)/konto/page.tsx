@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { useAuth } from '@/lib/auth';
 import { Theme, useTheme } from '@/lib/colorMode';
+import { useExtraTime } from '@/lib/extraTime';
 
 const THEME_LABELS: Record<Theme, string> = {
   dark: 'Mörkt',
@@ -14,6 +15,7 @@ export default function KontoPage() {
   const router = useRouter();
   const { user, signOut } = useAuth();
   const { theme, setTheme } = useTheme();
+  const { extraTime, setExtraTime } = useExtraTime();
 
   const handleSignOut = async () => {
     await signOut();
@@ -54,6 +56,25 @@ export default function KontoPage() {
               {THEME_LABELS[t]}
             </button>
           ))}
+        </div>
+      </div>
+
+      <div className="rounded-3xl border border-text/10 bg-gradient-to-br from-card to-background p-6 sm:p-8">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="text-xs font-semibold tracking-wide text-text/40 uppercase">Extra tid</p>
+            <p className="mt-1 text-sm text-text/60">80 min för ett halvt prov, 160 min för ett helt prov.</p>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={extraTime}
+            onClick={() => setExtraTime(!extraTime)}
+            className={`relative h-7 w-12 shrink-0 rounded-full transition-colors ${extraTime ? 'bg-[#3b82f6]' : 'bg-text/15'}`}>
+            <span
+              className={`absolute top-1 h-5 w-5 rounded-full bg-white transition-transform ${extraTime ? 'translate-x-6' : 'translate-x-1'}`}
+            />
+          </button>
         </div>
       </div>
     </main>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import { AuthProvider } from '@/lib/auth';
+import { ExtraTimeProvider } from '@/lib/extraTime';
 import { SessionProvider } from '@/lib/SessionContext';
 import { ThemeProvider } from '@/lib/colorMode';
 
@@ -17,7 +18,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="flex min-h-full flex-col antialiased">
         <AuthProvider>
           <ThemeProvider>
-            <SessionProvider>{children}</SessionProvider>
+            <ExtraTimeProvider>
+              <SessionProvider>{children}</SessionProvider>
+            </ExtraTimeProvider>
           </ThemeProvider>
         </AuthProvider>
       </body>

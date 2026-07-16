@@ -133,10 +133,11 @@ export async function fetchPassage(id: string): Promise<Passage | null> {
   return content ? { id, content } : null;
 }
 
-// Groups LAS questions by the text they belong to, so a reading passage is
-// shown once together with every question that references it (matching how
-// the real exam presents a text followed by its full set of questions).
-export async function fetchLasPassageGroups(passageCount = 5): Promise<PassageGroup[]> {
+function sortByQuestionNumber(questions: Question[]): Question[] {
+  return questions.slice().sort((a, b) => a.question_number - b.question_number);
+}
+
+async function fetchLasPassageMap(): Promise<Map<string, Question[]>> {
   const { data, error } = await supabase
     .from('questions')
     .select('*')
@@ -152,32 +153,51 @@ export async function fetchLasPassageGroups(passageCount = 5): Promise<PassageGr
     group.push(question);
     byPassage.set(question.passage_id, group);
   }
-
-  const passageIds = shuffle([...byPassage.keys()]).slice(0, passageCount);
-
-  const groups = await Promise.all(
-    passageIds.map(async (passageId): Promise<PassageGroup> => {
-      const passage = await fetchPassage(passageId);
-      const groupQuestions = byPassage
-        .get(passageId)!
-        .slice()
-        .sort((a, b) => a.question_number - b.question_number);
-      const { source_exam, provpass } = groupQuestions[0];
-      const { title, paragraphs } = formatPassage(passage?.content ?? '');
-      return {
-        title: title ?? `${source_exam} · Provpass ${provpass}`,
-        paragraphs,
-        questions: groupQuestions,
-      };
-    })
-  );
-  return groups;
+  return byPassage;
 }
 
-// Groups DTK questions by the diagram page they belong to, so the (unmodified,
-// full-page) image is shown once, at full size, alongside every question that
-// refers to it, rather than repeating a small copy of it per question.
-export async function fetchDtkPageGroups(groupCount = 5): Promise<DtkGroup[]> {
+async function buildPassageGroup(passageId: string, groupQuestions: Question[]): Promise<PassageGroup> {
+  const passage = await fetchPassage(passageId);
+  const sorted = sortByQuestionNumber(groupQuestions);
+  const { source_exam, provpass } = sorted[0];
+  const { title, paragraphs } = formatPassage(passage?.content ?? '');
+  return {
+    title: title ?? `${source_exam} · Provpass ${provpass}`,
+    paragraphs,
+    questions: sorted,
+  };
+}
+
+// Groups LAS questions by the text they belong to, so a reading passage is
+// shown once together with every question that references it (matching how
+// the real exam presents a text followed by its full set of questions).
+export async function fetchLasPassageGroups(passageCount = 5): Promise<PassageGroup[]> {
+  const byPassage = await fetchLasPassageMap();
+  const passageIds = shuffle([...byPassage.keys()]).slice(0, passageCount);
+  return Promise.all(passageIds.map((passageId) => buildPassageGroup(passageId, byPassage.get(passageId)!)));
+}
+
+// Same passage grouping, but selects however many passages are needed to
+// reach an exact question total (trimming the last passage's questions if it
+// would overshoot) - used for test simulations, which need each subtest to
+// contribute a fixed number of questions rather than a fixed number of texts.
+async function fetchLasPassageGroupsByQuestionCount(targetCount: number): Promise<PassageGroup[]> {
+  const byPassage = await fetchLasPassageMap();
+  const passageIds = shuffle([...byPassage.keys()]);
+
+  const selected: { passageId: string; questions: Question[] }[] = [];
+  let total = 0;
+  for (const passageId of passageIds) {
+    if (total >= targetCount) break;
+    const questions = sortByQuestionNumber(byPassage.get(passageId)!).slice(0, targetCount - total);
+    selected.push({ passageId, questions });
+    total += questions.length;
+  }
+
+  return Promise.all(selected.map(({ passageId, questions }) => buildPassageGroup(passageId, questions)));
+}
+
+async function fetchDtkDiagramMap(): Promise<Map<string, Question[]>> {
   const { data, error } = await supabase
     .from('questions')
     .select('*')
@@ -193,35 +213,56 @@ export async function fetchDtkPageGroups(groupCount = 5): Promise<DtkGroup[]> {
     group.push(question);
     byDiagram.set(question.diagram_path, group);
   }
+  return byDiagram;
+}
 
+// Groups DTK questions by the diagram page they belong to, so the (unmodified,
+// full-page) image is shown once, at full size, alongside every question that
+// refers to it, rather than repeating a small copy of it per question.
+export async function fetchDtkPageGroups(groupCount = 5): Promise<DtkGroup[]> {
+  const byDiagram = await fetchDtkDiagramMap();
   const diagramPaths = shuffle([...byDiagram.keys()]).slice(0, groupCount);
 
   return diagramPaths.map((diagramPath) => ({
     diagramUrl: resolveDiagramUrl(diagramPath),
-    questions: byDiagram
-      .get(diagramPath)!
-      .slice()
-      .sort((a, b) => a.question_number - b.question_number),
+    questions: sortByQuestionNumber(byDiagram.get(diagramPath)!),
   }));
 }
 
-// Per-type counts for a simulated test, matched to the defaults each session
-// type already uses on its own (10 individual questions, 5 passages/diagrams).
-const TEST_INDIVIDUAL_COUNT = 10;
-const TEST_LAS_PASSAGE_COUNT = 5;
-const TEST_DTK_GROUP_COUNT = 5;
+// Same diagram grouping, but selects however many diagrams are needed to
+// reach an exact question total (trimming the last diagram's questions if it
+// would overshoot) - used for test simulations, see fetchLasPassageGroupsByQuestionCount.
+async function fetchDtkPageGroupsByQuestionCount(targetCount: number): Promise<DtkGroup[]> {
+  const byDiagram = await fetchDtkDiagramMap();
+  const diagramPaths = shuffle([...byDiagram.keys()]);
+
+  const selected: DtkGroup[] = [];
+  let total = 0;
+  for (const diagramPath of diagramPaths) {
+    if (total >= targetCount) break;
+    const questions = sortByQuestionNumber(byDiagram.get(diagramPath)!).slice(0, targetCount - total);
+    selected.push({ diagramUrl: resolveDiagramUrl(diagramPath), questions });
+    total += questions.length;
+  }
+  return selected;
+}
+
+// Every subtest (ORD, LAS, MEK, ELF, XYZ, KVA, NOG, DTK) contributes exactly
+// 10 questions, matching the real exam: 4 subtests per section = 40 questions
+// for a half test (single section), 8 subtests = 80 for a full test.
+const TEST_SUBTEST_QUESTION_COUNT = 10;
 
 async function fetchSectionTestUnits(section: SectionType): Promise<TestUnit[]> {
   const units: TestUnit[] = [];
   for (const type of SECTION_QUESTION_TYPES[section]) {
     if (type === 'LAS') {
-      const groups = await fetchLasPassageGroups(TEST_LAS_PASSAGE_COUNT);
+      const groups = await fetchLasPassageGroupsByQuestionCount(TEST_SUBTEST_QUESTION_COUNT);
       units.push(...groups.map((group): TestUnit => ({ kind: 'las', questions: group.questions, group })));
     } else if (type === 'DTK') {
-      const groups = await fetchDtkPageGroups(TEST_DTK_GROUP_COUNT);
+      const groups = await fetchDtkPageGroupsByQuestionCount(TEST_SUBTEST_QUESTION_COUNT);
       units.push(...groups.map((group): TestUnit => ({ kind: 'dtk', questions: group.questions, group })));
     } else {
-      const questions = await fetchQuestionsByType(type, TEST_INDIVIDUAL_COUNT);
+      const questions = await fetchQuestionsByType(type, TEST_SUBTEST_QUESTION_COUNT);
       units.push(...questions.map((question): TestUnit => ({ kind: 'question', questions: [question], question })));
     }
   }

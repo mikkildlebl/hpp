@@ -8,10 +8,11 @@ import { OptionList } from '@/components/OptionList';
 import { QuestionCard } from '@/components/QuestionCard';
 import { LoadingState, SessionProgress, SessionShell, SubmitButton } from '@/components/SessionShell';
 import { Timer } from '@/components/Timer';
+import { useExtraTime } from '@/lib/extraTime';
 import { buildHpResult, saveTestResult } from '@/lib/hpScore';
 import { fetchTestUnits } from '@/lib/questions';
 import { useSession } from '@/lib/SessionContext';
-import { TEST_DURATIONS_SECONDS, TestSection, TestUnit } from '@/lib/types';
+import { getTestDurationSeconds, TestSection, TestUnit } from '@/lib/types';
 import { useCountdown } from '@/lib/useCountdown';
 import { useGroupSession } from '@/lib/useGroupSession';
 import { useMinWidth } from '@/lib/use-min-width';
@@ -30,6 +31,7 @@ export function TestSession({ section, timed }: { section: TestSection; timed: b
   const [aspectRatio, setAspectRatio] = useState(DTK_DEFAULT_ASPECT_RATIO);
 
   const { questions } = useSession();
+  const { extraTime } = useExtraTime();
   const { groups, group, index, isLast, selections, submitted, allSelected, answers, score, select, submit, advance } =
     useGroupSession<TestUnit>(() => fetchTestUnits(section));
 
@@ -37,7 +39,7 @@ export function TestSession({ section, timed }: { section: TestSection; timed: b
     await saveTestResult(buildHpResult(section, questions, answers));
     router.replace('/session/summary');
   };
-  const secondsLeft = useCountdown(timed ? TEST_DURATIONS_SECONDS[section] : null, finish);
+  const { secondsLeft, paused, togglePause } = useCountdown(timed ? getTestDurationSeconds(section, extraTime) : null, finish);
 
   if (!groups) {
     return (
@@ -164,7 +166,8 @@ export function TestSession({ section, timed }: { section: TestSection; timed: b
   const containerMaxWidth = unit.kind === 'dtk' ? 'max-w-full' : 'max-w-4xl';
 
   return (
-    <SessionShell right={timed && secondsLeft !== null ? <Timer secondsLeft={secondsLeft} /> : undefined}>
+    <SessionShell
+      right={timed && secondsLeft !== null ? <Timer secondsLeft={secondsLeft} paused={paused} onClick={togglePause} /> : undefined}>
       <div className={`mx-auto flex w-full ${containerMaxWidth} flex-1 flex-col gap-6 px-6 py-8 sm:px-12`}>
         <SessionProgress current={index + 1} total={groups.length} correct={score.correct} />
 
