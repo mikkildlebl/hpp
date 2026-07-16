@@ -77,8 +77,14 @@ export default function LandingPage() {
         </div>
       </main>
 
-      <footer className="relative z-10 border-t border-white/10 px-6 py-6 text-center text-xs text-white/40 sm:px-12">
-        HP Pro — Maxa ditt högskoleprovsresultat
+      <footer className="relative z-10 flex flex-col items-center gap-1.5 border-t border-white/10 px-6 py-6 text-center text-xs text-white/40 sm:px-12">
+        <p>HP Pro — Maxa ditt högskoleprovsresultat</p>
+        <p>
+          Kontakt:{' '}
+          <a href="mailto:info@hppro.se" className="text-white/60 hover:text-white">
+            info@hppro.se
+          </a>
+        </p>
       </footer>
     </div>
   );
