@@ -83,6 +83,14 @@ export default function LandingPage() {
         <a href="mailto:info@hppro.se" className="text-white/60 hover:text-white">
           info@hppro.se
         </a>
+        <div className="mt-2 flex items-center gap-4">
+          <Link href="/villkor" className="hover:text-white">
+            Användarvillkor
+          </Link>
+          <Link href="/integritetspolicy" className="hover:text-white">
+            Integritetspolicy
+          </Link>
+        </div>
       </footer>
     </div>
   );
