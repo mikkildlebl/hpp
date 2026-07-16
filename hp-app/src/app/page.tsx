@@ -77,19 +77,23 @@ export default function LandingPage() {
         </div>
       </main>
 
-      <footer className="relative z-10 flex flex-col items-center gap-1.5 border-t border-white/10 px-6 py-6 text-center text-xs text-white/40 sm:px-12">
-        <p>HP Pro — Maxa ditt högskoleprovsresultat</p>
-        <p>Kontakt</p>
-        <a href="mailto:info@hppro.se" className="text-white/60 hover:text-white">
-          info@hppro.se
-        </a>
-        <div className="mt-2 flex items-center gap-4">
-          <Link href="/villkor" className="hover:text-white">
-            Användarvillkor
-          </Link>
-          <Link href="/integritetspolicy" className="hover:text-white">
-            Integritetspolicy
-          </Link>
+      <footer className="relative z-10 border-t border-white/10 px-6 py-8 text-xs text-white/40 sm:px-12">
+        <p className="text-center">HP Pro — Maxa ditt högskoleprovsresultat</p>
+        <div className="mt-6 flex justify-center gap-16 sm:gap-24">
+          <div className="flex flex-col gap-1.5">
+            <p className="font-semibold text-white/70">Kontakt</p>
+            <a href="mailto:info@hppro.se" className="hover:text-white">
+              info@hppro.se
+            </a>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Link href="/integritetspolicy" className="font-semibold text-white/70 hover:text-white">
+              Integritetspolicy
+            </Link>
+            <Link href="/villkor" className="hover:text-white">
+              Användarvillkor
+            </Link>
+          </div>
         </div>
       </footer>
     </div>

@@ -6,6 +6,7 @@ import { fetchQuestionTypeStats, QuestionTypeStat } from '@/lib/attemptStats';
 import { fetchGlossary } from '@/lib/questions';
 import { fetchGlossaryProgress } from '@/lib/glossaryProgress';
 import { loadTestResultHistory, HpTestResult } from '@/lib/hpScore';
+import { fetchStreak } from '@/lib/streak';
 import { QUESTION_TYPE_LABELS, TestSection } from '@/lib/types';
 
 const TEST_SECTION_LABELS: Record<TestSection, string> = {
@@ -20,10 +21,12 @@ export default function StatistikPage() {
   const [glossaryTotal, setGlossaryTotal] = useState(0);
   const [glossaryKnown, setGlossaryKnown] = useState(0);
   const [glossaryUnknown, setGlossaryUnknown] = useState(0);
+  const [streak, setStreak] = useState<number | null>(null);
 
   useEffect(() => {
     loadTestResultHistory().then(setHistory);
     fetchQuestionTypeStats().then(setTypeStats);
+    fetchStreak().then(setStreak);
     Promise.all([fetchGlossary(), fetchGlossaryProgress()]).then(([entries, progress]) => {
       const values = Object.values(progress);
       setGlossaryTotal(entries.length);
@@ -37,6 +40,16 @@ export default function StatistikPage() {
       <div>
         <h1 className="text-4xl leading-[1.05] font-semibold tracking-tight sm:text-5xl">Statistik</h1>
         <p className="mt-4 text-base text-text/60">Din progress över tid.</p>
+      </div>
+
+      <div className="flex items-center justify-between gap-6 rounded-3xl border border-text/10 bg-gradient-to-br from-card to-background p-6 sm:p-8">
+        <div>
+          <p className="text-xs font-semibold tracking-wide text-text/40 uppercase">Streak</p>
+          <p className="mt-1 text-xs text-text/40">Dagar i rad med övningar, prov eller ordbank</p>
+        </div>
+        <p className="bg-gradient-to-r from-[#93c5fd] via-[#60a5fa] to-[#3b82f6] bg-clip-text text-4xl font-semibold text-transparent sm:text-5xl">
+          {streak ?? '…'}
+        </p>
       </div>
 
       <div>
