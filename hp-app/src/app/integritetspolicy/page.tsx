@@ -1,4 +1,11 @@
+import type { Metadata } from 'next';
+
 import { LegalDocument, LegalSection } from '@/components/LegalDocument';
+
+export const metadata: Metadata = {
+  title: 'Integritetspolicy',
+  description: 'Integritetspolicy för HP Pro - hur vi behandlar dina personuppgifter.',
+};
 
 const SECTIONS: LegalSection[] = [
   {

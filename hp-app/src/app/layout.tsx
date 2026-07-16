@@ -7,9 +7,31 @@ import { ThemeProvider } from '@/lib/colorMode';
 
 import './globals.css';
 
+const SITE_URL = 'https://hppro.se';
+const DESCRIPTION =
+  'Öva högskoleprovet med riktiga provfrågor, en i taget, med direkt facit. Simulera provet med tidtagning och följ din HP-poäng över tid.';
+
 export const metadata: Metadata = {
-  title: 'HP Pro',
-  description: 'Öva högskoleprovet, fråga för fråga.',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'HP Pro — Öva högskoleprovet',
+    template: '%s | HP Pro',
+  },
+  description: DESCRIPTION,
+  keywords: ['högskoleprovet', 'HP-prov', 'högskoleprov övning', 'provsimulering', 'ORD', 'LÄS', 'XYZ', 'KVA', 'NOG', 'DTK'],
+  openGraph: {
+    title: 'HP Pro — Öva högskoleprovet',
+    description: DESCRIPTION,
+    url: SITE_URL,
+    siteName: 'HP Pro',
+    locale: 'sv_SE',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'HP Pro — Öva högskoleprovet',
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

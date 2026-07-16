@@ -1,4 +1,11 @@
+import type { Metadata } from 'next';
+
 import { LegalDocument, LegalSection } from '@/components/LegalDocument';
+
+export const metadata: Metadata = {
+  title: 'Användarvillkor',
+  description: 'Användarvillkor för HP Pro.',
+};
 
 const SECTIONS: LegalSection[] = [
   {
