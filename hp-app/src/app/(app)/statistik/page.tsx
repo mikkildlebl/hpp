@@ -35,6 +35,8 @@ export default function StatistikPage() {
     });
   }, []);
 
+  const latestResult = history?.[0] ?? null;
+
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-12 px-6 py-12 sm:px-12">
       <div>
@@ -42,14 +44,29 @@ export default function StatistikPage() {
         <p className="mt-4 text-base text-text/60">Din progress över tid.</p>
       </div>
 
-      <div className="flex items-center justify-between gap-6 rounded-3xl border border-text/10 bg-gradient-to-br from-card to-background p-6 sm:p-8">
-        <div>
-          <p className="text-xs font-semibold tracking-wide text-text/40 uppercase">Streak</p>
-          <p className="mt-1 text-xs text-text/40">Dagar i rad med övningar, prov eller ordbank</p>
+      <div className="flex flex-col gap-4 sm:flex-row">
+        <div className="flex flex-[2] items-center justify-between gap-6 rounded-3xl border border-text/10 bg-gradient-to-br from-card to-background p-6 sm:p-8">
+          <div>
+            <p className="text-xs font-semibold tracking-wide text-text/40 uppercase">Ditt HP-resultat</p>
+            {latestResult ? (
+              <p className="mt-1 text-xs text-text/40">
+                {TEST_SECTION_LABELS[latestResult.section]} · {new Date(latestResult.completedAt).toLocaleDateString('sv-SE')}
+              </p>
+            ) : (
+              <p className="mt-1 text-xs text-text/40">Inget resultat ännu</p>
+            )}
+          </div>
+          <p className="bg-gradient-to-r from-[#93c5fd] via-[#60a5fa] to-[#3b82f6] bg-clip-text text-4xl font-semibold text-transparent sm:text-5xl">
+            {(latestResult?.totalScore ?? 0).toFixed(2)}
+          </p>
         </div>
-        <p className="bg-gradient-to-r from-[#93c5fd] via-[#60a5fa] to-[#3b82f6] bg-clip-text text-4xl font-semibold text-transparent sm:text-5xl">
-          {streak ?? '…'}
-        </p>
+
+        <div className="flex flex-1 flex-col items-center justify-center gap-1 rounded-3xl border border-text/10 bg-gradient-to-br from-card to-background p-6 text-center sm:p-8">
+          <p className="text-xs font-semibold tracking-wide text-text/40 uppercase">Streak</p>
+          <p className="bg-gradient-to-r from-[#93c5fd] via-[#60a5fa] to-[#3b82f6] bg-clip-text text-4xl font-semibold text-transparent sm:text-5xl">
+            {streak ?? '…'}
+          </p>
+        </div>
       </div>
 
       <div>
