@@ -78,7 +78,7 @@ export default function LandingPage() {
       </main>
 
       <footer className="relative z-10 border-t border-white/10 px-6 py-6 text-center text-xs text-white/40 sm:px-12">
-        Maxa ditt högskoleprovsresultat
+        HP Pro — Maxa ditt högskoleprovsresultat
       </footer>
     </div>
   );
