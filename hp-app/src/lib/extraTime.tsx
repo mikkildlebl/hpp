@@ -30,14 +30,12 @@ export function ExtraTimeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!user) return;
     let cancelled = false;
-    console.info('[extraTime] fetching for user', user.id);
     supabase
       .from('user_settings')
       .select('extra_time')
       .eq('user_id', user.id)
       .maybeSingle()
       .then(({ data, error }) => {
-        console.info('[extraTime] fetch result', { data, error });
         if (error) {
           console.error('Failed to load extra time setting', error);
           return;
@@ -55,16 +53,12 @@ export function ExtraTimeProvider({ children }: { children: ReactNode }) {
     setExtraTimeState(next);
     localStorage.setItem(STORAGE_KEY, next ? '1' : '0');
     if (user) {
-      console.info('[extraTime] saving for user', user.id, next);
       supabase
         .from('user_settings')
         .upsert({ user_id: user.id, extra_time: next, updated_at: new Date().toISOString() })
-        .then(({ error, data, status, statusText }) => {
-          console.info('[extraTime] save result', { data, error, status, statusText });
+        .then(({ error }) => {
           if (error) console.error('Failed to save extra time setting', error);
         });
-    } else {
-      console.info('[extraTime] no user, skipping remote save');
     }
   };
 
