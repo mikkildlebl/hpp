@@ -2,6 +2,9 @@
 
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
+import { useAuth } from './auth';
+import { supabase } from './supabase';
+
 const STORAGE_KEY = 'hp-pro:extra-time';
 
 type ExtraTimeContextValue = {
@@ -12,18 +15,42 @@ type ExtraTimeContextValue = {
 const ExtraTimeContext = createContext<ExtraTimeContextValue | null>(null);
 
 export function ExtraTimeProvider({ children }: { children: ReactNode }) {
+  const { user } = useAuth();
   const [extraTime, setExtraTimeState] = useState(false);
 
-  // Same post-mount read as ThemeProvider - avoids an SSR/client hydration
-  // mismatch since localStorage isn't available during the server render.
+  // Local-first, same post-mount read as ThemeProvider - avoids an SSR/client
+  // hydration mismatch and gives guests an instant, device-local setting.
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (localStorage.getItem(STORAGE_KEY) === '1') setExtraTimeState(true);
   }, []);
 
+  // Signed-in users additionally get the setting synced from Supabase, so it
+  // follows them across devices instead of staying stuck per-browser.
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+    supabase
+      .from('user_settings')
+      .select('extra_time')
+      .eq('user_id', user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (cancelled || !data) return;
+        setExtraTimeState(data.extra_time);
+        localStorage.setItem(STORAGE_KEY, data.extra_time ? '1' : '0');
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
+
   const setExtraTime = (next: boolean) => {
     setExtraTimeState(next);
     localStorage.setItem(STORAGE_KEY, next ? '1' : '0');
+    if (user) {
+      supabase.from('user_settings').upsert({ user_id: user.id, extra_time: next, updated_at: new Date().toISOString() });
+    }
   };
 
   return <ExtraTimeContext.Provider value={{ extraTime, setExtraTime }}>{children}</ExtraTimeContext.Provider>;

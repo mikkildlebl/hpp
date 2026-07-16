@@ -96,9 +96,19 @@ create table public.glossary_progress (
 
 create index glossary_progress_user_idx on public.glossary_progress (user_id);
 
+-- App preferences that should follow a signed-in user across devices
+-- (e.g. the extra-time test accommodation), as opposed to purely local
+-- device settings like the light/dark theme.
+create table public.user_settings (
+  user_id uuid primary key references auth.users (id) on delete cascade,
+  extra_time boolean not null default false,
+  updated_at timestamptz not null default now()
+);
+
 alter table public.test_results enable row level security;
 alter table public.question_attempts enable row level security;
 alter table public.glossary_progress enable row level security;
+alter table public.user_settings enable row level security;
 
 create policy "select own results" on public.test_results for select using (auth.uid() = user_id);
 create policy "insert own results" on public.test_results for insert with check (auth.uid() = user_id);
@@ -109,3 +119,7 @@ create policy "insert own attempts" on public.question_attempts for insert with 
 create policy "select own progress" on public.glossary_progress for select using (auth.uid() = user_id);
 create policy "insert own progress" on public.glossary_progress for insert with check (auth.uid() = user_id);
 create policy "update own progress" on public.glossary_progress for update using (auth.uid() = user_id);
+
+create policy "select own settings" on public.user_settings for select using (auth.uid() = user_id);
+create policy "insert own settings" on public.user_settings for insert with check (auth.uid() = user_id);
+create policy "update own settings" on public.user_settings for update using (auth.uid() = user_id);
