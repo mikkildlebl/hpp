@@ -35,7 +35,11 @@ export function ExtraTimeProvider({ children }: { children: ReactNode }) {
       .select('extra_time')
       .eq('user_id', user.id)
       .maybeSingle()
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (error) {
+          console.error('Failed to load extra time setting', error);
+          return;
+        }
         if (cancelled || !data) return;
         setExtraTimeState(data.extra_time);
         localStorage.setItem(STORAGE_KEY, data.extra_time ? '1' : '0');
@@ -49,7 +53,12 @@ export function ExtraTimeProvider({ children }: { children: ReactNode }) {
     setExtraTimeState(next);
     localStorage.setItem(STORAGE_KEY, next ? '1' : '0');
     if (user) {
-      supabase.from('user_settings').upsert({ user_id: user.id, extra_time: next, updated_at: new Date().toISOString() });
+      supabase
+        .from('user_settings')
+        .upsert({ user_id: user.id, extra_time: next, updated_at: new Date().toISOString() })
+        .then(({ error }) => {
+          if (error) console.error('Failed to save extra time setting', error);
+        });
     }
   };
 
