@@ -32,6 +32,19 @@ export const metadata: Metadata = {
     title: 'HP Pro — Öva högskoleprovet',
     description: DESCRIPTION,
   },
+  icons: {
+    // Listed explicitly (rather than left to file-convention auto-detection)
+    // since providing this array replaces rather than merges with it - the
+    // PNGs are here because Google Search doesn't support SVG favicons and
+    // wants a square PNG of at least 48x48; icon.svg keeps browser tabs
+    // crisp at any size; favicon.ico is still auto-detected separately.
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
