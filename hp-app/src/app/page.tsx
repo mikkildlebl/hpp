@@ -3,12 +3,21 @@
 import Link from 'next/link';
 
 import { useAuth } from '@/lib/auth';
+import { QUESTION_TYPE_LABELS, QuestionType, SECTION_QUESTION_TYPES } from '@/lib/types';
 
 const FEATURES: { title: string; body: string }[] = [
   { title: 'Riktiga bråk & exponenter', body: 'Formler renderas som formler, inte platt text.' },
   { title: 'Rättat mot facit', body: 'Varje svar kontrollerat mot det officiella facit.' },
   { title: 'En fråga i taget', body: 'Inget klockrace. Ditt tempo, din session.' },
 ];
+
+const STEPS: { title: string; body: string }[] = [
+  { title: 'Välj vad du vill öva', body: 'Ett helt prov, en sektion, eller en enskild frågetyp — du bestämmer.' },
+  { title: 'Svara och se facit direkt', body: 'Varje fråga rättas mot det officiella facit, ingen väntan.' },
+  { title: 'Följ din utveckling', body: 'HP-poäng, träffsäkerhet per frågetyp och din streak samlas på ett ställe.' },
+];
+
+const ALL_QUESTION_TYPES: QuestionType[] = [...SECTION_QUESTION_TYPES.verbal, ...SECTION_QUESTION_TYPES.kvant];
 
 // Always dark, regardless of the light/dark preference set on /konto — the
 // marketing page isn't part of the themeable app.
@@ -74,6 +83,40 @@ export default function LandingPage() {
               <p className="mt-1.5 text-sm text-white/50">{f.body}</p>
             </div>
           ))}
+        </div>
+
+        <div className="mt-24 w-full max-w-3xl">
+          <p className="text-center text-sm font-semibold tracking-wide text-white/50 uppercase">Hur det fungerar</p>
+          <div className="mt-8 grid grid-cols-1 gap-8 text-left sm:grid-cols-3">
+            {STEPS.map((step, i) => (
+              <div key={step.title}>
+                <p className="text-sm font-semibold text-[#60a5fa]">{String(i + 1).padStart(2, '0')}</p>
+                <p className="mt-2 text-base font-semibold text-white">{step.title}</p>
+                <p className="mt-1.5 text-sm text-white/50">{step.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-24 w-full max-w-3xl">
+          <p className="text-center text-sm font-semibold tracking-wide text-white/50 uppercase">8 delprov, precis som på riktiga provet</p>
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {ALL_QUESTION_TYPES.map((type) => (
+              <div key={type} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-center">
+                <p className="text-lg font-bold text-[#60a5fa]">{type}</p>
+                <p className="mt-1 text-xs text-white/50">{QUESTION_TYPE_LABELS[type]}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-24 flex flex-col items-center gap-6 text-center">
+          <p className="max-w-md text-2xl font-semibold text-white sm:text-3xl">Redo att sätta din HP-poäng?</p>
+          <Link
+            href="/ova"
+            className="rounded-full bg-gradient-to-r from-[#3b82f6] to-[#1e40af] px-8 py-4 text-sm font-semibold text-white shadow-[0_0_40px_-8px_rgba(59,130,246,0.6)] transition-transform hover:scale-[1.03]">
+            Börja öva gratis →
+          </Link>
         </div>
       </main>
 
