@@ -6,9 +6,9 @@ import { useAuth } from '@/lib/auth';
 import { QUESTION_TYPE_LABELS, QuestionType, SECTION_QUESTION_TYPES } from '@/lib/types';
 
 const FEATURES: { title: string; body: string }[] = [
-  { title: 'Riktiga bråk & exponenter', body: 'Formler renderas som formler, inte platt text.' },
-  { title: 'Rättat mot facit', body: 'Varje svar kontrollerat mot det officiella facit.' },
-  { title: 'En fråga i taget', body: 'Inget klockrace. Ditt tempo, din session.' },
+  { title: '10 000+ frågor', body: 'Frågebanken växer hela tiden — fler frågor tillkommer löpande.' },
+  { title: 'AI svar', body: 'Rättat mot facit, med en AI-förklaring till varje svar.' },
+  { title: 'Statistik', body: 'Se din utveckling över tid, frågetyp för frågetyp.' },
 ];
 
 const STEPS: { title: string; body: string }[] = [
